@@ -6,10 +6,10 @@ import {Button} from "@/components/ui/button";
 import {cn} from "@/lib/utils";
 import {ListFilterIcon} from "lucide-react";
 import {CategoriesSidebar} from "@/app/(app)/(home)/search-filters/categories-sidebar";
-import {CategoriesType} from "@/modules/categories/types";
+import {CategoriesList} from "@/modules/categories/types";
 
 interface Props {
-    data: CategoriesType
+    data: CategoriesList
 }
 
 export const Categories = ({data} : Props) => {

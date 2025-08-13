@@ -2,5 +2,5 @@ import {inferRouterOutputs} from "@trpc/server";
 import {AppRouter} from "@/trpc/routers/_app";
 
 
-export type CategoriesType = inferRouterOutputs<AppRouter>["categories"]['getMany'];
-export type CategoryItem = CategoriesType[0]
+export type CategoriesList = inferRouterOutputs<AppRouter>["categories"]['getMany'];
+export type CategoryItem = CategoriesList[0]

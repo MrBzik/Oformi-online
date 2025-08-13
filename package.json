@@ -2,13 +2,14 @@
   "name": "oformi-online",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "generate:types": "tsx ./node_modules/payload/bin.js generate:types",
-    "db:fresh": "tsx ./node_modules/payload/bin.js migrate:fresh",
+    "generate:types": "payload generate:types",
+    "db:fresh": "payload migrate:fresh",
     "db:seed": "bun run src/seed.ts"
   },
   "dependencies": {
