@@ -1,24 +1,24 @@
 "use client"
 
-import {CustomCategory} from "@/app/(app)/(home)/types";
 import {Sheet, SheetContent, SheetHeader, SheetTitle} from "@/components/ui/sheet";
 import {ScrollArea} from "@/components/ui/scroll-area";
 import {useState} from "react";
 import {ChevronLeftIcon, ChevronRightIcon} from "lucide-react";
 import {useRouter} from "next/navigation";
+import {CategoriesType, CategoryItem} from "@/modules/categories/types";
 
 interface Props {
     isOpen: boolean;
     onOpenChange: (isOpen: boolean) => void;
-    data: CustomCategory[];
+    data: CategoriesType;
 }
 
 export const CategoriesSidebar = (
     { isOpen, onOpenChange, data } : Props) => {
     const router = useRouter()
 
-    const [parentCategories, setParentCategories] = useState<CustomCategory[] | null>(null);
-    const [selectedCategory, setSelectedCategory] = useState<CustomCategory | null>(null);
+    const [parentCategories, setParentCategories] = useState<CategoriesType | null>(null);
+    const [selectedCategory, setSelectedCategory] = useState<CategoryItem | null>(null);
 
     const currentCategories = parentCategories ?? data ?? [];
 
@@ -28,9 +28,9 @@ export const CategoriesSidebar = (
         onOpenChange(isOpen);
     }
 
-    const handleCategoryClick = (category: CustomCategory) => {
+    const handleCategoryClick = (category: CategoryItem) => {
         if(category.subcategories && category.subcategories.length > 0) {
-            setParentCategories(category.subcategories as CustomCategory[]);
+            setParentCategories(category.subcategories as CategoriesType);
             setSelectedCategory(category)
         } else {
             if (parentCategories && selectedCategory) {

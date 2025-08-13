@@ -2,14 +2,14 @@
 
 import {ListFilterIcon, SearchIcon} from "lucide-react";
 import {Input} from "@/components/ui/input";
-import {CustomCategory} from "@/app/(app)/(home)/types";
 import {CategoriesSidebar} from "@/app/(app)/(home)/search-filters/categories-sidebar";
 import {useState} from "react";
 import {Button} from "@/components/ui/button";
+import {CategoriesList} from "@/modules/categories/types";
 
 interface Props {
     disabled?: boolean;
-    data: CustomCategory[];
+    data: CategoriesList;
 }
 
 export const SearchInput = (

@@ -1,9 +1,9 @@
 import Link from "next/link";
-import {CustomCategory} from "@/app/(app)/(home)/types";
 import {Category} from "@/payload-types";
+import {CategoryItem} from "@/modules/categories/types";
 
 interface Props {
-    category: CustomCategory,
+    category: CategoryItem,
     isOpen: boolean,
     position: {top: number, left: number}
 }

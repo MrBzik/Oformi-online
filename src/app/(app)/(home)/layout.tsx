@@ -1,7 +1,7 @@
 import { dehydrate, HydrationBoundary } from '@tanstack/react-query';
 import {Navbar} from "@/app/(app)/(home)/navbar";
 import {Footer} from "@/app/(app)/(home)/footer";
-import {SearchFilters} from "@/app/(app)/(home)/search-filters";
+import {SearchFilters, SearchFiltersLoading} from "@/app/(app)/(home)/search-filters";
 import {getQueryClient, trpc} from "@/trpc/server";
 import {Suspense} from "react";
 
@@ -21,7 +21,7 @@ const Layout = async ({ children }: Props) => {
         <div className="flex flex-col min-h-screen">
             <Navbar/>
             <HydrationBoundary state={dehydrate(queryClient)}>
-                <Suspense fallback={<p>Loading...</p>}>
+                <Suspense fallback={<SearchFiltersLoading/>}>
                     <SearchFilters/>
                 </Suspense>
             </HydrationBoundary>
