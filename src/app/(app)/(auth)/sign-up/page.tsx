@@ -1,6 +1,15 @@
 import {SingUpView} from "@/modules/auth/ui/views/sing-up-view";
+import {caller} from "@/trpc/server";
+import {redirect} from "next/navigation";
 
-const Page = () => {
+const Page = async () => {
+
+    const session = await caller.auth.session();
+
+    if(session.user){
+        redirect("/")
+    }
+
     return <SingUpView/>
 }
 
