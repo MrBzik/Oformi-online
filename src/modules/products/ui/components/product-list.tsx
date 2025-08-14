@@ -12,7 +12,7 @@ export const ProductList = ({category} : Props) => {
     const {data} = useSuspenseQuery(trpc.products.getMany.queryOptions({category}))
 
     return(
-        <div>
+        <div className="">
             {JSON.stringify(data, null, 2)}
         </div>
     )
