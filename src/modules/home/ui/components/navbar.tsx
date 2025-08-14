@@ -8,7 +8,7 @@ import {usePathname} from "next/navigation";
 import {useState} from "react";
 import {MenuIcon} from "lucide-react";
 import "./navbar.css"
-import {NavbarSidebar} from "@/app/(app)/(home)/navbar-sidebar";
+import {NavbarSidebar} from "@/modules/home/ui/components/navbar-sidebar";
 import {useTRPC} from "@/trpc/client";
 import {useQuery} from "@tanstack/react-query";
 
@@ -57,7 +57,7 @@ export const Navbar = () => {
 
     return (
         <nav className="h-20 flex border-b justify-between font-medium bg-white">
-            <Link href="/" className="pl-6 flex items-center">
+            <Link href="/public" className="pl-6 flex items-center">
                 <span className={cn("text-5xl font-semibold", poppins.className)}>
                     Oformi-Online
                 </span>
