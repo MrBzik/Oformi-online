@@ -1,11 +1,11 @@
 "use client"
 
-import {CategoryDropdown} from "@/modules/home/ui/components/search-filters/category-dropdown";
+import {CategoryDropdown} from "@/app/(app)/(home)/search-filters/category-dropdown";
 import {useState} from "react";
 import {Button} from "@/components/ui/button";
 import {cn} from "@/lib/utils";
 import {ListFilterIcon} from "lucide-react";
-import {CategoriesSidebar} from "@/modules/home/ui/components/search-filters/categories-sidebar";
+import {CategoriesSidebar} from "@/app/(app)/(home)/search-filters/categories-sidebar";
 import {CategoriesList} from "@/modules/categories/types";
 import {useParams} from "next/navigation";
 
