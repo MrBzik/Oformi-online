@@ -7,10 +7,12 @@ import {Checkbox} from "@/components/ui/checkbox";
 interface TagsFilterProps {
     value: string[] | null;
     onChange: (value: string[]) => void;
+    category?: string
 }
 
+
 export const TagsFilter = ({
-    value, onChange
+    value, onChange, category
 } : TagsFilterProps) => {
 
     const trpc = useTRPC();
@@ -22,6 +24,7 @@ export const TagsFilter = ({
         isFetchingNextPage
     } = useInfiniteQuery(trpc.tags.getMany.infiniteQueryOptions(
         {
+            category: category,
             limit: DEFAULT_LIMIT
         },
         {

@@ -6,8 +6,8 @@ export const Tags : CollectionConfig = {
         useAsTitle: "name"
     },
     labels: {
-        singular: "Тэги",
-        plural: "Тэг"
+        singular: "Тэг",
+        plural: "Тэги"
     },
     fields: [
         {
@@ -23,6 +23,13 @@ export const Tags : CollectionConfig = {
             relationTo: "products",
             hasMany: true,
             label: "Услуги"
+        },
+        {
+            name: "category",
+            type: "relationship",
+            relationTo: "categories",
+            hasMany: true,
+            label: "Категория"
         }
     ],
 }

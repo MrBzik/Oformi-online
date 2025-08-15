@@ -35,7 +35,11 @@ const ProductFilter = ({
     )
 }
 
-export const ProductFilters = () => {
+interface Props {
+    category?: string
+}
+
+export const ProductFilters = ({category} : Props) => {
 
     const [filters, setFilters] = useProductFilters();
 
@@ -80,6 +84,7 @@ export const ProductFilters = () => {
                 <TagsFilter
                 value={filters.tags}
                 onChange={(value) => onChange("tags", value)}
+                category={category}
                 />
             </ProductFilter>
         </div>
