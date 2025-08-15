@@ -5,6 +5,7 @@ import {ChevronDownIcon, ChevronRightIcon} from "lucide-react";
 import {cn} from "@/lib/utils";
 import {PriceFilter} from "@/modules/products/ui/components/price-filter";
 import {useProductFilters} from "@/modules/products/hooks/use-product-filters";
+import {TagsFilter} from "@/modules/products/ui/components/tags-filter";
 
 interface ProductFilterProps {
     title: string;
@@ -38,17 +39,20 @@ export const ProductFilters = () => {
 
     const [filters, setFilters] = useProductFilters();
 
-    const hasFilters = Object.entries(filters).some(([, value]) => {
-        if(typeof value === "string"){
-            return value !== "";
+    const hasFilters = Object.entries(filters).some(([key, value]) => {
+        if(key === "sort") return false;
+        if(Array.isArray(value)) {
+            return value.length > 0;
         }
-        return value !== null;
+
+        return value !== "";
     })
 
     const onClear = () => {
         setFilters({
             minPrice: "",
             maxPrice: "",
+            tags: []
         })
     }
 
@@ -70,6 +74,12 @@ export const ProductFilters = () => {
                 maxPrice={filters.maxPrice}
                 onMinPriceChange={(value) => onChange("minPrice", value)}
                 onMaxPriceChange={(value) => onChange("maxPrice", value)}
+                />
+            </ProductFilter>
+            <ProductFilter title="Тэги">
+                <TagsFilter
+                value={filters.tags}
+                onChange={(value) => onChange("tags", value)}
                 />
             </ProductFilter>
         </div>

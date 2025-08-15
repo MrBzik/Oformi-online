@@ -36,6 +36,13 @@ export const Products : CollectionConfig = {
             label: "Категория"
         },
         {
+            name: "tags",
+            type: "relationship",
+            relationTo: "tags",
+            hasMany: true,
+            label: "Тэги"
+        },
+        {
             name: "image",
             type: "upload",
             relationTo: "media",
