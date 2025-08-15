@@ -4,6 +4,7 @@ import {useState} from "react";
 import {ChevronDownIcon, ChevronRightIcon} from "lucide-react";
 import {cn} from "@/lib/utils";
 import {PriceFilter} from "@/modules/products/ui/components/price-filter";
+import {useProductFilters} from "@/modules/products/hooks/use-product-filters";
 
 interface ProductFilterProps {
     title: string;
@@ -34,16 +35,42 @@ const ProductFilter = ({
 }
 
 export const ProductFilters = () => {
+
+    const [filters, setFilters] = useProductFilters();
+
+    const hasFilters = Object.entries(filters).some(([, value]) => {
+        if(typeof value === "string"){
+            return value !== "";
+        }
+        return value !== null;
+    })
+
+    const onClear = () => {
+        setFilters({
+            minPrice: "",
+            maxPrice: "",
+        })
+    }
+
+    const onChange = (key: keyof typeof filters, value: unknown) => {
+        setFilters({...filters, [key]: value});
+    }
+
     return(
         <div className="border rounded-md bg-white">
             <div className="p-4 border-b flex items-center justify-between">
                 <p className="font-medium">Фильтры</p>
-                <button className="underline cursor-pointer" onClick={() => {}} type="button">
+                {hasFilters && <button className="underline cursor-pointer" onClick={onClear} type="button">
                     Очистить
-                </button>
+                </button>}
             </div>
             <ProductFilter title="Цена" className="border-b-0">
-                <PriceFilter />
+                <PriceFilter
+                minPrice={filters.minPrice}
+                maxPrice={filters.maxPrice}
+                onMinPriceChange={(value) => onChange("minPrice", value)}
+                onMaxPriceChange={(value) => onChange("maxPrice", value)}
+                />
             </ProductFilter>
         </div>
     )

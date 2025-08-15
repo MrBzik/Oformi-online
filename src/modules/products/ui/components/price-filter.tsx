@@ -1,7 +1,6 @@
-"use client"
-
 import {Label} from "@/components/ui/label";
 import {Input} from "@/components/ui/input";
+import {ChangeEvent} from "react";
 
 interface Props {
     minPrice? : string | null;
@@ -16,7 +15,7 @@ export const formatAsCurrency = (value: string) => {
     const numberValue = parseInt(numericValue);
     if(isNaN(numberValue)) return "";
 
-    return new Intl.NumberFormat('ro-RU', {
+    return new Intl.NumberFormat('en-US', {
         style: 'currency',
         currency: "RUB",
         maximumFractionDigits: 0,
@@ -29,6 +28,15 @@ export const PriceFilter = ({
     onMinPriceChange,
     onMaxPriceChange,
 } : Props) => {
+    const handleMinPriceChange = (e: ChangeEvent<HTMLInputElement>) => {
+      const numericValue = e.target.value.replace(/[^0-9]/g, '');
+      onMinPriceChange(numericValue);
+    };
+    const handleMaxPriceChange = (e: ChangeEvent<HTMLInputElement>) => {
+        const numericValue = e.target.value.replace(/[^0-9]/g, '');
+        onMaxPriceChange(numericValue);
+    };
+
     return (
         <div className="flex flex-col gap-2">
             <div className="flex flex-col gap-2">
@@ -37,7 +45,7 @@ export const PriceFilter = ({
                 </Label>
                 <Input type="text" placeholder="0"
                 value={minPrice ? formatAsCurrency(minPrice) : ""}
-                onChange={() => {}}
+                onChange={handleMinPriceChange}
                 />
             </div>
             <div className="flex flex-col gap-2">
@@ -46,7 +54,7 @@ export const PriceFilter = ({
                 </Label>
                 <Input type="text" placeholder="∞"
                        value={maxPrice ? formatAsCurrency(maxPrice) : ""}
-                       onChange={() => {}}
+                       onChange={handleMaxPriceChange}
                 />
             </div>
         </div>
