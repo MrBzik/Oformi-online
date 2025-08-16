@@ -32,16 +32,16 @@ export const NavbarSidebar = (
             <ScrollArea className="flex flex-col overflow-y-auto h-full pb-2">
                 {items.map((item) => (
                     <Link href={item.href} key={item.href}
-                        className="navbarItem"
+                        className="navbar-item"
                         onClick={() => onOpenChange(false)}>
                         {item.children}
                     </Link>
                 ))}
                 <div className="border-t">
-                    <Link href="/sign-in" className="navbarItem" onClick={() => onOpenChange(false)}>
+                    <Link href="/sign-in" className="navbar-item" onClick={() => onOpenChange(false)}>
                         Войти
                     </Link>
-                    <Link href="/sign-up" className="navbarItem" onClick={() => onOpenChange(false)}>
+                    <Link href="/sign-up" className="navbar-item" onClick={() => onOpenChange(false)}>
                         Начать продажи
                     </Link>
                 </div>
