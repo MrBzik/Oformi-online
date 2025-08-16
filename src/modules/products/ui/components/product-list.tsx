@@ -6,7 +6,8 @@ import {useProductFilters} from "@/modules/products/hooks/use-product-filters";
 import {ProductCard, ProductCardLoading} from "@/modules/products/ui/components/product-card";
 import {DEFAULT_LIMIT} from "@/constants";
 import {Button} from "@/components/ui/button";
-import {InboxIcon} from "lucide-react";
+import {InboxIcon, LoaderIcon} from "lucide-react";
+import InfiniteScroll from "@/components/ui/infinite-scroll";
 
 interface Props {
     category?: string
@@ -59,15 +60,12 @@ export const ProductList = ({category} : Props) => {
                         reviewCount={5}
                         price={product.price}/>
                 ))}
+
             </div>
-            <div className="flex justify-center pt-8">
-                {hasNextPage && (
-                    <Button disabled={isFetchingNextPage}
-                        onClick={() => fetchNextPage()}
-                        className="font-medium disabled:opacity-50 text-base bg-white">
-                        Загрузить ещё
-                    </Button>
-                )}
+            <div className="flex w-full justify-center">
+                <InfiniteScroll isLoading={isFetchingNextPage} hasMore={hasNextPage} next={fetchNextPage}>
+                    {hasNextPage && <LoaderIcon className="my-4 h-8 w-8 animate-spin" />}
+                </InfiniteScroll>
             </div>
         </>
     )
