@@ -64,7 +64,7 @@ export const ProductList = ({category} : Props) => {
             </div>
             <div className="flex w-full justify-center">
                 <InfiniteScroll isLoading={isFetchingNextPage} hasMore={hasNextPage} next={fetchNextPage}>
-                    {hasNextPage && <LoaderIcon className="my-4 h-8 w-8 animate-spin" />}
+                    {hasNextPage && <LoaderIcon className="my-14 h-8 w-8 animate-spin" />}
                 </InfiniteScroll>
             </div>
         </>
