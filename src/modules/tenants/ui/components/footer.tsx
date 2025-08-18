@@ -1,0 +1,22 @@
+import { Poppins } from "next/font/google"
+import Link from "next/link";
+import {cn} from "@/lib/utils";
+
+const poppins = Poppins({
+    subsets: ["latin"],
+    weight: ["700"]
+})
+
+export const Footer = () => {
+    return (
+        <footer className="h-20 font-medium bg-bg-secondary">
+            <div className="max-w-(--breakpoint-xl) mx-auto flex items-center h-full px-4 lg:px-12">
+                <Link href="/">
+                    <span className={cn("text-2xl font-semibold", poppins.className)}>
+                        Оформи онлайн
+                    </span>
+                </Link>
+            </div>
+        </footer>
+    )
+}

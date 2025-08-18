@@ -5,15 +5,21 @@ import {useSuspenseInfiniteQuery} from "@tanstack/react-query";
 import {useProductFilters} from "@/modules/products/hooks/use-product-filters";
 import {ProductCard, ProductCardLoading} from "@/modules/products/ui/components/product-card";
 import {DEFAULT_LIMIT} from "@/constants";
-import {Button} from "@/components/ui/button";
 import {InboxIcon, LoaderIcon} from "lucide-react";
 import InfiniteScroll from "@/components/ui/infinite-scroll";
+import {cn} from "@/lib/utils";
 
 interface Props {
-    category?: string
+    category?: string;
+    tenantSlug?: string;
+    narrowView? : boolean;
 }
 
-export const ProductList = ({category} : Props) => {
+export const ProductList = ({
+    category,
+    tenantSlug,
+    narrowView,
+} : Props) => {
 
     const [filers] = useProductFilters();
 
@@ -27,6 +33,7 @@ export const ProductList = ({category} : Props) => {
         {
             limit: DEFAULT_LIMIT,
             category: category,
+            tenantSlug: tenantSlug,
             ...filers
         },
         {
@@ -47,15 +54,16 @@ export const ProductList = ({category} : Props) => {
 
     return(
         <>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4">
+            <div className={cn("grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4",
+                narrowView && "lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-3",)}>
                 {data?.pages.flatMap((page) => page.docs).map(product => (
                     <ProductCard
                         key={product.id}
                         id={product.id}
                         name={product.name}
                         imageUrl={product.image?.url}
-                        authorUsername="Sergo"
-                        authorImageUrl={undefined}
+                        tenantSlug={product.tenant.slug}
+                        tenantImageUrl={product.tenant.image?.url}
                         reviewRating={5}
                         reviewCount={5}
                         price={product.price}/>
@@ -71,9 +79,10 @@ export const ProductList = ({category} : Props) => {
     )
 }
 
-export const ProductListLoading = () => {
+export const ProductListLoading = ({narrowView}: Props) => {
     return (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4">
+        <div className={cn("grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4",
+            narrowView && "lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-3",)}>
             {Array.from({length: DEFAULT_LIMIT}).map((_, index) => (
                 <ProductCardLoading key={index}/>
             ))}
