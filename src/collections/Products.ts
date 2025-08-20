@@ -49,6 +49,30 @@ export const Products : CollectionConfig = {
             label: "Изображение"
         },
         {
+            name: "cover",
+            type: "upload",
+            relationTo: "media",
+            label: "Обложка"
+        },
+
+        {
+            name: "media",
+            type: "upload",
+            relationTo: "media",
+            label: "Медиафайлы",
+            admin: {
+                description: "Медиафайлы отображаемые на карусели в деталях об услуге. До 3-х штук"
+            },
+            hasMany: true,
+            validate: (value) => {
+                if (value && value.length > 3) {
+                    return "Вы можете добавить до 4-х медиафайлов"
+                }
+                return true
+            }
+        },
+
+        {
             name: "refundPolicy",
             type: "select",
             options: ["30-day", "14-day", "7-day"],

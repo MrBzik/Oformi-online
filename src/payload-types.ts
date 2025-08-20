@@ -184,6 +184,7 @@ export interface Tenant {
 export interface Media {
   id: string;
   alt: string;
+  user?: string | null;
   updatedAt: string;
   createdAt: string;
   url?: string | null;
@@ -230,6 +231,11 @@ export interface Product {
   category?: (string | null) | Category;
   tags?: (string | Tag)[] | null;
   image?: (string | null) | Media;
+  cover?: (string | null) | Media;
+  /**
+   * Медиафайлы отображаемые на карусели в деталях об услуге. До 3-х штук
+   */
+  media?: (string | Media)[] | null;
   refundPolicy?: ('30-day' | '14-day' | '7-day') | null;
   updatedAt: string;
   createdAt: string;
@@ -355,6 +361,7 @@ export interface UsersSelect<T extends boolean = true> {
  */
 export interface MediaSelect<T extends boolean = true> {
   alt?: T;
+  user?: T;
   updatedAt?: T;
   createdAt?: T;
   url?: T;
@@ -392,6 +399,8 @@ export interface ProductsSelect<T extends boolean = true> {
   category?: T;
   tags?: T;
   image?: T;
+  cover?: T;
+  media?: T;
   refundPolicy?: T;
   updatedAt?: T;
   createdAt?: T;
