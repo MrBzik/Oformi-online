@@ -37,7 +37,7 @@ export const ProductView = ({productId, tenantSlug} : Props) => {
                     <Carousel className="w-full max-w-xs">
                         <CarouselContent>
                             {
-                                data.media.map((image, index) => (
+                                data.media?.map((image, index) => (
                                     <CarouselItem key={index}>
                                         <Image
                                             src={image?.url || "/placeholder.png"}
