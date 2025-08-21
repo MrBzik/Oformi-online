@@ -10,7 +10,6 @@ import {
     DialogTrigger,
 } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
 import {useForm} from "react-hook-form";
 import {z} from "zod";
 import {orderProductSchema} from "@/modules/auth/schemas";
@@ -19,6 +18,7 @@ import {useState} from "react";
 import {useTRPC} from "@/trpc/client";
 import {useMutation, useSuspenseQuery} from "@tanstack/react-query";
 import {cn} from "@/lib/utils";
+import {Form, FormControl, FormField, FormItem, FormLabel, FormMessage} from "@/components/ui/form";
 
 interface Props {
     productId: string;
@@ -78,83 +78,77 @@ export const ProductOrder = ({productId, productName} : Props) => {
                 </Button>
             </DialogTrigger>
 
-            <DialogContent className="sm:max-w-[425px]">
-                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-                    <DialogHeader>
-                        <DialogTitle>Оставить заявку на услугу</DialogTitle>
-                        <DialogDescription>
-                            Оставьте свои контактные данные
-                        </DialogDescription>
-                    </DialogHeader>
+            <DialogContent className="sm:max-w-[425px] shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+                <Form {...form}>
+                    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+                        <DialogHeader>
+                            <DialogTitle>Оставить заявку на услугу</DialogTitle>
+                            <DialogDescription>
+                                Оставьте свои контактные данные
+                            </DialogDescription>
+                        </DialogHeader>
 
-                    {/* Name */}
-                    <div className="grid gap-2">
-                        <Label htmlFor="name">Имя</Label>
-                        <Input
-                            id="username"
-                            type="name"
-                            {...form.register("username")}
-                        />
-                        {form.formState.errors.username && (
-                            <p className="text-sm text-red-500">
-                                {form.formState.errors.username.message}
-                            </p>
-                        )}
-                    </div>
+                        {/* Name */}
+                        <FormField name="username" render={({field}) => (
+                            <FormItem>
+                                <FormLabel>
+                                    Имя*
+                                </FormLabel>
+                                <FormControl>
+                                    <Input {...field}/>
+                                </FormControl>
+                                <FormMessage/>
+                            </FormItem>
+                        ) }/>
 
-                    {/* Email */}
-                    <div className="grid gap-2">
-                        <Label htmlFor="email">Электронная почта</Label>
-                        <Input
-                            id="email"
-                            type="email"
-                            {...form.register("email")}
-                        />
-                        {form.formState.errors.email && (
-                            <p className="text-sm text-red-500">
-                                {form.formState.errors.email.message}
-                            </p>
-                        )}
-                    </div>
+                        {/* Email */}
+                        <FormField name="email" render={({field}) => (
+                            <FormItem>
+                                <FormLabel>
+                                    Электронная почта*
+                                </FormLabel>
+                                <FormControl>
+                                    <Input {...field}/>
+                                </FormControl>
+                                <FormMessage/>
+                            </FormItem>
+                        ) }/>
 
-                    {/* Phone */}
-                    <div className="grid gap-2">
-                        <Label htmlFor="phone">Номер телефона</Label>
-                        <Input
-                            id="phone"
-                            type="tel"
-                            placeholder="+123456789"
-                            {...form.register("phone")}
-                        />
-                        {form.formState.errors.phone && (
-                            <p className="text-sm text-red-500">
-                                {form.formState.errors.phone.message}
-                            </p>
-                        )}
-                    </div>
+                        {/* Phone */}
+                        <FormField name="phone" render={({field}) => (
+                            <FormItem>
+                                <FormLabel>
+                                    Номер телефона
+                                </FormLabel>
+                                <FormControl>
+                                    <Input placeholder="+123456789" {...field}/>
+                                </FormControl>
+                                <FormMessage/>
+                            </FormItem>
+                        ) }/>
 
-                    {/* Telegram */}
-                    <div className="grid gap-2">
-                        <Label htmlFor="telegram">Telegram</Label>
-                        <Input
-                            id="telegram"
-                            placeholder="@username"
-                            {...form.register("telegram")}
-                        />
-                        {form.formState.errors.telegram && (
-                            <p className="text-sm text-red-500">
-                                {form.formState.errors.telegram.message}
-                            </p>
-                        )}
-                    </div>
+                        {/* Telegram */}
+                        <FormField name="telegram" render={({field}) => (
+                            <FormItem>
+                                <FormLabel>
+                                    Telegram
+                                </FormLabel>
+                                <FormControl>
+                                    <Input placeholder="@username" {...field}/>
+                                </FormControl>
+                                <FormMessage/>
+                            </FormItem>
+                        ) }/>
 
-                    <DialogFooter>
-                        <DialogClose asChild>
-                            <Button variant="outline" onClick={() => {setOpen(false)}}>Cancel</Button>
-                        </DialogClose>
-                        <Button type="submit">Save</Button>
-                    </DialogFooter>
-                </form>
+                        <DialogFooter>
+                            <DialogClose asChild>
+                                <Button variant="elevated" onClick={() => {setOpen(false)}}>Cancel</Button>
+                            </DialogClose>
+                            <Button type="submit">Save</Button>
+                        </DialogFooter>
+                    </form>
+                </Form>
+
             </DialogContent>
         </Dialog>
     )

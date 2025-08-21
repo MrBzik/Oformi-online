@@ -12,7 +12,7 @@ export const registerSchema = z.object({
 })
 
 export const orderProductSchema = z.object({
-    username: z.string().min(3),
+    username: z.string("Введите от 3-х символов").min(3),
     email: z.email("Некорректный формат почты"),
     phone: z
         .string()
