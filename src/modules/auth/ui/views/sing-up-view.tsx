@@ -90,7 +90,7 @@ export const SingUpView = () => {
                             </Button>
                         </div>
                     <h1 className="text-4xl font-medium">
-                        Успей стать участником команды Оформи. Онлайн
+                        Успей стать участником команды Оформи Онлайн
                     </h1>
                         <FormField name="username" render={({field}) => (
                             <FormItem>

@@ -6,11 +6,9 @@ import {useSuspenseQuery} from "@tanstack/react-query";
 import {formatCurrency, generateTenantURL} from "@/lib/utils";
 import Link from "next/link";
 import {StarRating} from "@/components/star-rating";
-import {Button} from "@/components/ui/button";
-import {LinkIcon, StarIcon} from "lucide-react";
+import {StarIcon} from "lucide-react";
 import {Fragment} from "react";
 import {Progress} from "@/components/ui/progress";
-import { Card, CardContent } from "@/components/ui/card"
 import {
     Carousel,
     CarouselContent,
@@ -18,6 +16,7 @@ import {
     CarouselNext,
     CarouselPrevious,
 } from "@/components/ui/carousel"
+import {ProductOrder} from "@/modules/products/ui/components/product-order";
 
 interface Props {
     productId: string;
@@ -121,16 +120,7 @@ export const ProductView = ({productId, tenantSlug} : Props) => {
                         <div className="border-t lg:border-t-0 lg:border-l h-full">
                             <div className="flex flex-col gap-4 p-6 border-b">
                                 <div className="flex flex-row items-center gap-2">
-                                    <Button className="flex-1 bg-blue-400">
-                                        Добавить в корзину
-                                    </Button>
-                                    <Button
-                                        className="size-12"
-                                        onClick={() => {}}
-                                        disabled={false}
-                                    >
-                                        <LinkIcon/>
-                                    </Button>
+                                    <ProductOrder productId={productId} productName={data.name}/>
                                 </div>
                                 <p className="text-center font-medium">
                                     {`Гарантия возврата в течение ${data.refundPolicy}`}
