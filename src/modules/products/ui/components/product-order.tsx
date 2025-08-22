@@ -84,7 +84,7 @@ export const ProductOrder = ({productId, productName} : Props) => {
                         <DialogHeader>
                             <DialogTitle>Оставить заявку на услугу</DialogTitle>
                             <DialogDescription>
-                                Оставьте свои контактные данные
+                                Укажите свои контактные данные
                             </DialogDescription>
                         </DialogHeader>
 
@@ -142,9 +142,9 @@ export const ProductOrder = ({productId, productName} : Props) => {
 
                         <DialogFooter>
                             <DialogClose asChild>
-                                <Button variant="elevated" onClick={() => {setOpen(false)}}>Cancel</Button>
+                                <Button variant="elevated" onClick={() => {setOpen(false)}}>Назад</Button>
                             </DialogClose>
-                            <Button type="submit">Save</Button>
+                            <Button type="submit">Отправить</Button>
                         </DialogFooter>
                     </form>
                 </Form>

@@ -18,23 +18,27 @@ export const ordersRouter  = createTRPCRouter({
                 return true
             }
 
-            const orderData = await ctx.payload.find({
-                collection: "orders",
-                limit: 1,
-                pagination: false,
-                where: {
-                    and: [
-                        {
-                            product: {equals: input.productId}
-                        },
-                        {
-                            user: {equals: ctx.session?.user}
-                        }
-                    ]
-                }
-            })
+            if(ctx.session?.user){
+                const orderData = await ctx.payload.find({
+                    collection: "orders",
+                    limit: 1,
+                    pagination: false,
+                    where: {
+                        and: [
+                            {
+                                product: {equals: input.productId}
+                            },
+                            {
+                                user: {equals: ctx.session?.user}
+                            }
+                        ]
+                    }
+                })
 
-            return !!orderData.docs[0];
+                return !!orderData.docs[0];
+            }
+
+            return false;
 
         }),
 

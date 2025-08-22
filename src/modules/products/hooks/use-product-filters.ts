@@ -3,6 +3,11 @@ import {parseAsArrayOf, parseAsString, parseAsStringLiteral, useQueryStates} fro
 export const sortValues = ["новые", "популярные", "по умолчанию"] as const;
 
 export const params = {
+    search: parseAsString
+        .withOptions({
+            clearOnDefault: true
+        })
+        .withDefault(""),
     sort: parseAsStringLiteral(sortValues).withDefault("новые"),
     minPrice: parseAsString
         .withOptions({
