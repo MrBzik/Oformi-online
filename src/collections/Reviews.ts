@@ -39,7 +39,7 @@ export const Reviews: CollectionConfig = {
         }
     ],
     labels: {
-        singular:'Категория',
-        plural: 'Категории'
+        singular:'Отзыв',
+        plural: 'Отзывы'
     }
 };

@@ -45,5 +45,9 @@ export const Orders: CollectionConfig = {
             type: "text",
             required: false,
         },
-    ]
+    ],
+    labels: {
+        singular:'Заявка',
+        plural: 'Заявки'
+    }
 }
