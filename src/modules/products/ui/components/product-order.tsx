@@ -22,10 +22,9 @@ import {Form, FormControl, FormField, FormItem, FormLabel, FormMessage} from "@/
 
 interface Props {
     productId: string;
-    productName: string;
 }
 
-export const ProductOrder = ({productId, productName} : Props) => {
+export const ProductOrder = ({productId} : Props) => {
     const trpc = useTRPC()
     const {data : ordered} = useSuspenseQuery(trpc.orders.getOne.queryOptions({
         productId: productId,
@@ -41,8 +40,8 @@ export const ProductOrder = ({productId, productName} : Props) => {
         mode: "all",
         resolver: zodResolver(orderProductSchema),
         defaultValues: {
-            username: session.data?.user?.username,
-            email: session.data?.user?.email,
+            username: session.data?.user?.username ?? "",
+            email: session.data?.user?.email ?? "",
             phone: "",
             telegram: "",
         },
@@ -59,7 +58,6 @@ export const ProductOrder = ({productId, productName} : Props) => {
         setOpen(false)
         createOrder.mutate({
             productId: productId,
-            productName: productName,
             ...values
         });
     }

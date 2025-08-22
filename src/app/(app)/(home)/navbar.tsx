@@ -56,10 +56,10 @@ export const Navbar = () => {
     const session = useQuery(trpc.auth.session.queryOptions())
 
     return (
-        <nav className="h-20 flex border-b justify-between font-medium bg-white">
+        <nav className="h-20 flex justify-between font-medium ">
             <Link href="/public" className="pl-6 flex items-center">
                 <span className={cn("text-5xl font-semibold", poppins.className)}>
-                    Oformi-Online
+                    Оформи Онлайн
                 </span>
             </Link>
             
@@ -87,15 +87,15 @@ export const Navbar = () => {
                 </div>
             ) : (
                 <div className="hidden lg:flex">
-                    <Button asChild variant="secondary"
-                            className="border-l border-t-0 border-b-0 border-r-0 px-12 h-full rounded-none bg-white hover:bg-pink-400 transition-colors text-lg">
-                        <Link prefetch href="/sign-in">
+                    <Button asChild variant="link"
+                            className="h-full text-lg border-0">
+                        <Link prefetch href="/sign-in" className="underline">
                             Войти
                         </Link>
                     </Button>
-                    <Button asChild variant="secondary"
-                            className="border-l border-t-0 border-b-0 border-r-0 px-12 h-full rounded-none bg-black text-white hover:bg-pink-400 hover:text-black transition-colors text-lg">
-                        <Link prefetch href="/sign-up">
+                    <Button asChild variant="link"
+                            className="h-full rounded-none text-lg border-0">
+                        <Link prefetch href="/sign-up" className="underline">
                             Начать продажи
                         </Link>
                     </Button>

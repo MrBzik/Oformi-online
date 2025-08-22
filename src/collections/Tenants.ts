@@ -1,8 +1,12 @@
 import type { CollectionConfig } from 'payload'
+import {isSuperAdmin} from "@/lib/access";
 
 export const Tenants: CollectionConfig = {
     slug: 'tenants',
-    admin: {
+    access: {
+        create : ({req}) => isSuperAdmin(req.user),
+        delete : ({req}) => isSuperAdmin(req.user),
+    },    admin: {
         useAsTitle: 'slug',
     },
     fields: [
@@ -18,6 +22,9 @@ export const Tenants: CollectionConfig = {
             index: true,
             required: true,
             unique: true,
+            access: {
+                update : ({req}) => isSuperAdmin(req.user),
+            },
             admin: {
                 description: "Поддомен магазина"
             }
@@ -27,21 +34,27 @@ export const Tenants: CollectionConfig = {
             type: "upload",
             relationTo: "media"
         },
-        {
-            name: "ukassaAccountId",
-            type: "text",
-            required: true,
-            admin: {
-                readOnly: true,
-            }
-        },
-        {
-            name: "ukassaDetailsSubmitted",
-            type: "checkbox",
-            admin: {
-                readOnly: true,
-                description: "Вы не можете публиковать услуги до предоставления ЮKassa"
-            }
-        }
+        // {
+        //     name: "ukassaAccountId",
+        //     type: "text",
+        //     required: true,
+        //     access: {
+        //         update : ({req}) => isSuperAdmin(req.user),
+        //     },
+        //     admin: {
+        //         readOnly: true,
+        //     }
+        // },
+        // {
+        //     name: "ukassaDetailsSubmitted",
+        //     type: "checkbox",
+        //     access: {
+        //         update : ({req}) => isSuperAdmin(req.user),
+        //     },
+        //     admin: {
+        //         readOnly: true,
+        //         description: "Вы не можете публиковать услуги до предоставления ЮKassa"
+        //     }
+        // }
     ],
 };

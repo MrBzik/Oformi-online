@@ -1,7 +1,13 @@
 import {CollectionConfig} from "payload";
+import {isSuperAdmin} from "@/lib/access";
 
 export const Tags : CollectionConfig = {
     slug : "tags",
+    access: {
+        read : () => true,
+        update : ({req}) => isSuperAdmin(req.user),
+        delete : ({req}) => isSuperAdmin(req.user),
+    },
     admin: {
         useAsTitle: "name"
     },

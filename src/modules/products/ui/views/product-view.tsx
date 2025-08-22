@@ -120,7 +120,7 @@ export const ProductView = ({productId, tenantSlug} : Props) => {
                         <div className="border-t lg:border-t-0 lg:border-l h-full">
                             <div className="flex flex-col gap-4 p-6 border-b">
                                 <div className="flex flex-row items-center gap-2">
-                                    <ProductOrder productId={productId} productName={data.name}/>
+                                    <ProductOrder productId={productId}/>
                                 </div>
                                 <p className="text-center font-medium">
                                     {`Гарантия возврата в течение ${data.refundPolicy}`}

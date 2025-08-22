@@ -173,11 +173,6 @@ export interface Tenant {
    */
   slug: string;
   image?: (string | null) | Media;
-  ukassaAccountId: string;
-  /**
-   * Вы не можете публиковать услуги до предоставления ЮKassa
-   */
-  ukassaDetailsSubmitted?: boolean | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -276,7 +271,7 @@ export interface Review {
  */
 export interface Order {
   id: string;
-  name: string;
+  tenant?: (string | null) | Tenant;
   user?: (string | null) | User;
   product: string | Product;
   email: string;
@@ -466,8 +461,6 @@ export interface TenantsSelect<T extends boolean = true> {
   name?: T;
   slug?: T;
   image?: T;
-  ukassaAccountId?: T;
-  ukassaDetailsSubmitted?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -489,7 +482,7 @@ export interface ReviewsSelect<T extends boolean = true> {
  * via the `definition` "orders_select".
  */
 export interface OrdersSelect<T extends boolean = true> {
-  name?: T;
+  tenant?: T;
   user?: T;
   product?: T;
   email?: T;

@@ -46,7 +46,6 @@ export const ordersRouter  = createTRPCRouter({
         .input(
             z.object({
                 productId: z.string(),
-                productName: z.string(),
                 username: z.string(),
                 email: z.string(),
                 phone: z.string().optional().nullable(),
@@ -82,7 +81,7 @@ export const ordersRouter  = createTRPCRouter({
             await ctx.payload.create({
                 collection: "orders",
                 data : {
-                    name: input.productName,
+                    tenant: product.tenant,
                     user: ctx.session.user,
                     product: product,
                     email: input.email,

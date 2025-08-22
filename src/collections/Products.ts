@@ -6,6 +6,9 @@ export const Products : CollectionConfig = {
         singular: "Услуга",
         plural: "Услуги"
     },
+    admin: {
+        useAsTitle: "name",
+    },
     fields: [
         {
             name: "name",
