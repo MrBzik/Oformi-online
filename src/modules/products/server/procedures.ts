@@ -38,7 +38,11 @@ export const productsRouter = createTRPCRouter({
             sort: z.enum(sortValues).nullable().optional(),
             tenantSlug: z.string().nullable().optional(),
         })).query(async ( { ctx, input }) => {
-            const where: Where = {};
+            const where: Where = {
+                isArchived: {
+                    not_equals: true
+                }
+            };
 
             let sort: Sort = "-createdAt"
 
@@ -55,6 +59,7 @@ export const productsRouter = createTRPCRouter({
 
             if(input.minPrice){
                 where.price = {
+                    ...where.price,
                     greater_than_equal: input.minPrice,
                 }
             }

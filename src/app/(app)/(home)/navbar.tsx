@@ -78,9 +78,9 @@ export const Navbar = () => {
 
             {session.data?.user ? (
                 <div className="hidden lg:flex">
-                    <Button asChild variant="secondary"
-                            className="border-l border-t-0 border-b-0 border-r-0 px-12 h-full rounded-none bg-black text-white hover:bg-pink-400 hover:text-black transition-colors text-lg">
-                        <Link href="/admin">
+                    <Button asChild variant="link"
+                            className="h-full text-lg border-0">
+                        <Link href="/admin" className="underline">
                             {session.data!.user.username}
                         </Link>
                     </Button>
@@ -94,7 +94,7 @@ export const Navbar = () => {
                         </Link>
                     </Button>
                     <Button asChild variant="link"
-                            className="h-full rounded-none text-lg border-0">
+                            className="h-full text-lg border-0">
                         <Link prefetch href="/sign-up" className="underline">
                             Начать продажи
                         </Link>

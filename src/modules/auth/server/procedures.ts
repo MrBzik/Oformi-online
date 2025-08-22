@@ -41,8 +41,7 @@ export const authRouter = createTRPCRouter({
                 collection: "tenants",
                 data: {
                     name: input.username,
-                    slug: input.username,
-                    ukassaAccountId: "mock"
+                    slug: input.username
                 }
             })
 

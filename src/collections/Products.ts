@@ -80,6 +80,13 @@ export const Products : CollectionConfig = {
             type: "select",
             options: ["30-day", "14-day", "7-day"],
             defaultValue: "30-day",
+        },
+
+        {
+            name: "isArchived",
+            type: "checkbox",
+            defaultValue: false,
+            label: "Убрать в архив",
         }
     ]
 
