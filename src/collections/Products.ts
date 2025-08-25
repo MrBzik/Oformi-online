@@ -18,9 +18,12 @@ export const Products : CollectionConfig = {
         },
         {
             name: "description",
-            type: "text",
+            type: "richText",
             required: true,
-            label: "Описание"
+            label: "Описание",
+            admin: {
+                description: "Добавте описание услуги включая изображения если необходимо"
+            }
         },
         {
             name: "price",

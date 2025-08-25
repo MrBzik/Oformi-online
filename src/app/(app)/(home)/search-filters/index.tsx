@@ -28,7 +28,7 @@ export const SearchFilters = () => {
     )?.name || null;
 
     return (
-        <div className="px-4 lg:px-12 py-8 border-b flex flex-col gap-4 w-full"
+        <div className="px-4 lg:px-12 py-8 border-b flex flex-col gap-4 w-full "
              style={{ backgroundColor: activeCategoryColor }}>
             <SearchInput
                 data={data}

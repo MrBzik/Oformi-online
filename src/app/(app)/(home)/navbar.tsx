@@ -58,9 +58,12 @@ export const Navbar = () => {
     return (
         <nav className="h-20 flex justify-between font-medium ">
             <Link href="/public" className="pl-6 flex items-center">
-                <span className={cn("text-5xl font-semibold", poppins.className)}>
-                    Оформи Онлайн
-                </span>
+                <h1 className={cn("text-5xl font-semibold", poppins.className)}>
+                    <span className="text-sky-600">О</span>
+                    <span>форми </span>
+                    <span className="text-orange-500">О</span>
+                    <span>нлайн</span>
+                </h1>
             </Link>
             
             <NavbarSidebar items={navbarItems} open={isSidebarOpen} onOpenChange={setIsSidebarOpen}/>

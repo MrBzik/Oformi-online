@@ -6,7 +6,7 @@
 @theme inline {
   --color-bg-primary: #f9f5f2;
   --color-bg-secondary: #fceee3;
-  --color-product-card: #ffffff;
+  --color-card-primary: #ffffff;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-sidebar-ring: var(--sidebar-ring);

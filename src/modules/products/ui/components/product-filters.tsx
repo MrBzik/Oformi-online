@@ -65,7 +65,7 @@ export const ProductFilters = ({category} : Props) => {
     }
 
     return(
-        <div className="border rounded-md bg-white">
+        <div className="border rounded-md bg-card-primary">
             <div className="p-4 border-b flex items-center justify-between">
                 <p className="font-medium">Фильтры</p>
                 {hasFilters && <button className="underline cursor-pointer" onClick={onClear} type="button">

@@ -9,6 +9,7 @@ import {StarRating} from "@/components/star-rating";
 import {StarIcon} from "lucide-react";
 import {Fragment} from "react";
 import {Progress} from "@/components/ui/progress";
+import {RichText} from "@payloadcms/richtext-lexical/react"
 import {
     Carousel,
     CarouselContent,
@@ -17,6 +18,7 @@ import {
     CarouselPrevious,
 } from "@/components/ui/carousel"
 import {ProductOrder} from "@/modules/products/ui/components/product-order";
+import {NoProductView} from "@/modules/products/ui/components/no-product";
 
 interface Props {
     productId: string;
@@ -32,6 +34,12 @@ export const ProductView = ({productId, tenantSlug} : Props) => {
     return (
         <div className="px-4 lg:px-12 py-10">
             <div className="border border-e-[3px] border-b-[3px] rounded-sm bg-white">
+                {data.isArchived && (
+                    <NoProductView>
+                        Услуга была убрана в архив
+                    </NoProductView>
+                )}
+
                 <div className="border-b">
                     <Carousel className="w-full max-w-xs">
                         <CarouselContent>
@@ -107,7 +115,7 @@ export const ProductView = ({productId, tenantSlug} : Props) => {
                         </div>
                         <div className="p-6">
                             {data.description ? (
-                                <p>{data.description}</p>
+                                <RichText data={data.description} />
                             ) : (
                                 <p className="font-medium text-muted-foreground italic">
                                     Нет описания
@@ -120,7 +128,7 @@ export const ProductView = ({productId, tenantSlug} : Props) => {
                         <div className="border-t lg:border-t-0 lg:border-l h-full">
                             <div className="flex flex-col gap-4 p-6 border-b">
                                 <div className="flex flex-row items-center gap-2">
-                                    <ProductOrder productId={productId}/>
+                                    <ProductOrder productId={productId} isArchived={data.isArchived ?? false}/>
                                 </div>
                                 <p className="text-center font-medium">
                                     {`Гарантия возврата в течение ${data.refundPolicy}`}
@@ -153,4 +161,14 @@ export const ProductView = ({productId, tenantSlug} : Props) => {
             </div>
         </div>
     )
+}
+
+export const ProductViewLoading = () => {
+    return (
+        <div className="px-4 lg:px-12 py-10">
+            <div className="border border-e-[3px] border-b-[3px] rounded-sm bg-white">
+                <div className="h-[60vh] bg-neutral-200 rounded-lg animate-pulse"/>
+            </div>
+        </div>
+        )
 }

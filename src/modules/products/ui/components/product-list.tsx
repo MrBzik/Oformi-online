@@ -8,6 +8,7 @@ import {DEFAULT_LIMIT} from "@/constants";
 import {InboxIcon, LoaderIcon} from "lucide-react";
 import InfiniteScroll from "@/components/ui/infinite-scroll";
 import {cn} from "@/lib/utils";
+import {NoProductView} from "@/modules/products/ui/components/no-product";
 
 interface Props {
     category?: string;
@@ -45,10 +46,9 @@ export const ProductList = ({
 
     if(data.pages?.[0]?.docs.length ===0){
         return (
-            <div className="border border-black border-dashed flex items-center justify-center p-8 flex-col gap-y-4 bg-white w-full rounded-lg">
-                <InboxIcon/>
-                <p className="text-base font-medium">Услуги не найдены</p>
-            </div>
+            <NoProductView>
+                Услуги не найдены
+            </NoProductView>
         )
     }
 

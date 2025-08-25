@@ -22,9 +22,10 @@ import {Form, FormControl, FormField, FormItem, FormLabel, FormMessage} from "@/
 
 interface Props {
     productId: string;
+    isArchived: boolean
 }
 
-export const ProductOrder = ({productId} : Props) => {
+export const ProductOrder = ({productId, isArchived} : Props) => {
     const trpc = useTRPC()
     const {data : ordered} = useSuspenseQuery(trpc.orders.getOne.queryOptions({
         productId: productId,
@@ -66,7 +67,7 @@ export const ProductOrder = ({productId} : Props) => {
         <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
                 <Button className={cn("flex-1", isOrdered ? "bg-green-400" : "bg-blue-400")}
-                        disabled={isOrdered}
+                        disabled={isOrdered || isArchived}
                         onClick={() => {
                             {setOpen(true)}
                         }
