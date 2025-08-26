@@ -1,7 +1,7 @@
 // storage-adapter-import-placeholder
 import { mongooseAdapter } from '@payloadcms/db-mongodb'
 import { payloadCloudPlugin } from '@payloadcms/payload-cloud'
-import { lexicalEditor } from '@payloadcms/richtext-lexical'
+import {HeadingFeature, lexicalEditor} from '@payloadcms/richtext-lexical'
 import path from 'path'
 import { buildConfig } from 'payload'
 import { fileURLToPath } from 'url'
@@ -23,10 +23,10 @@ const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
 export default buildConfig({
-  // i18n: {
-  //   fallbackLanguage: "ru",
-  //   supportedLanguages: {ru}
-  // },
+  i18n: {
+    fallbackLanguage: "ru",
+    supportedLanguages: {ru}
+  },
   admin: {
     user: Users.slug,
     importMap: {
@@ -34,7 +34,12 @@ export default buildConfig({
     },
   },
   collections: [Users, Media, Categories, Products, Tags, Tenants, Reviews, Orders],
-  editor: lexicalEditor(),
+  editor: lexicalEditor({
+    features: ({ defaultFeatures }) => [
+        ...defaultFeatures,
+        HeadingFeature({ enabledHeadingSizes: ['h2', 'h3', 'h4', 'h5', 'h6'] }),
+    ]
+  }),
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {
     outputFile: path.resolve(dirname, 'payload-types.ts'),
