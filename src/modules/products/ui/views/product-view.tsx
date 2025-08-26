@@ -10,13 +10,6 @@ import {StarIcon} from "lucide-react";
 import {Fragment} from "react";
 import {Progress} from "@/components/ui/progress";
 import {RichText} from "@payloadcms/richtext-lexical/react"
-import {
-    Carousel,
-    CarouselContent,
-    CarouselItem,
-    CarouselNext,
-    CarouselPrevious,
-} from "@/components/ui/carousel"
 import {ProductOrder} from "@/modules/products/ui/components/product-order";
 import {NoProductView} from "@/modules/products/ui/components/no-product";
 
@@ -40,27 +33,6 @@ export const ProductView = ({productId, tenantSlug} : Props) => {
                     </NoProductView>
                 )}
 
-                <div className="border-b">
-                    <Carousel className="w-full max-w-xs">
-                        <CarouselContent>
-                            {
-                                data.media?.map((image, index) => (
-                                    <CarouselItem key={index}>
-                                        <Image
-                                            src={image?.url || "/placeholder.png"}
-                                            alt={image.alt}
-                                            className="object-contain"
-                                            height={500}
-                                            width={500}
-                                        />
-                                    </CarouselItem>
-                                ))
-                            }
-                        </CarouselContent>
-                        <CarouselPrevious className="hidden 2xl:flex" />
-                        <CarouselNext className="hidden 2xl:flex" />
-                    </Carousel>
-                </div>
                 <div className="grid grid-cols-1 lg:grid-cols-6">
                     <div className="col-span-4">
                         <div className="p-6">

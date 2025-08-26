@@ -32,7 +32,7 @@ export const Navbar = ({
                             height={32}
                         />
                     )}
-                    <p className="text-xl">{data.name}</p>
+                    <p className="text-xl underline">{data.name}</p>
                 </Link>
             </div>
         </nav>
