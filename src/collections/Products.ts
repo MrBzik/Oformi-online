@@ -39,6 +39,7 @@ export const Products : CollectionConfig = {
             type: "relationship",
             relationTo: "categories",
             hasMany: false,
+            required: true,
             label: "Категория"
         },
         {

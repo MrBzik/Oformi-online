@@ -244,7 +244,7 @@ export interface Product {
    * Стоимость в рублях
    */
   price: number;
-  category?: (string | null) | Category;
+  category: string | Category;
   tags?: (string | Tag)[] | null;
   image?: (string | null) | Media;
   cover?: (string | null) | Media;
@@ -279,7 +279,6 @@ export interface Review {
   rating: number;
   product: string | Product;
   user: string | User;
-  date?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -492,7 +491,6 @@ export interface ReviewsSelect<T extends boolean = true> {
   rating?: T;
   product?: T;
   user?: T;
-  date?: T;
   updatedAt?: T;
   createdAt?: T;
 }

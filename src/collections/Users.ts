@@ -29,6 +29,7 @@ export const Users: CollectionConfig = {
       return req.user?.id === id;
     },
   },
+
   admin: {
     useAsTitle: 'email',
     hidden: ({ user }) => !isSuperAdmin(user),

@@ -44,7 +44,7 @@ export const SearchInput = (
             <div className="relative w-full">
                 <SearchIcon className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-neutral-500"/>
                 <Input
-                    className="pl-8 bg-card-primary"
+                    className="pl-8 bg-card-primary border-[2px] border-gray-500 hover:border-black"
                     placeholder="Найти услугу"
                     disabled={disabled}
                     value={searchValue}

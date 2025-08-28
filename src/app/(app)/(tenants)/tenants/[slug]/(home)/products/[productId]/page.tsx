@@ -22,6 +22,10 @@ const Page = async ({params}: Props) => {
 
     void queryClient.prefetchQuery(trpc.auth.session.queryOptions())
 
+    void queryClient.prefetchQuery(trpc.reviews.getOne.queryOptions({
+        productId: productId,
+    }))
+
     return (
         <HydrationBoundary state={dehydrate(queryClient)}>
             <Suspense fallback={<ProductViewLoading/>}>

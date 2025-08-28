@@ -33,7 +33,7 @@ export const Tenants: CollectionConfig = {
             name: "image",
             type: "upload",
             relationTo: "media"
-        },
+        }
         // {
         //     name: "ukassaAccountId",
         //     type: "text",
@@ -57,4 +57,9 @@ export const Tenants: CollectionConfig = {
         //     }
         // }
     ],
+
+    labels: {
+        singular:'Настройки магазина',
+        plural: 'Настройки магазина'
+    }
 };

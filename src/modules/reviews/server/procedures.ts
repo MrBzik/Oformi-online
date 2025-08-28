@@ -4,6 +4,51 @@ import {TRPCError} from "@trpc/server";
 import {DEFAULT_LIMIT_REVIEWS} from "@/constants";
 
 export const reviewsRouter = createTRPCRouter({
+    getOne: protectedProcedure
+        .input(z.object({
+            productId: z.string(),
+        })).query(async ( { ctx, input }) => {
+
+            if(!ctx.session.user?.id){
+                return null;
+            }
+
+            const product = await ctx.payload.findByID({
+                collection: "products",
+                id: input.productId
+            })
+
+            if (!product){
+                throw new TRPCError({
+                    code: "NOT_FOUND",
+                    message: "Услуга не найдена"
+                })
+            }
+
+            const review = await ctx.payload.find({
+                collection: "reviews",
+                pagination: false,
+                limit: 1,
+                where: {
+                    and : [
+                        {
+                            product: {
+                                equals: product.id
+                            }
+                        },
+                        {
+                            user: {
+                                equals: ctx.session.user.id
+                            }
+                        }
+                    ]
+                }
+            })
+
+            return review.docs[0];
+        }),
+
+
     getMany: baseProcedure
         .input(z.object({
             productId: z.string(),
@@ -19,11 +64,11 @@ export const reviewsRouter = createTRPCRouter({
             if (!product){
                 throw new TRPCError({
                     code: "NOT_FOUND",
-                    message: "Product not found."
+                    message: "Услуга не найдена"
                 })
             }
 
-            const reviewsData = await ctx.payload.find({
+            return await ctx.payload.find({
                 collection: "reviews",
                 page: input.cursor,
                 limit: input.limit,
@@ -33,18 +78,23 @@ export const reviewsRouter = createTRPCRouter({
                     }
                 }
             })
-
-            return reviewsData
         }),
 
-    create: protectedProcedure
+    upsert: protectedProcedure
         .input(
             z.object({
                 productId: z.string(),
-                rating: z.number().min(1, {message: "Rating is required"}).max(5),
-                description: z.string().min(0)
+                rating: z.number().min(1, {message: "Необходимо указать рейтинг"}).max(5),
+                description: z.string().min(1, {message: "Необходимо описание"})
             })
         ).mutation(async ({input, ctx}) => {
+
+            if(!ctx.session.user?.id){
+                throw new TRPCError({
+                    code: "UNAUTHORIZED",
+                    message: "Не авторизован"
+                })
+            }
 
             const product = await ctx.payload.findByID({
                 collection: "products",
@@ -54,10 +104,9 @@ export const reviewsRouter = createTRPCRouter({
             if (!product){
                 throw new TRPCError({
                     code: "NOT_FOUND",
-                    message: "Product not found."
+                    message: "Услуга не найдена."
                 })
             }
-
 
             const existingReviewsData = await ctx.payload.find({
                 collection: "reviews",
@@ -67,9 +116,33 @@ export const reviewsRouter = createTRPCRouter({
                             product: {equals: input.productId}
                         },
                         {
-                            user: {equals: ctx.session?.user}
+                            user: {equals: ctx.session.user.id}
                         }
                     ]
+                }
+            })
+
+            if(existingReviewsData.totalDocs > 0){
+
+                const existingReview = existingReviewsData.docs[0]
+
+                return await ctx.payload.update({
+                    collection: "reviews",
+                    id: existingReview!.id,
+                    data: {
+                        rating: input.rating,
+                        description: input.description
+                    }
+                })
+            }
+
+            return await ctx.payload.create({
+                collection: "reviews",
+                data: {
+                    user: ctx.session.user.id,
+                    product: product.id,
+                    rating: input.rating,
+                    description: input.description
                 }
             })
         })
