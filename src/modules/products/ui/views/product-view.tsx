@@ -32,7 +32,11 @@ export const ProductView = ({productId, tenantSlug} : Props) => {
 
     return (
         <div className="px-4 lg:px-12 py-10">
-            <div className="border border-e-[3px] border-b-[3px] rounded-sm bg-white">
+            <div className="p-6 flex flex-col gap-4">
+                <h1 className="text-4xl font-medium">{data.name}</h1>
+                <ProductBreadcrumb parentCategorySlug={data.category.parent?.slug} parentCategoryName={data.category.parent?.name} categorySlug={data.category.slug} categoryName={data.category.name} />
+            </div>
+            <div className="border border-e-[3px] border-b-[3px] rounded-sm bg-card-primary">
                 {data.isArchived && (
                     <NoProductView>
                         Услуга была убрана в архив
@@ -41,12 +45,7 @@ export const ProductView = ({productId, tenantSlug} : Props) => {
 
                 <div className="grid grid-cols-1 lg:grid-cols-6">
                     <div className="col-span-4">
-                        <div className="p-6 flex flex-col gap-4">
-                            <h1 className="text-4xl font-medium">{data.name}</h1>
-                            <ProductBreadcrumb parentCategorySlug={data.category.parent?.slug} parentCategoryName={data.category.parent?.name} categorySlug={data.category.slug} categoryName={data.category.name} />
-                        </div>
-
-                        <div className="border-y flex">
+                        <div className="border-b flex">
                             <div className="px-6 py-4 flex items-center justify-center border-r">
                                 <div className="px-2 py-1 border bg-blue-400 w-fit">
                                     <p className="text-base font-medium">{formatCurrency(data.price)}</p>
