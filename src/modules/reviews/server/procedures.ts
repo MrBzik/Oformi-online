@@ -45,6 +45,10 @@ export const reviewsRouter = createTRPCRouter({
                 }
             })
 
+            if(review.totalDocs === 0){
+                return null;
+            }
+
             return review.docs[0];
         }),
 
