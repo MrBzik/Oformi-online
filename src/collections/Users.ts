@@ -34,7 +34,9 @@ export const Users: CollectionConfig = {
     useAsTitle: 'email',
     hidden: ({ user }) => !isSuperAdmin(user),
   },
-  auth: true,
+  auth: {
+    verify: true
+  },
   fields: [
     {
       name: "username",

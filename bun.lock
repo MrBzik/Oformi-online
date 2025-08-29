@@ -6,6 +6,7 @@
       "dependencies": {
         "@hookform/resolvers": "^5.2.1",
         "@payloadcms/db-mongodb": "^3.50.0",
+        "@payloadcms/email-resend": "3.50.0",
         "@payloadcms/next": "^3.50.0",
         "@payloadcms/payload-cloud": "^3.50.0",
         "@payloadcms/plugin-multi-tenant": "3.50.0",
@@ -372,6 +373,8 @@
     "@payloadcms/db-mongodb": ["@payloadcms/db-mongodb@3.50.0", "", { "dependencies": { "mongoose": "8.15.1", "mongoose-paginate-v2": "1.8.5", "prompts": "2.4.2", "uuid": "10.0.0" }, "peerDependencies": { "payload": "3.50.0" } }, ""],
 
     "@payloadcms/email-nodemailer": ["@payloadcms/email-nodemailer@3.50.0", "", { "dependencies": { "nodemailer": "6.9.16" }, "peerDependencies": { "payload": "3.50.0" } }, ""],
+
+    "@payloadcms/email-resend": ["@payloadcms/email-resend@3.50.0", "", { "peerDependencies": { "payload": "3.50.0" } }, "sha512-EzEeNfZSxm/c+hBdz/SbXXA9lSHetIMEo0qcpjudJSoBH4mzvj0woNsEx6+D7F8fKDpMfd3K1NB68B86r6lOrQ=="],
 
     "@payloadcms/graphql": ["@payloadcms/graphql@3.50.0", "", { "dependencies": { "graphql-scalars": "1.22.2", "pluralize": "8.0.0", "ts-essentials": "10.0.3", "tsx": "4.19.2" }, "peerDependencies": { "graphql": "^16.8.1", "payload": "3.50.0" }, "bin": { "payload-graphql": "bin.js" } }, ""],
 

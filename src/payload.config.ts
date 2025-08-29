@@ -18,11 +18,17 @@ import {multiTenantPlugin} from "@payloadcms/plugin-multi-tenant";
 import {Reviews} from "@/collections/Reviews";
 import {Orders} from "@/collections/Orders";
 import {isSuperAdmin} from "@/lib/access";
+import {resendAdapter} from "@payloadcms/email-resend";
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
 export default buildConfig({
+  email: resendAdapter({
+    defaultFromAddress: 'admin@oformi.online',
+    defaultFromName: 'Авторизация аккаунта',
+    apiKey: process.env.RESEND_API_KEY || '',
+  }),
   i18n: {
     fallbackLanguage: "ru",
     supportedLanguages: {ru}
@@ -45,7 +51,7 @@ export default buildConfig({
     outputFile: path.resolve(dirname, 'payload-types.ts'),
   },
   db: mongooseAdapter({
-    url: process.env.MY_DATABASE_URI || '',
+    url: process.env.DATABASE_URI || '',
   }),
   sharp,
   plugins: [
