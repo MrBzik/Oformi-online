@@ -4,6 +4,7 @@ import {StarIcon} from "lucide-react";
 import "@/components/styles/brutal.css"
 import {useRouter} from "next/navigation";
 import {formatCurrency, generateTenantURL} from "@/lib/utils";
+import {reviewCountToText} from "@/modules/utils/reviewsUtils";
 
 interface ProductCardProps {
     id: string;
@@ -47,7 +48,7 @@ export const ProductCard = ({
                             className="object-cover"/>
                     </div>
                     <div className="p-4 border-y flex flex-col gap-3 flex-1">
-                        <h2 className="text-lg font-medium line-clamp-4">{name}</h2>
+                            <h2 className="text-sm font-medium line-clamp-1">{name}</h2>
                         <div className="flex items-center gap-2" onClick={handleUserClick}>
                             {tenantImageUrl && (
                                 <Image
@@ -62,9 +63,12 @@ export const ProductCard = ({
                         {reviewCount > 0 && (
                             <div className="flex items-center gap-1">
                                 <StarIcon className="size-3.5 fill-black"/>
-                                <p className="text-sm font-medium">
-                                    {reviewRating} ({reviewCount})
-                                </p>
+                                <span className="text-sm font-medium">
+                                    {reviewRating}
+                                </span>
+                                <span className="text-sm text-muted-foreground">
+                                    · {reviewCount} {reviewCountToText(reviewCount)}
+                                </span>
                             </div>
                         )}
                     </div>

@@ -16,6 +16,7 @@ import {ProductBreadcrumb} from "@/modules/products/ui/components/product-breadc
 import {ReviewForm} from "@/modules/reviews/ui/components/review-form";
 import {Button} from "@/components/ui/button";
 import {toast} from "sonner";
+import {reviewCountToText} from "@/modules/utils/reviewsUtils";
 
 interface Props {
     productId: string;
@@ -67,34 +68,10 @@ export const ProductView = ({productId, tenantSlug} : Props) => {
                                     </p>
                                 </Link>
                             </div>
-                            <div className="hidden lg:flex px-6 py-4 items-center justify-center">
-                                <div className="flex items-center gap-2">
-                                    <StarRating
-                                        rating={data.reviewRating}
-                                        iconClassName="size-4"
-                                        text={`(${data.reviewRating})`}
-                                    />
-                                    <p className="text-base font-medium">
-                                        {`(${data.reviewCount})`}
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="block lg:hidden px-6 py-4 items-center justify-center border-b">
-                            <div className="flex items-center gap-2">
-                                <StarRating
-                                    rating={data.reviewRating}
-                                    iconClassName="size-4"
-                                    text={`(${data.reviewRating})`}
-                                />
-                                <p className="text-base font-medium">
-                                    {`(${data.reviewCount})`}
-                                </p>
-                            </div>
                         </div>
                         <div className="p-6">
                             {data.description ? (
-                                <RichText data={data.description} />
+                                <RichText data={data.description} className="leading-8"/>
                             ) : (
                                 <p className="font-medium text-muted-foreground italic">
                                     Нет описания
@@ -147,13 +124,14 @@ export const ProductView = ({productId, tenantSlug} : Props) => {
                                 </Button>
                             </div>
                             <div className="p-6">
-                                <div className="flex items-center justify-between">
-                                    <h3 className="text-xl font-medium">Отзывы</h3>
-                                    <div className="flex items-center gap-x-1 font-medium">
-                                        <StarIcon className="size-4 fill-black"/>
-                                        <p>({data.reviewRating})</p>
-                                        <p className="text-base">{data.reviewCount}</p>
-                                    </div>
+                                <div className="flex items-center gap-1">
+                                    <StarIcon className="size-3.5 fill-black"/>
+                                    <span className="text-sm font-medium">
+                                    {data.reviewRating}
+                                </span>
+                                    <span className="text-sm text-muted-foreground">
+                                    · {data.reviewCount} {reviewCountToText(data.reviewCount)}
+                                </span>
                                 </div>
                                 <div className="grid grid-cols-[auto_1fr_auto] gap-3 mt-4">
                                     {[5, 4, 3, 2, 1].map((stars) => (
@@ -161,7 +139,7 @@ export const ProductView = ({productId, tenantSlug} : Props) => {
                                             <div className="font-medium">{stars}</div>
                                             <Progress
                                                 value={data.ratingDistribution[stars]}
-                                                className="h-[1lh]"/>
+                                                className="h-[0.8lh]"/>
                                             <div className="font-medium">
                                                 {data.ratingDistribution[stars]}%
                                             </div>
