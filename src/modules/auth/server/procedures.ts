@@ -3,6 +3,7 @@ import {headers as getHeaders} from "next/headers";
 import {TRPCError} from "@trpc/server";
 import {loginSchema, registerSchema} from "@/modules/auth/schemas";
 import {generateAuthCookie} from "@/modules/auth/utils";
+import {z} from "zod";
 
 export const authRouter = createTRPCRouter({
     session: baseProcedure.query(async ( { ctx }) => {
@@ -63,8 +64,8 @@ export const authRouter = createTRPCRouter({
                 collection: "users",
                 data: {
                     email: input.email,
-                    password: input.password
-                }
+                    password: input.password,
+                },
             })
             if (!data.token){
                 throw new TRPCError({
@@ -102,4 +103,26 @@ export const authRouter = createTRPCRouter({
             });
             return data;
         }),
+
+    verifyEmail: baseProcedure
+        .input(z.object({token: z.string()}))
+        .query(async ({ input, ctx}) => {
+
+            const { token } = input;
+
+            try {
+                const isVerified = await ctx.payload.verifyEmail({
+                    collection: "users",
+                    token: token
+                });
+
+                if(!isVerified){
+                    return {success: false};
+                }
+
+                return {success: true};
+            } catch (error) {
+                return {success: false};
+            }
+        })
 });
