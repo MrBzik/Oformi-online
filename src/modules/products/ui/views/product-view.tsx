@@ -1,10 +1,8 @@
 "use client"
 
-import Image from "next/image";
 import {useTRPC} from "@/trpc/client";
 import {useSuspenseQuery} from "@tanstack/react-query";
-import {cn, formatCurrency, generateTenantURL} from "@/lib/utils";
-import Link from "next/link";
+import {cn, formatCurrency} from "@/lib/utils";
 import {StarRating} from "@/components/star-rating";
 import {StarIcon} from "lucide-react";
 import {Fragment, useState} from "react";
@@ -37,75 +35,36 @@ export const ProductView = ({productId, tenantSlug} : Props) => {
                 <h1 className="text-4xl font-medium">{data.name}</h1>
                 <ProductBreadcrumb parentCategorySlug={data.category.parent?.slug} parentCategoryName={data.category.parent?.name} categorySlug={data.category.slug} categoryName={data.category.name} />
             </div>
-            <div className="border border-e-[3px] border-b-[3px] rounded-sm bg-card-primary">
+            <div className="">
                 {data.isArchived && (
                     <NoProductView>
                         Услуга была убрана в архив
                     </NoProductView>
                 )}
 
-                <div className="grid grid-cols-1 lg:grid-cols-6">
-                    <div className="col-span-4">
-                        <div className="border-b flex">
-                            <div className="px-6 py-4 flex items-center justify-center border-r">
-                                <div className="px-2 py-1 border bg-blue-400 w-fit">
-                                    <p className="text-base font-medium">{formatCurrency(data.price)}</p>
-                                </div>
-                            </div>
-                            <div className="px-6 py-4 flex items-center justify-center lg:border-r">
-                                <Link href={generateTenantURL(tenantSlug)} className="flex items-center gap-2">
-                                    {data.tenant.image?.url && (
-                                        <Image
-                                            src={data.tenant.image.url}
-                                            alt={data.tenant.name}
-                                            width={24}
-                                            height={24}
-                                            className="rounded-full border shrink-0 size-[24px]"
-                                        />
-                                    )}
-                                    <p className="text-base underline font-medium">
-                                        {data.tenant.name}
-                                    </p>
-                                </Link>
-                            </div>
-                        </div>
+                <div className="grid grid-cols-1 lg:grid-cols-6 gap-y-4">
+                    <div className="col-span-4 border border-e-[3px] border-b-[3px] rounded-sm bg-card-primary">
                         <div className="p-6">
-                            {data.description ? (
-                                <RichText data={data.description} className="leading-8"/>
-                            ) : (
-                                <p className="font-medium text-muted-foreground italic">
-                                    Нет описания
-                                </p>
-                                )
-                            }
+                            <RichText data={data.description} className="leading-8"/>
                         </div>
-                        <div className="p-6">
-                            <ReviewForm productId={productId}/>
-                        </div>
-                        {
-                            data.reviews.map((review) => (
-                                <div
-                                    key={review.id}
-                                    className="p-6 flex flex-col gap-2 border-t">
-                                    <div className="flex flex-row justify-between">
-                                        <p className="font-semibold">{review.user.username}</p>
-                                        <StarRating
-                                            rating={review.rating}
-                                            iconClassName="size-3"
-                                        />
-                                    </div>
-                                    <p className="font-medium">{review.description}</p>
-                                </div>
-                            ))
-                        }
                     </div>
                     <div className="col-span-2">
-                        <div className="border-t lg:border-t-0 lg:border-l h-full">
-                            <div className="flex flex-col gap-4 p-6 border-b">
+                        <div className="border-t lg:border-t-0 h-full ">
+                            <div className="flex flex-col gap-4 p-6">
+                                <div className="flex flex-row gap-4 items-center px-2 py-1">
+                                    <span className="text-2xl font-medium">{formatCurrency(data.price)}</span>
+                                    {
+                                        data.oldPrice && (
+                                            <span className="text-2xl text-muted-foreground line-through">
+                                    {formatCurrency(data.oldPrice)}
+                                </span>
+                                        )
+                                    }
+                                </div>
                                 <div className="flex flex-row items-center gap-2">
                                     <ProductOrder productId={productId} isArchived={data.isArchived ?? false}/>
                                 </div>
-                                <p className="text-center font-medium">
+                                <p className="font-medium">
                                     {`Зарабатывай с программой лояльности:`}
                                 </p>
                                 <Button
@@ -147,6 +106,36 @@ export const ProductView = ({productId, tenantSlug} : Props) => {
                                     ))}
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                    <div className="col-span-4 w-full">
+                        <div className="p-6">
+                            <ReviewForm productId={productId}/>
+                        </div>
+                    </div>
+                </div>
+                <div className="grid grid-cols-6 gap-x-4">
+                    <div className="col-span-4">
+                        <div className="border border-e-[3px] border-b-[3px] rounded-sm bg-card-primary">
+                            <div className="p-6">
+                                <h2>Отзывы</h2>
+                            </div>
+                            {
+                                data.reviews.map((review) => (
+                                    <div
+                                        key={review.id}
+                                        className="p-6 flex flex-col gap-2 border-t">
+                                        <div className="flex flex-row justify-between">
+                                            <p className="font-semibold">{review.user.username}</p>
+                                            <StarRating
+                                                rating={review.rating}
+                                                iconClassName="size-3"
+                                            />
+                                        </div>
+                                        <p className="font-medium">{review.description}</p>
+                                    </div>
+                                ))
+                            }
                         </div>
                     </div>
                 </div>

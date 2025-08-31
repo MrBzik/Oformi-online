@@ -35,6 +35,11 @@ export const Products : CollectionConfig = {
             }
         },
         {
+            name: "oldPrice",
+            type: "number",
+            label: "Старая цена",
+        },
+        {
             name: "category",
             type: "relationship",
             relationTo: "categories",

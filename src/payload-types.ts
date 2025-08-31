@@ -246,6 +246,7 @@ export interface Product {
    * Стоимость в рублях
    */
   price: number;
+  oldPrice?: number | null;
   category: string | Category;
   tags?: (string | Tag)[] | null;
   image?: (string | null) | Media;
@@ -454,6 +455,7 @@ export interface ProductsSelect<T extends boolean = true> {
   name?: T;
   description?: T;
   price?: T;
+  oldPrice?: T;
   category?: T;
   tags?: T;
   image?: T;

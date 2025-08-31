@@ -15,6 +15,7 @@ interface ProductCardProps {
     reviewRating: number;
     reviewCount: number;
     price: number;
+    oldPrice?: number | null | undefined;
 }
 
 export const ProductCard = ({
@@ -26,6 +27,7 @@ export const ProductCard = ({
     reviewRating,
     reviewCount,
     price,
+    oldPrice,
 } : ProductCardProps) => {
 
     const router = useRouter()
@@ -72,12 +74,19 @@ export const ProductCard = ({
                             </div>
                         )}
                     </div>
-                    <div className="p-4">
+                    <div className="p-4 flex flex-row gap-2 items-center">
                         <div className="relative px-2 py-1 border bg-blue-400 w-fit">
-                            <p className="text-sm font-medium">
+                            <span className="text-sm font-medium">
                                 {formatCurrency(price)}
-                            </p>
+                            </span>
                         </div>
+                        {
+                            oldPrice && (
+                                <span className="text-lg text-muted-foreground line-through">
+                                    {formatCurrency(oldPrice)}
+                                </span>
+                            )
+                        }
                     </div>
                 </div>
             </Link>
