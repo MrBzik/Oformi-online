@@ -1,4 +1,5 @@
 import {CollectionConfig} from "payload";
+import {isSuperAdmin} from "@/lib/access";
 
 export const Products : CollectionConfig = {
     slug: "products",
@@ -59,6 +60,94 @@ export const Products : CollectionConfig = {
             type: "upload",
             relationTo: "media",
             label: "Изображение в карточке товара"
+        },
+        {
+            name: "totalOrders",
+            type: "number",
+            label: "Количество заявок",
+            defaultValue: 0,
+            required: true,
+            access: {
+                create : ({req}) => isSuperAdmin(req.user),
+                update : ({req}) => isSuperAdmin(req.user),
+            },
+        },
+        {
+            name: "ratingCount",
+            type: "number",
+            label: "Количество оценок",
+            defaultValue: 0,
+            required: true,
+            access: {
+                create : ({req}) => isSuperAdmin(req.user),
+                update : ({req}) => isSuperAdmin(req.user),
+            },
+        },
+        {
+            name: "totalRating",
+            type: "number",
+            label: "Общий рейтинг",
+            defaultValue: 0,
+            required: true,
+            access: {
+                create : ({req}) => isSuperAdmin(req.user),
+                update : ({req}) => isSuperAdmin(req.user),
+            },
+        },
+        {
+            name: "fiveStarsRatings",
+            type: "number",
+            label: "Оценки 5 звезд",
+            defaultValue: 0,
+            required: true,
+            access: {
+                create : ({req}) => isSuperAdmin(req.user),
+                update : ({req}) => isSuperAdmin(req.user),
+            },
+        },
+        {
+            name: "fourStarsRatings",
+            type: "number",
+            label: "Оценки 4 звезды",
+            defaultValue: 0,
+            required: true,
+            access: {
+                create : ({req}) => isSuperAdmin(req.user),
+                update : ({req}) => isSuperAdmin(req.user),
+            },
+        },
+        {
+            name: "threeStarsRatings",
+            type: "number",
+            label: "Оценки 3 звезды",
+            defaultValue: 0,
+            required: true,
+            access: {
+                create : ({req}) => isSuperAdmin(req.user),
+                update : ({req}) => isSuperAdmin(req.user),
+            },
+        },
+        {
+            name: "twoStarsRatings",
+            type: "number",
+            label: "Оценки 2 звезды",
+            defaultValue: 0,
+            required: true,
+            access: {
+                create : ({req}) => isSuperAdmin(req.user),
+                update : ({req}) => isSuperAdmin(req.user),
+            },
+        },
+        {
+            name: "oneStarsRatings",
+            type: "number",
+            label: "Оценки 1 звезда",
+            defaultValue: 0,
+            required: true,
+            access: {
+                create : ({req}) => isSuperAdmin(req.user),
+                update : ({req}) => isSuperAdmin(req.user),
+            },
         },
         {
             name: "isArchived",

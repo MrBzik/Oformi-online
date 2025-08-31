@@ -64,8 +64,8 @@ export const ProductList = ({
                         imageUrl={product.image?.url}
                         tenantSlug={product.tenant.slug}
                         tenantImageUrl={product.tenant.image?.url}
-                        reviewRating={product.reviewRating}
-                        reviewCount={product.reviewCount}
+                        reviewRating={product.totalRating}
+                        reviewCount={product.ratingCount}
                         price={product.price}
                         oldPrice={product.oldPrice}
                     />

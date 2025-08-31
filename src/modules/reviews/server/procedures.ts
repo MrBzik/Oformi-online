@@ -2,6 +2,7 @@ import {baseProcedure, createTRPCRouter, protectedProcedure} from "@/trpc/init";
 import {z} from "zod";
 import {TRPCError} from "@trpc/server";
 import {DEFAULT_LIMIT_REVIEWS} from "@/constants";
+import {Review, User} from "@/payload-types";
 
 export const reviewsRouter = createTRPCRouter({
     getOne: protectedProcedure
@@ -72,16 +73,23 @@ export const reviewsRouter = createTRPCRouter({
                 })
             }
 
-            return await ctx.payload.find({
+            const reviews = await ctx.payload.find({
                 collection: "reviews",
                 page: input.cursor,
                 limit: input.limit,
+                populate: {
+                    users: {
+                        username: true
+                    }
+                },
                 where: {
                     product: {
                         equals: product.id
                     }
                 }
             })
+
+            return reviews.docs as (Review & { user: User })[]
         }),
 
     upsert: protectedProcedure
@@ -114,6 +122,8 @@ export const reviewsRouter = createTRPCRouter({
 
             const existingReviewsData = await ctx.payload.find({
                 collection: "reviews",
+                pagination: false,
+                limit: 1,
                 where: {
                     and: [
                         {
@@ -126,11 +136,74 @@ export const reviewsRouter = createTRPCRouter({
                 }
             })
 
+            let fiveStarRating = product.fiveStarsRatings
+            let fourStarRating = product.fourStarsRatings
+            let threeStarRating = product.threeStarsRatings
+            let twoStarRating = product.twoStarsRatings
+            let oneStarRating = product.oneStarsRatings
+
+            switch(input.rating){
+                case 5: {
+                    fiveStarRating += 1
+                    break;
+                }
+                case 4: {
+                    fourStarRating += 1
+                    break;
+                }
+                case 3: {
+                    threeStarRating += 1
+                    break;
+                }
+                case 2: {
+                    twoStarRating += 1
+                    break;
+                }
+                case 1: {
+                    oneStarRating += 1
+                    break;
+                }
+            }
+
+            let ratingSum = (fiveStarRating * 5) + (fourStarRating * 4) + (threeStarRating * 3) + (twoStarRating * 2) + oneStarRating;
+
+            let ratingCount = product.ratingCount
+
+            let result: Review
+
             if(existingReviewsData.totalDocs > 0){
 
-                const existingReview = existingReviewsData.docs[0]
+                const existingReview = existingReviewsData.docs[0]!
 
-                return await ctx.payload.update({
+                switch(existingReview.rating){
+                    case 5: {
+                        fiveStarRating -= 1;
+                        ratingSum -= 5;
+                        break;
+                    }
+                    case 4: {
+                        fourStarRating -= 1;
+                        ratingSum -= 4;
+                        break;
+                    }
+                    case 3: {
+                        threeStarRating -= 1;
+                        ratingSum -= 3;
+                        break;
+                    }
+                    case 2: {
+                        twoStarRating -= 1;
+                        ratingSum -= 2;
+                        break;
+                    }
+                    case 1: {
+                        oneStarRating -= 1;
+                        ratingSum -= 1;
+                        break;
+                    }
+                }
+
+                result= await ctx.payload.update({
                     collection: "reviews",
                     id: existingReview!.id,
                     data: {
@@ -138,16 +211,33 @@ export const reviewsRouter = createTRPCRouter({
                         description: input.description
                     }
                 })
+            } else {
+                ratingCount +=1;
+                result = await ctx.payload.create({
+                    collection: "reviews",
+                    data: {
+                        user: ctx.session.user.id,
+                        product: product.id,
+                        rating: input.rating,
+                        description: input.description
+                    }
+                })
             }
 
-            return await ctx.payload.create({
-                collection: "reviews",
+            await ctx.payload.update({
+                collection: "products",
+                id: product.id,
                 data: {
-                    user: ctx.session.user.id,
-                    product: product.id,
-                    rating: input.rating,
-                    description: input.description
+                    ratingCount: ratingCount,
+                    totalRating: ratingSum / ratingCount,
+                    fiveStarsRatings: fiveStarRating,
+                    fourStarsRatings: fourStarRating,
+                    threeStarsRatings: threeStarRating,
+                    twoStarsRatings: twoStarRating,
+                    oneStarsRatings: oneStarRating
                 }
             })
+
+            return result
         })
 })

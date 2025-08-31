@@ -17,3 +17,10 @@ export function reviewCountToText(count: number){
     }
     return "оценок"
 }
+
+export function ratingToPercentage(ratingCount: number, totalCount: number){
+    if(ratingCount === 0) return 0;
+    return Math.round(
+        (ratingCount / totalCount) * 100
+    )
+}

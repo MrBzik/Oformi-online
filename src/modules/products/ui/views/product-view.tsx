@@ -86,10 +86,10 @@ export const ProductView = ({productId, tenantSlug} : Props) => {
                                 <div className="flex items-center gap-1">
                                     <StarIcon className="size-3.5 fill-black"/>
                                     <span className="text-sm font-medium">
-                                    {data.reviewRating}
+                                    {data.totalRating}
                                 </span>
                                     <span className="text-sm text-muted-foreground">
-                                    · {data.reviewCount} {reviewCountToText(data.reviewCount)}
+                                    · {data.ratingCount} {reviewCountToText(data.ratingCount)}
                                 </span>
                                 </div>
                                 <div className="grid grid-cols-[auto_1fr_auto] gap-3 mt-4">
@@ -120,22 +120,22 @@ export const ProductView = ({productId, tenantSlug} : Props) => {
                             <div className="p-6">
                                 <h2>Отзывы</h2>
                             </div>
-                            {
-                                data.reviews.map((review) => (
-                                    <div
-                                        key={review.id}
-                                        className="p-6 flex flex-col gap-2 border-t">
-                                        <div className="flex flex-row justify-between">
-                                            <p className="font-semibold">{review.user.username}</p>
-                                            <StarRating
-                                                rating={review.rating}
-                                                iconClassName="size-3"
-                                            />
-                                        </div>
-                                        <p className="font-medium">{review.description}</p>
-                                    </div>
-                                ))
-                            }
+                            {/*{*/}
+                            {/*    data.reviews.map((review) => (*/}
+                            {/*        <div*/}
+                            {/*            key={review.id}*/}
+                            {/*            className="p-6 flex flex-col gap-2 border-t">*/}
+                            {/*            <div className="flex flex-row justify-between">*/}
+                            {/*                <p className="font-semibold">{review.user.username}</p>*/}
+                            {/*                <StarRating*/}
+                            {/*                    rating={review.rating}*/}
+                            {/*                    iconClassName="size-3"*/}
+                            {/*                />*/}
+                            {/*            </div>*/}
+                            {/*            <p className="font-medium">{review.description}</p>*/}
+                            {/*        </div>*/}
+                            {/*    ))*/}
+                            {/*}*/}
                         </div>
                     </div>
                 </div>

@@ -3,8 +3,9 @@ import {z} from "zod";
 import type {Sort, Where} from "payload";
 import {sortValues} from "@/modules/products/search-params";
 import {categoryLoader} from "@/modules/utils/categoriesLoader";
-import {Category, Media, Review, Tenant, User} from "@/payload-types";
+import {Category, Media, Tenant} from "@/payload-types";
 import {DEFAULT_LIMIT} from "@/constants";
+import {ratingToPercentage} from "@/modules/utils/reviewsUtils";
 
 export const productsRouter = createTRPCRouter({
     getOne: baseProcedure
@@ -18,59 +19,20 @@ export const productsRouter = createTRPCRouter({
                 depth: 2
             })
 
-            const reviews = await ctx.payload.find({
-                collection: "reviews",
-                pagination: false,
-                populate: {
-                  users: {
-                      username: true
-                  }
-                },
-                where: {
-                    product: {
-                        equals: input.id
-                    }
-                }
-            })
-
-            const reviewRating = reviews.docs.length > 0
-                    ? reviews.docs.reduce((acc, review) => acc + review.rating, 0) / reviews.totalDocs
-                    : 0
-
             const ratingDistribution: Record<number, number> = {
-              5: 0,
-              4: 0,
-              3: 0,
-              2: 0,
-              1: 0,
+              5: ratingToPercentage(product.fiveStarsRatings, product.ratingCount),
+              4: ratingToPercentage(product.fourStarsRatings, product.ratingCount),
+              3: ratingToPercentage(product.threeStarsRatings, product.ratingCount),
+              2: ratingToPercentage(product.twoStarsRatings, product.ratingCount),
+              1: ratingToPercentage(product.oneStarsRatings, product.ratingCount),
             };
-
-            if(reviews.totalDocs > 0) {
-                reviews.docs.forEach((review) => {
-                    const rating = review.rating;
-                    ratingDistribution[rating] = (ratingDistribution[rating] || 0) + 1;
-                });
-
-                Object.keys(ratingDistribution).forEach((key) => {
-                    const rating = Number(key);
-                    const count = ratingDistribution[rating] || 0;
-                    ratingDistribution[rating] = Math.round(
-                        (count / reviews.totalDocs) * 100
-                    )
-                })
-            }
 
             return {
                 ...product,
                 category: product.category as Category & { parent: Category | null },
                 image: product.image as Media | null,
-                cover: product.cover as Media | null,
-                media: product.media as Media[] | [],
                 tenant: product.tenant as Tenant & { image: Media | null },
-                reviewRating,
-                reviewCount: reviews.totalDocs,
                 ratingDistribution,
-                reviews : reviews.docs as (Review & { user: User })[]
             };
         }),
 
@@ -154,32 +116,9 @@ export const productsRouter = createTRPCRouter({
                 limit: input.limit
             })
 
-            const dataWithSummarizedReviews = await Promise.all(
-                data.docs.map(async (doc) => {
-                    const reviewsData = await ctx.payload.find({
-                        collection: "reviews",
-                        pagination: false,
-                        where : {
-                            product: {
-                                equals: doc.id
-                            }
-                        }
-                    });
-
-                    return {
-                        ...doc,
-                        reviewCount: reviewsData.totalDocs,
-                        reviewRating: reviewsData.docs.length === 0 ? 0
-                            : reviewsData
-                            .docs
-                            .reduce((acc, review) => acc + review.rating, 0) / reviewsData.totalDocs,
-                    }
-                })
-            )
-
             return {
                 ...data,
-                docs: dataWithSummarizedReviews.map(doc => ({
+                docs: data.docs.map(doc => ({
                     ...doc,
                     image: doc.image as Media | null,
                     tenant: doc.tenant as Tenant & {image: Media | null},
