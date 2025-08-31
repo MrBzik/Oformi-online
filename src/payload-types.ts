@@ -250,12 +250,6 @@ export interface Product {
   category: string | Category;
   tags?: (string | Tag)[] | null;
   image?: (string | null) | Media;
-  cover?: (string | null) | Media;
-  /**
-   * Медиафайлы отображаемые на карусели в деталях об услуге. До 3-х штук
-   */
-  media?: (string | Media)[] | null;
-  refundPolicy?: ('30-day' | '14-day' | '7-day') | null;
   isArchived?: boolean | null;
   updatedAt: string;
   createdAt: string;
@@ -459,9 +453,6 @@ export interface ProductsSelect<T extends boolean = true> {
   category?: T;
   tags?: T;
   image?: T;
-  cover?: T;
-  media?: T;
-  refundPolicy?: T;
   isArchived?: T;
   updatedAt?: T;
   createdAt?: T;
