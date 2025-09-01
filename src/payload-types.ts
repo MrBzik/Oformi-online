@@ -250,6 +250,10 @@ export interface Product {
   category: string | Category;
   tags?: (string | Tag)[] | null;
   image?: (string | null) | Media;
+  /**
+   * Список сопутствующих услуг на странице данной услуги (вы можете указать до 4-х единиц)
+   */
+  recommendProducts?: (string | Product)[] | null;
   totalOrders: number;
   ratingCount: number;
   totalRating: number;
@@ -461,6 +465,7 @@ export interface ProductsSelect<T extends boolean = true> {
   category?: T;
   tags?: T;
   image?: T;
+  recommendProducts?: T;
   totalOrders?: T;
   ratingCount?: T;
   totalRating?: T;

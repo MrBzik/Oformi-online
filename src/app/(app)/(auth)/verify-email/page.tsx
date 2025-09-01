@@ -1,19 +1,19 @@
 import {caller} from "@/trpc/server";
 import {CircleCheckBig, XCircle} from "lucide-react";
 import {AuthNavigation} from "@/modules/auth/ui/components/auth-navigation";
+import {loadAuthToken} from "@/modules/auth/searchParams";
+import {SearchParams} from "nuqs/server";
 
 interface Props {
-    searchParams: {
-        token: string; // make optional in case it’s missing
-    };
+    searchParams: Promise<SearchParams>
 }
 
 const Page = async ( {searchParams} : Props ) => {
 
-    const {token} = searchParams;
+    const {token}= await loadAuthToken(searchParams);
 
     const { success } = await caller.auth.verifyEmail({
-        token: token
+        token: token ?? ""
     });
 
     if (!success) {

@@ -62,6 +62,22 @@ export const Products : CollectionConfig = {
             label: "Изображение в карточке товара"
         },
         {
+            name: "recommendProducts",
+            type: "relationship",
+            relationTo: "products",
+            hasMany: true,
+            label: "Рекомандации",
+            admin: {
+                description: "Список сопутствующих услуг на странице данной услуги (вы можете указать до 4-х единиц)"
+            },
+            validate: (value) => {
+                if (value && value.length > 4) {
+                    return "Вы можете добавить до 4-х услуг"
+                }
+                return true
+            }
+        },
+        {
             name: "totalOrders",
             type: "number",
             label: "Количество заявок",

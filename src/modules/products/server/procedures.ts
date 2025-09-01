@@ -113,7 +113,10 @@ export const productsRouter = createTRPCRouter({
                 where,
                 sort,
                 page: input.cursor,
-                limit: input.limit
+                limit: input.limit,
+                populate: {
+                    products: {}
+                }
             })
 
             return {
