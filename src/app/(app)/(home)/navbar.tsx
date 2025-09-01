@@ -58,7 +58,7 @@ export const Navbar = () => {
     return (
         <nav className="h-20 flex justify-between font-medium ">
             <Link href="/public" className="pl-6 flex items-center">
-                <h1 className={cn("text-5xl font-semibold", poppins.className)}>
+                <h1 className={cn("text-2xl font-semibold", poppins.className)}>
                     <span className="text-sky-600">О</span>
                     <span>форми </span>
                     <span className="text-orange-500">О</span>
@@ -67,17 +67,6 @@ export const Navbar = () => {
             </Link>
             
             <NavbarSidebar items={navbarItems} open={isSidebarOpen} onOpenChange={setIsSidebarOpen}/>
-            
-            <div className="items-center gap-4 hidden lg:flex">
-                {navbarItems.map((item) => (
-                    <NavbarItem
-                        href={item.href}
-                        key={item.href}
-                        isActive={item.href === pathname}>
-                        {item.children}
-                    </NavbarItem>
-                    ))}
-            </div>
 
             {session.data?.user ? (
                 <div className="hidden lg:flex">

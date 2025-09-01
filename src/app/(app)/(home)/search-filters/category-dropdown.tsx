@@ -11,13 +11,15 @@ interface Props {
     category: CategoryItem,
     isActive? : boolean,
     isNavigationHovered? : boolean,
+    isHidden: boolean
 }
 
 export const CategoryDropdown = (
     {
         category,
         isActive,
-        isNavigationHovered
+        isNavigationHovered,
+        isHidden,
     }: Props
 ) => {
     const [isOpen, setIsOpen] = useState(false);
@@ -32,8 +34,10 @@ export const CategoryDropdown = (
         setIsOpen(false);
     }
 
+    console.log(isHidden)
+
     return (
-        <div className="relative"
+        <div className={cn("relative", isHidden && "invisible pointer-events-none")}
              ref={dropdownRef}
              onMouseEnter={onMouseEnter}
              onMouseLeave={onMouseLeave}

@@ -5,7 +5,7 @@ import {useSuspenseInfiniteQuery} from "@tanstack/react-query";
 import {useProductFilters} from "@/modules/products/hooks/use-product-filters";
 import {ProductCard, ProductCardLoading} from "@/modules/products/ui/components/product-card";
 import {DEFAULT_LIMIT} from "@/constants";
-import {InboxIcon, LoaderIcon} from "lucide-react";
+import {LoaderIcon} from "lucide-react";
 import InfiniteScroll from "@/components/ui/infinite-scroll";
 import {cn} from "@/lib/utils";
 import {NoProductView} from "@/modules/products/ui/components/no-product";

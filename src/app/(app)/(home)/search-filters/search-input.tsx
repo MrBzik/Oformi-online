@@ -1,7 +1,7 @@
-import {BookmarkCheckIcon, DeleteIcon, ListFilterIcon, SearchIcon} from "lucide-react";
+import {BookmarkCheckIcon, ListFilterIcon, SearchIcon} from "lucide-react";
 import {Input} from "@/components/ui/input";
 import {CategoriesSidebar} from "@/app/(app)/(home)/search-filters/categories-sidebar";
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import {Button} from "@/components/ui/button";
 import {CategoriesList} from "@/modules/categories/types";
 import {useTRPC} from "@/trpc/client";
