@@ -3,7 +3,7 @@ import {z} from "zod";
 import type {Sort, Where} from "payload";
 import {sortValues} from "@/modules/products/search-params";
 import {categoryLoader} from "@/modules/utils/categoriesLoader";
-import {Category, Media, Tenant} from "@/payload-types";
+import {Category, Media, Product, Tenant} from "@/payload-types";
 import {DEFAULT_LIMIT} from "@/constants";
 import {ratingToPercentage} from "@/modules/utils/reviewsUtils";
 
@@ -16,7 +16,7 @@ export const productsRouter = createTRPCRouter({
             const product = await ctx.payload.findByID({
                 collection: "products",
                 id: input.id,
-                depth: 2
+                depth: 3
             })
 
             const ratingDistribution: Record<number, number> = {
@@ -32,6 +32,7 @@ export const productsRouter = createTRPCRouter({
                 category: product.category as Category & { parent: Category | null },
                 image: product.image as Media | null,
                 tenant: product.tenant as Tenant & { image: Media | null },
+                recommendProducts: product.recommendProducts as (Product & {image: Media | null})[],
                 ratingDistribution,
             };
         }),

@@ -90,7 +90,7 @@ export const ReviewForm = ({
                     disabled={session?.user == null}
                     type={"submit"}
                     size="lg"
-                    className="bg-black text-white hover:bg-blue-400 hover:text-primary w-fit"
+                    className="bg-black text-white hover:bg-blue-400 hover:text-primary w-full lg:w-fit"
                 >
                     {session?.user ? "Опубликовать" : "Требуется авторизация"}
                 </Button>

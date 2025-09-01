@@ -15,6 +15,7 @@ import {ReviewForm} from "@/modules/reviews/ui/components/review-form";
 import {Button} from "@/components/ui/button";
 import {toast} from "sonner";
 import {reviewCountToText} from "@/modules/utils/reviewsUtils";
+import {ProductCard} from "@/modules/products/ui/components/product-card";
 
 interface Props {
     productId: string;
@@ -44,7 +45,7 @@ export const ProductView = ({productId, tenantSlug} : Props) => {
                 <h1 className="text-4xl font-medium">{data.name}</h1>
                 <ProductBreadcrumb parentCategorySlug={data.category.parent?.slug} parentCategoryName={data.category.parent?.name} categorySlug={data.category.slug} categoryName={data.category.name} />
             </div>
-            <div className="">
+            <div className="flex flex-col gap-6">
                 {data.isArchived && (
                     <NoProductView>
                         Услуга была убрана в архив
@@ -117,14 +118,25 @@ export const ProductView = ({productId, tenantSlug} : Props) => {
                             </div>
                         </div>
                     </div>
-                    <div className="col-span-4 w-full">
-                        <div className="p-6">
-                            <ReviewForm productId={productId}/>
-                        </div>
-                    </div>
                 </div>
-                <div className="grid grid-cols-6 gap-x-4">
+                <div className="pt-6">
+                    <h2>Смотрите также</h2>
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4">
+                    {data.recommendProducts.map(product => (
+                        <ProductCard
+                            key={product.id}
+                            product={product}
+                        />
+                    ))}
+                </div>
+                <div className="grid grid-cols-1 lg:grid-cols-6 gap-x-4">
                     <div className="col-span-4">
+                        <div className="col-span-4 w-full">
+                            <div className="p-6">
+                                <ReviewForm productId={productId}/>
+                            </div>
+                        </div>
                         <div className="border border-e-[3px] border-b-[3px] rounded-sm bg-card-primary">
                             <div className="p-6">
                                 <h2>Отзывы</h2>
