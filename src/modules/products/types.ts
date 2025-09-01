@@ -1,5 +1,9 @@
-import {inferRouterOutputs} from "@trpc/server";
-import {AppRouter} from "@/trpc/routers/_app";
+import {Media, Product, Tenant} from "@/payload-types";
 
-
-export type ProductsList = inferRouterOutputs<AppRouter>["products"]['getMany'];
+export function productsPopulated (product: Product){
+    return {
+        ...product,
+        image: product.image as Media | null,
+        tenant: product.tenant as Tenant & {image: Media | null},
+    }
+}

@@ -26,6 +26,10 @@ const Page = async ({params}: Props) => {
         productId: productId,
     }))
 
+    void queryClient.prefetchInfiniteQuery(trpc.reviews.getMany.infiniteQueryOptions({
+        productId: productId
+    }))
+
     return (
         <HydrationBoundary state={dehydrate(queryClient)}>
             <Suspense fallback={<ProductViewLoading/>}>

@@ -89,7 +89,10 @@ export const reviewsRouter = createTRPCRouter({
                 }
             })
 
-            return reviews.docs as (Review & { user: User })[]
+            return {
+                ...reviews,
+                docs: reviews.docs as (Review & { user: User })[]
+            }
         }),
 
     upsert: protectedProcedure

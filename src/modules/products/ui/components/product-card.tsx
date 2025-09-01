@@ -5,71 +5,59 @@ import "@/components/styles/brutal.css"
 import {useRouter} from "next/navigation";
 import {formatCurrency, generateTenantURL} from "@/lib/utils";
 import {reviewCountToText} from "@/modules/utils/reviewsUtils";
+import {Product} from "@/payload-types";
+import {productsPopulated} from "@/modules/products/types";
 
 interface ProductCardProps {
-    id: string;
-    name: string;
-    imageUrl?: string | null;
-    tenantSlug: string;
-    tenantImageUrl?: string | null;
-    reviewRating: number;
-    reviewCount: number;
-    price: number;
-    oldPrice?: number | null | undefined;
+    product: Product
 }
 
 export const ProductCard = ({
-    id,
-    name,
-    imageUrl,
-    tenantSlug,
-    tenantImageUrl,
-    reviewRating,
-    reviewCount,
-    price,
-    oldPrice,
+    product,
 } : ProductCardProps) => {
 
     const router = useRouter()
+
+    const prod = productsPopulated(product);
 
     const handleUserClick = (event: React.MouseEvent<HTMLDivElement>) => {
         event.preventDefault();
         event.stopPropagation();
 
-        router.push(generateTenantURL(tenantSlug))
+        router.push(generateTenantURL(prod.tenant.slug))
     }
 
     return (
-            <Link href={`${generateTenantURL(tenantSlug)}/products/${id}`}>
+            <Link href={`${generateTenantURL(prod.tenant.slug)}/products/${prod.id}`}>
                 <div className="brutal-hover-shadow transition-shadow border rounded-md bg-card-primary overflow-hidden h-full flex flex-col">
                     <div className="relative aspect-square">
                         <Image
-                            alt={name}
+                            alt={prod.name}
                             fill
-                            src={imageUrl || "/placeholder.png"}
+                            src={prod.image?.url || "/placeholder.png"}
                             className="object-cover"/>
                     </div>
                     <div className="p-4 border-y flex flex-col gap-3 flex-1">
-                            <h2 className="text-sm font-medium line-clamp-1">{name}</h2>
+                            <h2 className="text-sm font-medium line-clamp-1">{prod.name}</h2>
                         <div className="flex items-center gap-2" onClick={handleUserClick}>
-                            {tenantImageUrl && (
+                            {prod.tenant.image?.url && (
                                 <Image
-                                    src={tenantImageUrl}
-                                    alt={tenantSlug}
+                                    src={prod.tenant.image?.url}
+                                    alt={prod.tenant.slug}
                                     width={24}
                                     height={24}
                                     className="rounded-full border shrink-0 size-[24px]"/>
                             )}
-                            <p className="text-sm underline font-medium">{tenantSlug}</p>
+                            <p className="text-sm underline font-medium">{prod.tenant.slug}</p>
                         </div>
-                        {reviewCount > 0 && (
+                        {prod.ratingCount > 0 && (
                             <div className="flex items-center gap-1">
                                 <StarIcon className="size-3.5 fill-black"/>
                                 <span className="text-sm font-medium">
-                                    {reviewRating}
+                                    {prod.totalRating}
                                 </span>
                                 <span className="text-sm text-muted-foreground">
-                                    · {reviewCount} {reviewCountToText(reviewCount)}
+                                    · {prod.ratingCount} {reviewCountToText(prod.ratingCount)}
                                 </span>
                             </div>
                         )}
@@ -77,13 +65,13 @@ export const ProductCard = ({
                     <div className="p-4 flex flex-row gap-2 items-center">
                         <div className="relative px-2 py-1 border bg-blue-400 w-fit">
                             <span className="text-sm font-medium">
-                                {formatCurrency(price)}
+                                {formatCurrency(prod.price)}
                             </span>
                         </div>
                         {
-                            oldPrice && (
+                            prod.oldPrice && (
                                 <span className="text-lg text-muted-foreground line-through">
-                                    {formatCurrency(oldPrice)}
+                                    {formatCurrency(prod.oldPrice)}
                                 </span>
                             )
                         }

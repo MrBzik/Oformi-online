@@ -1,7 +1,7 @@
 "use client"
 
 import {useTRPC} from "@/trpc/client";
-import {useSuspenseQuery} from "@tanstack/react-query";
+import {useSuspenseInfiniteQuery, useSuspenseQuery} from "@tanstack/react-query";
 import {cn, formatCurrency} from "@/lib/utils";
 import {StarRating} from "@/components/star-rating";
 import {StarIcon} from "lucide-react";
@@ -26,6 +26,15 @@ export const ProductView = ({productId, tenantSlug} : Props) => {
     const {data} = useSuspenseQuery(trpc.products.getOne.queryOptions({
         id: productId,
     }))
+
+    const {data: reviews} = useSuspenseInfiniteQuery(trpc.reviews.getMany.infiniteQueryOptions({
+        productId: data.id,
+    },
+        {
+            getNextPageParam : (lastPage) => {
+                return lastPage.docs.length > 0 ? lastPage.nextPage : undefined;
+            }
+        }))
 
     const [isCopied, setIsCopied] = useState(false);
 
@@ -120,22 +129,25 @@ export const ProductView = ({productId, tenantSlug} : Props) => {
                             <div className="p-6">
                                 <h2>Отзывы</h2>
                             </div>
-                            {/*{*/}
-                            {/*    data.reviews.map((review) => (*/}
-                            {/*        <div*/}
-                            {/*            key={review.id}*/}
-                            {/*            className="p-6 flex flex-col gap-2 border-t">*/}
-                            {/*            <div className="flex flex-row justify-between">*/}
-                            {/*                <p className="font-semibold">{review.user.username}</p>*/}
-                            {/*                <StarRating*/}
-                            {/*                    rating={review.rating}*/}
-                            {/*                    iconClassName="size-3"*/}
-                            {/*                />*/}
-                            {/*            </div>*/}
-                            {/*            <p className="font-medium">{review.description}</p>*/}
-                            {/*        </div>*/}
-                            {/*    ))*/}
-                            {/*}*/}
+                            { reviews.pages?.[0]?.docs.length ===0 ? (
+                                <p className="p-6 text-muted-foreground">
+                                    У этой улсуги пока нет отзывов
+                                </p>) :
+                                reviews.pages.flatMap((page) => page.docs).map((review) => (
+                                    <div
+                                        key={review.id}
+                                        className="p-6 flex flex-col gap-2 border-t">
+                                        <div className="flex flex-row justify-between">
+                                            <p className="font-semibold">{review.user.username}</p>
+                                            <StarRating
+                                                rating={review.rating}
+                                                iconClassName="size-3"
+                                            />
+                                        </div>
+                                        <p className="font-medium">{review.description}</p>
+                                    </div>
+                                ))
+                            }
                         </div>
                     </div>
                 </div>
