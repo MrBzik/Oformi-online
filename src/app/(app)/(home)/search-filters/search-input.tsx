@@ -30,14 +30,6 @@ export const SearchInput = (
     const trpc = useTRPC()
     const session = useQuery(trpc.auth.session.queryOptions())
 
-    useEffect(() => {
-        const timeoutId = setTimeout(() => {
-            onChange?.(searchValue);
-        }, 1000);
-
-        return () => clearTimeout(timeoutId);
-    }, [searchValue, onChange])
-
     return (
         <div className="flex items-center gap-2 w-full">
             <CategoriesSidebar isOpen={isSidebarOpen} onOpenChange={setIsSidebarOpen} data={data}/>
@@ -52,10 +44,9 @@ export const SearchInput = (
                 />
             </div>
             <Button
-                disabled={searchValue === ""}
                 className="size-12 shrink-0 flex"
-                onClick={() => setSearchValue("")}>
-                <DeleteIcon/>
+                onClick={() => onChange?.(searchValue)}>
+                <SearchIcon/>
             </Button>
             <Button
              className="size-12 shrink-0 flex"

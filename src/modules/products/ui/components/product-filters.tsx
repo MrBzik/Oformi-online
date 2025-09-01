@@ -4,7 +4,7 @@ import {useState} from "react";
 import {ChevronDownIcon, ChevronRightIcon} from "lucide-react";
 import {cn} from "@/lib/utils";
 import {PriceFilter} from "@/modules/products/ui/components/price-filter";
-import {useProductFilters} from "@/modules/products/hooks/use-product-filters";
+import {useProductSideFilters} from "@/modules/products/hooks/use-product-filters";
 import {TagsFilter} from "@/modules/products/ui/components/tags-filter";
 
 interface ProductFilterProps {
@@ -41,10 +41,9 @@ interface Props {
 
 export const ProductFilters = ({category} : Props) => {
 
-    const [filters, setFilters] = useProductFilters();
+    const [filters, setFilters] = useProductSideFilters();
 
-    const hasFilters = Object.entries(filters).some(([key, value]) => {
-        if(key === "sort") return false;
+    const hasFilters = Object.entries(filters).some(([, value]) => {
         if(Array.isArray(value)) {
             return value.length > 0;
         }

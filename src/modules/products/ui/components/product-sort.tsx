@@ -1,11 +1,11 @@
 "use client"
 
-import {sortValues, useProductFilters} from "@/modules/products/hooks/use-product-filters";
+import {sortValues, useProductSortFilters} from "@/modules/products/hooks/use-product-filters";
 import {Button} from "@/components/ui/button";
 import {cn} from "@/lib/utils";
 
 export const ProductSort = () => {
-    const [filters, setFilters] = useProductFilters()
+    const [{sort}, setFilters] = useProductSortFilters()
 
     return (
         <div className="flex items-center gap-2">
@@ -15,7 +15,7 @@ export const ProductSort = () => {
                 variant="secondary"
                 className={cn(
                     "rounded-full bg-white hover:bg-white",
-                    filters.sort != item && "bg-transparent border-transparent hover:border-border hover:bg-transparent",
+                    sort != item && "bg-transparent border-transparent hover:border-border hover:bg-transparent",
                 )}
                 onClick={() => setFilters({sort: item})}
                 >

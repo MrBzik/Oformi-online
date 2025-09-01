@@ -2,13 +2,7 @@ import {parseAsArrayOf, parseAsString, parseAsStringLiteral, useQueryStates} fro
 
 export const sortValues = ["новые", "популярные", "по умолчанию"] as const;
 
-export const params = {
-    search: parseAsString
-        .withOptions({
-            clearOnDefault: true
-        })
-        .withDefault(""),
-    sort: parseAsStringLiteral(sortValues).withDefault("новые"),
+export const filtersParams = {
     minPrice: parseAsString
         .withOptions({
             clearOnDefault: true
@@ -24,6 +18,27 @@ export const params = {
             clearOnDefault: true
         })
         .withDefault([]),
+}
+
+export const useProductSideFilters = () => {
+    return useQueryStates(filtersParams);
+};
+
+export const sortParams = {
+    sort: parseAsStringLiteral(sortValues).withDefault("новые"),
+}
+export const useProductSortFilters = () => {
+    return useQueryStates(sortParams);
+};
+
+export const params = {
+    search: parseAsString
+        .withOptions({
+            clearOnDefault: true
+        })
+        .withDefault(""),
+    ...sortParams,
+    ...filtersParams
 }
 
 export const useProductFilters = () => {

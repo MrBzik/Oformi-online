@@ -65,8 +65,6 @@ export const productsRouter = createTRPCRouter({
             }
 
 
-            if(input.sort )
-
             if(input.minPrice){
                 where.price = {
                     ...where.price,
