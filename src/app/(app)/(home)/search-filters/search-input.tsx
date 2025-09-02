@@ -12,7 +12,7 @@ interface Props {
     disabled?: boolean;
     defaultValue?: string | undefined;
     onChange?: (value: string) => void;
-    data: CategoriesList;
+    categories: CategoriesList;
 }
 
 export const SearchInput = (
@@ -20,7 +20,7 @@ export const SearchInput = (
         disabled,
         defaultValue,
         onChange,
-        data
+        categories
 }: Props ) => {
 
     const [searchValue, setSearchValue] = useState(defaultValue || "");
@@ -32,7 +32,7 @@ export const SearchInput = (
 
     return (
         <div className="flex items-center gap-2 w-full">
-            <CategoriesSidebar isOpen={isSidebarOpen} onOpenChange={setIsSidebarOpen} data={data}/>
+            <CategoriesSidebar isOpen={isSidebarOpen} onOpenChange={setIsSidebarOpen} data={categories}/>
             <div className="relative w-full">
                 <SearchIcon className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-neutral-500"/>
                 <Input
