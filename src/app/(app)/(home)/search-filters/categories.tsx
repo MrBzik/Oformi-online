@@ -2,9 +2,6 @@
 
 import {CategoryDropdown} from "@/app/(app)/(home)/search-filters/category-dropdown";
 import {useEffect, useRef, useState} from "react";
-import {Button} from "@/components/ui/button";
-import {cn} from "@/lib/utils";
-import {ListFilterIcon} from "lucide-react";
 import {CategoriesSidebar} from "@/app/(app)/(home)/search-filters/categories-sidebar";
 import {CategoriesList} from "@/modules/categories/types";
 import {useParams} from "next/navigation";
@@ -22,9 +19,6 @@ export const Categories = ({data} : Props) => {
 
     const categoryParam = params.category as string | undefined;
     const activeCategory = categoryParam || "all";
-
-    // const activeCategoryIndex = data.findIndex((cat) => cat.slug === activeCategory);
-    // const isActiveCategoryHidden = activeCategoryIndex >= 30 && activeCategoryIndex !== -1;
 
     const containerRef = useRef<HTMLDivElement>(null);
     const itemRefs = useRef<(HTMLDivElement | null)[]>([]);
@@ -86,15 +80,6 @@ export const Categories = ({data} : Props) => {
                         />
                     </div>
                 ))}
-                {/*<div className="shrink-0">*/}
-                {/*    <Button className={cn("h-11 px-4 bg-transparent border-transparent rounded-full hover:bg-white hover:border-primary text-black",*/}
-                {/*        isActiveCategoryHidden && !isAnyHovered && "bg-white border-primary")}*/}
-                {/*        onClick={() => setIsSidebarOpen(true)}*/}
-                {/*    >*/}
-                {/*        Больше категорий*/}
-                {/*        <ListFilterIcon className="ml-2"/>*/}
-                {/*    </Button>*/}
-                {/*</div>*/}
             </div>
         </div>
     )
