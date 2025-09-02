@@ -5,18 +5,19 @@ import {
     BreadcrumbList, BreadcrumbPage,
     BreadcrumbSeparator
 } from "@/components/ui/breadcrumb";
-import Link from "next/link";
 
 interface Props {
     activeCategory? : string | null;
     activeCategoryName? : string | null;
     activeSubcategoryName ? : string | null;
+    onNavigate: (categorySlug: string) => void;
 }
 
 export const BreadcrumbNavigation = ({
       activeCategory,
       activeCategoryName,
-      activeSubcategoryName
+      activeSubcategoryName,
+      onNavigate,
 }: Props) => {
     if (!activeCategoryName) return (
         <Breadcrumb>
@@ -35,8 +36,11 @@ export const BreadcrumbNavigation = ({
                 {activeSubcategoryName ? (
                     <>
                         <BreadcrumbItem>
-                            <BreadcrumbLink asChild className="text-xl font-medium underline text-primary">
-                                <Link href={`/${activeCategory}`}>{activeCategoryName}</Link>
+                            <BreadcrumbLink
+                                asChild
+                                className="text-xl font-medium underline text-primary cursor-pointer"
+                                onClick={() => onNavigate(activeCategory!)}>
+                                <span>{activeCategoryName}</span>
                             </BreadcrumbLink>
                         </BreadcrumbItem>
                         <BreadcrumbSeparator className="text-primary font-medium text-lg">

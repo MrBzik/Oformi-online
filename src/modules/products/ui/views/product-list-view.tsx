@@ -23,7 +23,7 @@ export const ProductListView = ({
     const trpc = useTRPC();
     const { data } = useSuspenseQuery(trpc.categories.getMany.queryOptions());
 
-    const [filters] = useCategoryFilters()
+    const [filters, setFilters] = useCategoryFilters()
 
     const activeCategory = filters.category as string | undefined;
     const activeCategoryData = data.find((category) => category.slug === activeCategory) || data.find(category => category.subcategories?.some(sub => sub.slug === activeCategory));
@@ -40,9 +40,11 @@ export const ProductListView = ({
         <div className="px-4 lg:px-12 py-8 flex flex-col gap-4">
             <div className="flex flex-col lg:flex-row lg:items-center gap-y-2 lg:gap-y-0 justify-between">
                 <BreadcrumbNavigation
-                    activeCategory={activeCategory}
+                    activeCategory={activeCategoryData?.slug}
                     activeCategoryName={activeCategoryName}
-                    activeSubcategoryName={activeSubcategoryName}/>
+                    activeSubcategoryName={activeSubcategoryName}
+                    onNavigate={(category) => setFilters({category: category})}
+                />
                 <ProductSort/>
             </div>
             <div className="grid grid-cols-1 lg:grid-cols-6 xl:grid-cols-8 gap-y-6 gap-x-12">
