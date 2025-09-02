@@ -126,5 +126,50 @@ export const productsRouter = createTRPCRouter({
                     tenant: doc.tenant as Tenant & {image: Media | null},
                 }))
             }
-        })
+        }),
+
+    getSuggestions: baseProcedure
+        .input(z.object({
+            search: z.string().nullable().optional(),
+        })).query(async ( { ctx, input }) => {
+
+                if(!input.search || input.search.length < 1){
+                    return null
+                }
+
+                const data = await ctx.payload.find({
+                    collection: "products",
+                    depth: 2,
+                    limit: 5,
+                    pagination: false,
+                    where: {
+                        and: [
+                            {
+                                name: {
+                                    like: input.search
+                                },
+                            },
+                            {
+                                isArchived: {
+                                    not_equals: true
+                                }
+                            }
+                        ]
+                    },
+                    populate: {
+                        products: {},
+                        tenants: {},
+                    }
+                })
+
+                return {
+                    ...data,
+                    docs: data.docs.map(doc => ({
+                        ...doc,
+                        category: doc.category as Category | null
+                    }))
+                }
+            }
+        )
+
 })

@@ -1,12 +1,13 @@
 import {BookmarkCheckIcon, ListFilterIcon, SearchIcon} from "lucide-react";
 import {Input} from "@/components/ui/input";
 import {CategoriesSidebar} from "@/app/(app)/(home)/search-filters/categories-sidebar";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {Button} from "@/components/ui/button";
 import {CategoriesList} from "@/modules/categories/types";
 import {useTRPC} from "@/trpc/client";
 import {useQuery} from "@tanstack/react-query";
 import Link from "next/link";
+import {SearchSuggestions} from "@/app/(app)/(home)/search-filters/search-suggestions";
 
 interface Props {
     disabled?: boolean;
@@ -23,12 +24,32 @@ export const SearchInput = (
         categories
 }: Props ) => {
 
+
+
     const [searchValue, setSearchValue] = useState(defaultValue || "");
+    const [searchDebounced, setSearchDebounced] = useState("");
 
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
     const trpc = useTRPC()
     const session = useQuery(trpc.auth.session.queryOptions())
+
+    const {data : suggestions} = useQuery(trpc.products.getSuggestions.queryOptions({
+        search: searchDebounced
+    }))
+
+    useEffect(() => {
+        const handler = setTimeout(() => {
+            if(searchValue != defaultValue){
+                setSearchDebounced(searchValue)
+            }
+        }, 1000)
+
+        return () => {
+            clearTimeout(handler)
+        }
+
+    }, [searchValue])
 
     return (
         <div className="flex items-center gap-2 w-full">
@@ -41,6 +62,16 @@ export const SearchInput = (
                     disabled={disabled}
                     value={searchValue}
                     onChange={(e) => setSearchValue(e.target.value)}
+                />
+                <SearchSuggestions
+                    suggestions={suggestions}
+                    onClose={() => setSearchDebounced("")}
+                    onSuggestionClick={(el) => {
+                        console.log(el)
+                        setSearchDebounced("")
+                        setSearchValue(el.productName)
+                        onChange?.(el.productName)
+                    }}
                 />
             </div>
             <Button
