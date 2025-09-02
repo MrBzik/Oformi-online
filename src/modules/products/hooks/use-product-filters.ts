@@ -31,6 +31,18 @@ export const useProductSortFilters = () => {
     return useQueryStates(sortParams);
 };
 
+export const categoryParams = {
+    category: parseAsString
+        .withOptions({
+            clearOnDefault: true,
+        })
+        .withDefault(""),
+}
+
+export const useCategoryFilters = () => {
+    return useQueryStates(categoryParams)
+}
+
 export const params = {
     search: parseAsString
         .withOptions({
@@ -38,10 +50,10 @@ export const params = {
         })
         .withDefault(""),
     ...sortParams,
-    ...filtersParams
+    ...filtersParams,
+    ...categoryParams
 }
 
 export const useProductFilters = () => {
     return useQueryStates(params);
 };
-

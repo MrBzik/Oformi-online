@@ -6,6 +6,7 @@ import {useRef, useState} from "react";
 import {SubcategoryMenu} from "./subcategory-menu";
 import Link from "next/link";
 import {CategoryItem} from "@/modules/categories/types";
+import {useCategoryFilters} from "@/modules/products/hooks/use-product-filters";
 
 interface Props {
     category: CategoryItem,
@@ -24,6 +25,7 @@ export const CategoryDropdown = (
 ) => {
     const [isOpen, setIsOpen] = useState(false);
     const dropdownRef = useRef<HTMLDivElement>(null);
+    const [, setFilters] = useCategoryFilters()
 
     const onMouseEnter = () => {
         if(category.subcategories){
@@ -44,10 +46,10 @@ export const CategoryDropdown = (
                 <Button className={cn("h-11 px-4 bg-transparent border-transparent rounded-full hover:bg-white hover:border-primary text-black",
                     isActive && !isNavigationHovered && "bg-white border-primary",
                     isOpen && "bg-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] -translate-x-[4px] -translate-y-[4px] border-primary"
-                    )}>
-                    <Link href={`/${category.slug === "all" ? "" : category.slug}`}>
-                        {category.name}
-                    </Link>
+                    )}
+                        onClick={() => setFilters({category: category.slug})}
+                >
+                    {category.name}
                 </Button>
                 {category.subcategories && category.subcategories.length > 0 && (
                     <div className={cn(

@@ -4,7 +4,7 @@ import {CategoryDropdown} from "@/app/(app)/(home)/search-filters/category-dropd
 import {useEffect, useRef, useState} from "react";
 import {CategoriesSidebar} from "@/app/(app)/(home)/search-filters/categories-sidebar";
 import {CategoriesList} from "@/modules/categories/types";
-import {useParams} from "next/navigation";
+import {useCategoryFilters} from "@/modules/products/hooks/use-product-filters";
 
 interface Props {
     data: CategoriesList
@@ -12,12 +12,12 @@ interface Props {
 
 export const Categories = ({data} : Props) => {
 
-    const params = useParams();
+    const [filters] = useCategoryFilters()
 
     const [isAnyHovered, setIsAnyHovered] = useState(false);
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
-    const categoryParam = params.category as string | undefined;
+    const categoryParam = filters.category as string | undefined;
     const activeCategory = categoryParam || "all";
 
     const containerRef = useRef<HTMLDivElement>(null);

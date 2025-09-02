@@ -118,6 +118,8 @@ export const productsRouter = createTRPCRouter({
                 }
             })
 
+            console.log(data)
+
             return {
                 ...data,
                 docs: data.docs.map(doc => ({
