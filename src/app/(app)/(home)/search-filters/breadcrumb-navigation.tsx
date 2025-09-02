@@ -18,7 +18,17 @@ export const BreadcrumbNavigation = ({
       activeCategoryName,
       activeSubcategoryName
 }: Props) => {
-    if (!activeCategoryName || activeCategory === "all") return null;
+    if (!activeCategoryName) return (
+        <Breadcrumb>
+            <BreadcrumbList>
+                <BreadcrumbItem>
+                    <BreadcrumbPage className="text-xl font-medium">
+                        Все категории
+                    </BreadcrumbPage>
+                </BreadcrumbItem>
+            </BreadcrumbList>
+        </Breadcrumb>
+    );
     return (
         <Breadcrumb>
             <BreadcrumbList>

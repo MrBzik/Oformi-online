@@ -34,8 +34,6 @@ export const CategoryDropdown = (
         setIsOpen(false);
     }
 
-    console.log(isHidden)
-
     return (
         <div className={cn("relative", isHidden && "invisible pointer-events-none")}
              ref={dropdownRef}
