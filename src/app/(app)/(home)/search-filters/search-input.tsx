@@ -12,7 +12,8 @@ import {SearchSuggestions} from "@/app/(app)/(home)/search-filters/search-sugges
 interface Props {
     disabled?: boolean;
     defaultValue?: string | undefined;
-    onChange?: (searchInput?: string, category?: string) => void;
+    onSearchChange?: (searchInput: string) => void;
+    onCategoryChange?: (category: string) => void;
     categories: CategoriesList;
 }
 
@@ -20,11 +21,10 @@ export const SearchInput = (
     {
         disabled,
         defaultValue,
-        onChange,
+        onSearchChange,
+        onCategoryChange,
         categories
 }: Props ) => {
-
-
 
     const [searchValue, setSearchValue] = useState(defaultValue || "");
     const [searchDebounced, setSearchDebounced] = useState("");
@@ -57,7 +57,7 @@ export const SearchInput = (
                 isOpen={isSidebarOpen}
                 onOpenChange={setIsSidebarOpen}
                 data={categories}
-                onCategoryPick={(categorySlug: string) => onChange?.(searchValue, categorySlug)}
+                onCategoryPick={(categorySlug: string) => onCategoryChange?.(categorySlug)}
             />
             <div className="relative w-full">
                 <SearchIcon className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-neutral-500"/>
@@ -67,6 +67,11 @@ export const SearchInput = (
                     disabled={disabled}
                     value={searchValue}
                     onChange={(e) => setSearchValue(e.target.value)}
+                    onKeyDown={(e) => {
+                        if(e.key === "Enter") {
+                            onSearchChange?.(searchValue)
+                        }
+                    }}
                 />
                 <SearchSuggestions
                     suggestions={suggestions}
@@ -74,13 +79,13 @@ export const SearchInput = (
                     onSuggestionClick={(el) => {
                         setSearchDebounced("")
                         setSearchValue(el.productName)
-                        onChange?.(el.productName, el.category.slug)
+                        onSearchChange?.(el.productName)
                     }}
                 />
             </div>
             <Button
                 className="size-12 shrink-0 flex"
-                onClick={() => onChange?.(searchValue)}>
+                onClick={() => onSearchChange?.(searchValue)}>
                 <SearchIcon/>
             </Button>
             <Button
