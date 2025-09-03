@@ -26,7 +26,7 @@ export const ProductListView = ({
     const [filters, setFilters] = useCategoryFilters()
 
     const activeCategory = filters.category as string | undefined;
-    const activeCategoryData = data.find((category) => category.slug === activeCategory) || data.find(category => category.subcategories?.some(sub => sub.slug === activeCategory));
+    const activeCategoryData = data.find((category) => category.slug === activeCategory) || data.find(category => category.subcategories?.find(sub => sub.slug === activeCategory));
     const activeCategoryName = activeCategoryData?.name || null;
 
     const activeSubcategoryName = activeCategoryData?.subcategories?.find(

@@ -17,6 +17,8 @@ export const Categories = ({data} : Props) => {
 
     const activeCategory = filters.category as string | undefined;
 
+    const activeCategoryData = data.find((category) => category.slug === activeCategory) || data.find(category => category.subcategories?.find(sub => sub.slug === activeCategory));
+
     const containerRef = useRef<HTMLDivElement>(null);
     const itemRefs = useRef<(HTMLDivElement | null)[]>([]);
 
@@ -70,7 +72,7 @@ export const Categories = ({data} : Props) => {
                     >
                         <CategoryDropdown
                             category={category}
-                            isActive={activeCategory === category.slug}
+                            isActive={activeCategoryData?.slug === category.slug}
                             isNavigationHovered={isAnyHovered}
                             isHidden={lastVisibleItem < i}
                         />
