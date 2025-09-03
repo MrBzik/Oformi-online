@@ -225,7 +225,7 @@ export interface Product {
   tenant?: (string | null) | Tenant;
   name: string;
   /**
-   * Добавте описание услуги включая изображения если необходимо
+   * Добавте описание услуги (включая изображения до 1 мб)
    */
   description: {
     root: {
@@ -263,6 +263,7 @@ export interface Product {
   twoStarsRatings: number;
   oneStarsRatings: number;
   isArchived?: boolean | null;
+  isVerified?: boolean | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -475,6 +476,7 @@ export interface ProductsSelect<T extends boolean = true> {
   twoStarsRatings?: T;
   oneStarsRatings?: T;
   isArchived?: T;
+  isVerified?: T;
   updatedAt?: T;
   createdAt?: T;
 }

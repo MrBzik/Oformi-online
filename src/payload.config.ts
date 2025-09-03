@@ -40,9 +40,14 @@ export default buildConfig({
     },
   },
   collections: [Users, Media, Categories, Products, Tags, Tenants, Reviews, Orders],
+  upload: {
+    limits: {
+      fileSize: 1000000
+    }
+  },
   editor: lexicalEditor({
     features: ({ defaultFeatures }) => [
-        ...defaultFeatures,
+        ...defaultFeatures.filter((feature) => feature.key !== "relationship"),
         HeadingFeature({ enabledHeadingSizes: ['h2', 'h3', 'h4', 'h5', 'h6'] }),
     ]
   }),

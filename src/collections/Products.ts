@@ -23,7 +23,7 @@ export const Products : CollectionConfig = {
             required: true,
             label: "Описание",
             admin: {
-                description: "Добавте описание услуги включая изображения если необходимо"
+                description: "Добавте описание услуги (включая изображения до 1 мб)"
             }
         },
         {
@@ -59,7 +59,7 @@ export const Products : CollectionConfig = {
             name: "image",
             type: "upload",
             relationTo: "media",
-            label: "Изображение в карточке товара"
+            label: "Изображение в карточк товара (до 1 мб)"
         },
         {
             name: "recommendProducts",
@@ -170,6 +170,16 @@ export const Products : CollectionConfig = {
             type: "checkbox",
             defaultValue: false,
             label: "Убрать в архив",
+        },
+        {
+            name: "isVerified",
+            type: "checkbox",
+            defaultValue: false,
+            label: "Пройдена модерация",
+            access: {
+                create : ({req}) => isSuperAdmin(req.user),
+                update : ({req}) => isSuperAdmin(req.user),
+            },
         }
     ]
 

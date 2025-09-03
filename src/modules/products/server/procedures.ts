@@ -3,7 +3,7 @@ import {z} from "zod";
 import type {Sort, Where} from "payload";
 import {sortValues} from "@/modules/products/search-params";
 import {categoryLoader} from "@/modules/utils/categoriesLoader";
-import {Category, Media, Product, Tenant} from "@/payload-types";
+import {Category, Media, Product, Tag, Tenant} from "@/payload-types";
 import {DEFAULT_LIMIT} from "@/constants";
 import {ratingToPercentage} from "@/modules/utils/reviewsUtils";
 
@@ -32,7 +32,9 @@ export const productsRouter = createTRPCRouter({
                 category: product.category as Category & { parent: Category | null },
                 image: product.image as Media | null,
                 tenant: product.tenant as Tenant & { image: Media | null },
-                recommendProducts: product.recommendProducts as (Product & {image: Media | null})[],
+                tags: product.tags as Tag[],
+                recommendProducts: (product.recommendProducts as (Product & {image: Media | null})[])
+                    ?.filter((p) => p.isVerified === true),
                 ratingDistribution,
             };
         }),
@@ -50,9 +52,18 @@ export const productsRouter = createTRPCRouter({
             tenantSlug: z.string().nullable().optional(),
         })).query(async ( { ctx, input }) => {
             const where: Where = {
-                isArchived: {
-                    not_equals: true
-                }
+                and: [
+                    {
+                        isArchived: {
+                            not_equals: true
+                        }
+                    },
+                    {
+                        isVerified: {
+                            equals: true
+                        }
+                    }
+                ]
             };
 
             let sort: Sort = "-createdAt"

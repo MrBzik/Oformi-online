@@ -1,7 +1,7 @@
 "use client"
 
 import {useTRPC} from "@/trpc/client";
-import {useSuspenseInfiniteQuery, useSuspenseQuery} from "@tanstack/react-query";
+import {useQuery, useSuspenseInfiniteQuery, useSuspenseQuery} from "@tanstack/react-query";
 import {cn, formatCurrency} from "@/lib/utils";
 import {StarRating} from "@/components/star-rating";
 import {StarIcon} from "lucide-react";
@@ -16,6 +16,7 @@ import {Button} from "@/components/ui/button";
 import {toast} from "sonner";
 import {reviewCountToText} from "@/modules/utils/reviewsUtils";
 import {ProductCard} from "@/modules/products/ui/components/product-card";
+import Link from "next/link";
 
 interface Props {
     productId: string;
@@ -27,6 +28,7 @@ export const ProductView = ({productId, tenantSlug} : Props) => {
     const {data} = useSuspenseQuery(trpc.products.getOne.queryOptions({
         id: productId,
     }))
+    const {data: session} = useQuery(trpc.auth.session.queryOptions())
 
     const {data: reviews} = useSuspenseInfiniteQuery(trpc.reviews.getMany.infiniteQueryOptions({
         productId: data.id,
@@ -87,10 +89,28 @@ export const ProductView = ({productId, tenantSlug} : Props) => {
                                             setIsCopied(false)
                                         }, 1000)
                                     }}
-                                    disabled={isCopied}
+                                    disabled={isCopied || session?.user == null}
                                 >
-                                    {"Реферальная ссылка"}
+                                    {session?.user ? "Реферальная ссылка" : "Требуется авторизация"}
                                 </Button>
+                            </div>
+                            <div className="p-6">
+                                {
+                                    data.tags?.length > 0 && (
+                                        <div className="flex flex-col gap-2">
+                                            <h4>Тэги:</h4>
+                                            <div className="flex flex-row flex-wrap gap-2 text-sm">
+                                                {data.tags?.map((tag) => (
+                                                    <span
+                                                        className="bg-card-primary p-2 rounded-lg"
+                                                        key={tag.id}>
+                                                        {tag.name}
+                                                    </span>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    )
+                                }
                             </div>
                             <div className="p-6">
                                 <div className="flex items-center gap-1">
@@ -115,21 +135,30 @@ export const ProductView = ({productId, tenantSlug} : Props) => {
                                         </Fragment>
                                     ))}
                                 </div>
+                                <Link href={"#reviews"} className="underline mt-6 block text-xl font-medium">
+                                    Читать отзывы
+                                </Link>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div className="pt-6">
-                    <h2>Смотрите также</h2>
-                </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4">
-                    {data.recommendProducts?.map(product => (
-                        <ProductCard
-                            key={product.id}
-                            product={product}
-                        />
-                    ))}
-                </div>
+                {
+                    data.recommendProducts?.length > 0 && (
+                        <>
+                            <div className="pt-6">
+                                <h2>Смотрите также</h2>
+                            </div>
+                            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4">
+                                {data.recommendProducts?.map(product => (
+                                    <ProductCard
+                                        key={product.id}
+                                        product={product}
+                                    />
+                                ))}
+                            </div>
+                        </>
+                    )
+                }
                 <div className="grid grid-cols-1 lg:grid-cols-6 gap-x-4">
                     <div className="col-span-4">
                         <div className="col-span-4 w-full">
@@ -137,7 +166,7 @@ export const ProductView = ({productId, tenantSlug} : Props) => {
                                 <ReviewForm productId={productId}/>
                             </div>
                         </div>
-                        <div className="border border-e-[3px] border-b-[3px] rounded-sm bg-card-primary">
+                        <div id="reviews" className="border border-e-[3px] border-b-[3px] rounded-sm bg-card-primary">
                             <div className="p-6">
                                 <h2>Отзывы</h2>
                             </div>
