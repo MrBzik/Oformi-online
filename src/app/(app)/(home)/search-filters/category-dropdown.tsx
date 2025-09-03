@@ -46,7 +46,13 @@ export const CategoryDropdown = (
                     isActive && !isNavigationHovered && "bg-white border-primary",
                     isOpen && "bg-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] -translate-x-[4px] -translate-y-[4px] border-primary"
                     )}
-                        onClick={() => setFilters({category: category.slug})}
+                        onClick={() => {
+                            if(isActive){
+                                setFilters({category: ""})
+                            } else {
+                                setFilters({category: category.slug})
+                            }
+                        }}
                 >
                     {category.name}
                 </Button>
