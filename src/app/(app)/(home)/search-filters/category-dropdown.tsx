@@ -4,7 +4,6 @@ import {Button} from "@/components/ui/button";
 import {cn} from "@/lib/utils";
 import {useRef, useState} from "react";
 import {SubcategoryMenu} from "./subcategory-menu";
-import Link from "next/link";
 import {CategoryItem} from "@/modules/categories/types";
 import {useCategoryFilters} from "@/modules/products/hooks/use-product-filters";
 

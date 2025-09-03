@@ -50,17 +50,15 @@ export const ProductCard = ({
                             )}
                             <p className="text-sm underline font-medium">{prod.tenant.slug}</p>
                         </div>
-                        {prod.ratingCount > 0 && (
-                            <div className="flex items-center gap-1">
-                                <StarIcon className="size-3.5 fill-black"/>
-                                <span className="text-sm font-medium">
+                        <div className="flex items-center gap-1">
+                            <StarIcon className="size-3.5 fill-black"/>
+                            <span className="text-sm font-medium">
                                     {prod.totalRating}
                                 </span>
-                                <span className="text-sm text-muted-foreground">
+                            <span className="text-sm text-muted-foreground">
                                     · {prod.ratingCount} {reviewCountToText(prod.ratingCount)}
                                 </span>
-                            </div>
-                        )}
+                        </div>
                     </div>
                     <div className="p-4 flex flex-row gap-2 items-center">
                         <div className="relative px-2 py-1 border bg-blue-400 w-fit">

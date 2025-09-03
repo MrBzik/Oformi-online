@@ -18,7 +18,7 @@ export const Categories = ({data} : Props) => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
     const categoryParam = filters.category as string | undefined;
-    const activeCategory = categoryParam || "all";
+    const activeCategory = categoryParam;
 
     const containerRef = useRef<HTMLDivElement>(null);
     const itemRefs = useRef<(HTMLDivElement | null)[]>([]);

@@ -3,10 +3,6 @@ import config from "@payload-config"
 
 const categories = [
     {
-        name: "All",
-        slug: "all",
-    },
-    {
         name: "Business & Money",
         color: "#FFB347",
         slug: "business-money",

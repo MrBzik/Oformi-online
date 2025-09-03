@@ -13,8 +13,7 @@ export const SearchFilters = () => {
 
     const [filters] = useCategoryFilters()
 
-    const categoryParams = filters.category as string | undefined;
-    const activeCategory = categoryParams || "all";
+    const activeCategory = filters.category as string | undefined;;
     const activeCategoryData = data.find(
         (category) => category.slug === activeCategory
     ) || data.flatMap((category) => category.subcategories || [])
