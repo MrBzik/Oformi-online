@@ -2,7 +2,6 @@
 
 import {CategoryDropdown} from "@/app/(app)/(home)/search-filters/category-dropdown";
 import {useEffect, useRef, useState} from "react";
-import {CategoriesSidebar} from "@/app/(app)/(home)/search-filters/categories-sidebar";
 import {CategoriesList} from "@/modules/categories/types";
 import {useCategoryFilters} from "@/modules/products/hooks/use-product-filters";
 
@@ -15,10 +14,8 @@ export const Categories = ({data} : Props) => {
     const [filters] = useCategoryFilters()
 
     const [isAnyHovered, setIsAnyHovered] = useState(false);
-    const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
-    const categoryParam = filters.category as string | undefined;
-    const activeCategory = categoryParam;
+    const activeCategory = filters.category as string | undefined;
 
     const containerRef = useRef<HTMLDivElement>(null);
     const itemRefs = useRef<(HTMLDivElement | null)[]>([]);
@@ -63,7 +60,6 @@ export const Categories = ({data} : Props) => {
 
     return (
         <div className="relative w-full">
-            <CategoriesSidebar isOpen={isSidebarOpen} onOpenChange={setIsSidebarOpen} data={data}/>
             <div ref={containerRef}
                 onMouseEnter={() => setIsAnyHovered(true)}
                 onMouseLeave={() => setIsAnyHovered(false)}
