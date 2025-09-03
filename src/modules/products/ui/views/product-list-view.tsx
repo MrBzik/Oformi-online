@@ -2,7 +2,7 @@
 
 import {ProductSort} from "@/modules/products/ui/components/product-sort";
 import {ProductFilters} from "@/modules/products/ui/components/product-filters";
-import {Suspense} from "react";
+import {Suspense, useEffect} from "react";
 import {ProductList, ProductListLoading} from "@/modules/products/ui/components/product-list";
 import {useTRPC} from "@/trpc/client";
 import {useSuspenseQuery} from "@tanstack/react-query";
@@ -35,6 +35,14 @@ export const ProductListView = ({
     )?.name || null;
 
     const isDisplayFilters = filters.category || filters.search;
+
+    console.log("RERENDER")
+
+    useEffect(() => {
+        if(!filters.category && !filters.search){
+            setFilters({maxPrice: "", minPrice: "", tags: []})
+        }
+    }, [filters.search, filters.category])
 
     return (
         <div className="px-4 lg:px-12 py-8 flex flex-col gap-4">

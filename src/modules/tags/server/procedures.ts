@@ -1,6 +1,6 @@
 import {baseProcedure, createTRPCRouter} from "@/trpc/init";
 import {z} from "zod";
-import {DEFAULT_LIMIT, DEFAULT_LIMIT_REVIEWS, DEFAULT_LIMIT_TAGS} from "@/constants";
+import {DEFAULT_LIMIT_TAGS} from "@/constants";
 import type {Where} from "payload";
 import {categoryLoader} from "@/modules/utils/categoriesLoader";
 

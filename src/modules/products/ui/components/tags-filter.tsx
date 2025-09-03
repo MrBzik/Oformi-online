@@ -1,6 +1,6 @@
 import {useTRPC} from "@/trpc/client";
 import {useInfiniteQuery} from "@tanstack/react-query";
-import {DEFAULT_LIMIT} from "@/constants";
+import {DEFAULT_LIMIT_TAGS} from "@/constants";
 import {LoaderIcon} from "lucide-react";
 import {Checkbox} from "@/components/ui/checkbox";
 
@@ -25,7 +25,7 @@ export const TagsFilter = ({
     } = useInfiniteQuery(trpc.tags.getMany.infiniteQueryOptions(
         {
             category: category,
-            limit: DEFAULT_LIMIT
+            limit: DEFAULT_LIMIT_TAGS
         },
         {
             getNextPageParam : (lastPage) => {

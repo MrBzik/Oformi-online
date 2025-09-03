@@ -4,7 +4,7 @@ import {useTRPC} from "@/trpc/client";
 import {useSuspenseInfiniteQuery} from "@tanstack/react-query";
 import {useProductFilters} from "@/modules/products/hooks/use-product-filters";
 import {ProductCard, ProductCardLoading} from "@/modules/products/ui/components/product-card";
-import {DEFAULT_LIMIT} from "@/constants";
+import {DEFAULT_LIMIT_PRODUCTS} from "@/constants";
 import {LoaderIcon} from "lucide-react";
 import InfiniteScroll from "@/components/ui/infinite-scroll";
 import {cn} from "@/lib/utils";
@@ -32,7 +32,7 @@ export const ProductList = ({
         fetchNextPage,
     } = useSuspenseInfiniteQuery(trpc.products.getMany.infiniteQueryOptions(
         {
-            limit: DEFAULT_LIMIT,
+            limit: DEFAULT_LIMIT_PRODUCTS,
             tenantSlug: tenantSlug,
             ...filers
         },
@@ -78,7 +78,7 @@ export const ProductListLoading = ({narrowView}: Props) => {
     return (
         <div className={cn("grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4",
             narrowView && "lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-3",)}>
-            {Array.from({length: DEFAULT_LIMIT}).map((_, index) => (
+            {Array.from({length: DEFAULT_LIMIT_PRODUCTS}).map((_, index) => (
                 <ProductCardLoading key={index}/>
             ))}
         </div>

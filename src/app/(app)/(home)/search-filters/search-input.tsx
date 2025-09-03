@@ -80,6 +80,7 @@ export const SearchInput = (
                         setSearchDebounced("")
                         setSearchValue(el.productName)
                         onSearchChange?.(el.productName)
+                        onCategoryChange?.(el.category.slug)
                     }}
                 />
             </div>

@@ -4,7 +4,7 @@ import type {Sort, Where} from "payload";
 import {sortValues} from "@/modules/products/search-params";
 import {categoryLoader} from "@/modules/utils/categoriesLoader";
 import {Category, Media, Product, Tag, Tenant} from "@/payload-types";
-import {DEFAULT_LIMIT} from "@/constants";
+import {DEFAULT_LIMIT_PRODUCTS} from "@/constants";
 import {ratingToPercentage} from "@/modules/utils/reviewsUtils";
 
 export const productsRouter = createTRPCRouter({
@@ -42,7 +42,7 @@ export const productsRouter = createTRPCRouter({
     getMany: baseProcedure
         .input(z.object({
             cursor: z.number().default(1),
-            limit: z.number().default(DEFAULT_LIMIT),
+            limit: z.number().default(DEFAULT_LIMIT_PRODUCTS),
             search: z.string().nullable().optional(),
             category: z.string().nullable().optional(),
             minPrice: z.string().nullable().optional(),
@@ -70,10 +70,6 @@ export const productsRouter = createTRPCRouter({
 
             if (input.sort === "популярные"){
                 sort = "+createdAt"
-            }
-
-            if(input.sort === "по умолчанию") {
-                sort = "name"
             }
 
 

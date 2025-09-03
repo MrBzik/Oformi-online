@@ -1,5 +1,5 @@
 import {parseAsArrayOf, createLoader, parseAsString, parseAsStringLiteral} from "nuqs/server";
-export const sortValues = ["новые", "популярные", "по умолчанию"] as const;
+export const sortValues = ["новые", "популярные", "дешевле", "дороже", "по рейтингу"] as const;
 
 const params = {
     category: parseAsString

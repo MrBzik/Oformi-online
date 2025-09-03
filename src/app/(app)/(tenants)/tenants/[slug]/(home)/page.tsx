@@ -1,7 +1,7 @@
 import type {SearchParams} from "nuqs/server"
 import {loadProductFilters} from "@/modules/products/search-params";
 import {getQueryClient, trpc} from "@/trpc/server";
-import {DEFAULT_LIMIT} from "@/constants";
+import {DEFAULT_LIMIT_PRODUCTS} from "@/constants";
 import {dehydrate, HydrationBoundary} from "@tanstack/react-query";
 import {ProductListView} from "@/modules/products/ui/views/product-list-view";
 
@@ -21,7 +21,7 @@ const Page = async ({
     void queryClient.prefetchInfiniteQuery(trpc.products.getMany.infiniteQueryOptions({
         tenantSlug: slug,
         ...filters,
-        limit: DEFAULT_LIMIT
+        limit: DEFAULT_LIMIT_PRODUCTS
     }))
 
     return (
