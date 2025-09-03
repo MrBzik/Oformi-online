@@ -29,8 +29,6 @@ export const ProductListView = ({
     const activeCategoryData = data.find((category) => category.slug === activeCategory) || data.find(category => category.subcategories?.some(sub => sub.slug === activeCategory));
     const activeCategoryName = activeCategoryData?.name || null;
 
-    console.log(activeCategoryData)
-
     const activeSubcategoryName = activeCategoryData?.subcategories?.find(
         (subcategory) => subcategory.slug === activeCategory
     )?.name || null;

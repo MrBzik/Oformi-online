@@ -4,8 +4,8 @@ import {Sheet, SheetContent, SheetHeader, SheetTitle} from "@/components/ui/shee
 import {ScrollArea} from "@/components/ui/scroll-area";
 import {useState} from "react";
 import {ChevronLeftIcon, ChevronRightIcon} from "lucide-react";
-import {useRouter} from "next/navigation";
 import {CategoriesList, CategoryItem} from "@/modules/categories/types";
+import {useCategoryFilters} from "@/modules/products/hooks/use-product-filters";
 
 interface Props {
     isOpen: boolean;
@@ -15,7 +15,7 @@ interface Props {
 
 export const CategoriesSidebar = (
     { isOpen, onOpenChange, data } : Props) => {
-    const router = useRouter()
+    const [, setCategory] = useCategoryFilters()
 
     const [parentCategories, setParentCategories] = useState<CategoriesList | null>(null);
     const [selectedCategory, setSelectedCategory] = useState<CategoryItem | null>(null);
@@ -33,15 +33,7 @@ export const CategoriesSidebar = (
             setParentCategories(category.subcategories as CategoriesList);
             setSelectedCategory(category)
         } else {
-            if (parentCategories && selectedCategory) {
-                router.push(`${selectedCategory.slug}/${category.slug}`);
-            } else {
-                if (category.slug === "all") {
-                    router.push("/");
-                } else {
-                    router.push(`/${category.slug}`);
-                }
-            }
+            setCategory({category: category.slug})
             handleOpenChange(false);
         }
     }

@@ -57,8 +57,9 @@ export const Navbar = () => {
             <SearchInput
                 categories={data}
                 defaultValue={filters.search}
-                onChange={(value) => setFilters({
-                    search: value,
+                onChange={(searchInput, category) => setFilters({
+                    search: searchInput,
+                    category: category
                 })}
             />
 

@@ -12,7 +12,7 @@ import {SearchSuggestions} from "@/app/(app)/(home)/search-filters/search-sugges
 interface Props {
     disabled?: boolean;
     defaultValue?: string | undefined;
-    onChange?: (value: string) => void;
+    onChange?: (searchInput: string, category?: string) => void;
     categories: CategoriesList;
 }
 
@@ -67,10 +67,9 @@ export const SearchInput = (
                     suggestions={suggestions}
                     onClose={() => setSearchDebounced("")}
                     onSuggestionClick={(el) => {
-                        console.log(el)
                         setSearchDebounced("")
                         setSearchValue(el.productName)
-                        onChange?.(el.productName)
+                        onChange?.(el.productName, el.category.slug)
                     }}
                 />
             </div>

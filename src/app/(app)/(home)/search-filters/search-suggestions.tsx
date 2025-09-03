@@ -1,6 +1,7 @@
 import {SuggestionsList} from "@/modules/products/types";
 import {useEffect, useRef} from "react";
 import {Category} from "@/payload-types";
+import {DEFAULT_BG_COLOR} from "@/modules/home/constants";
 
 interface Props {
     suggestions?: SuggestionsList;
@@ -47,7 +48,7 @@ export const SearchSuggestions = ({
                  left: 0,
              }}>
             <div className="h-3 w-60"/>
-            <div style={{background: "#F5F5F5"}}
+            <div style={{background: DEFAULT_BG_COLOR}}
                  className="w-fit text-black rounded-md overflow-hidden border shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] -translate-x-[2px] -translate-y-[2px] cursor-pointer">
                 <div>
                     {suggestions?.docs?.map((suggestion) => (
