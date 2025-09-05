@@ -20,6 +20,10 @@ const Page = async ({params}: Props) => {
         productId: productId,
     }))
 
+    void queryClient.prefetchQuery(trpc.favourite.getOne.queryOptions({
+        productId: productId
+    }))
+
     void queryClient.prefetchQuery(trpc.auth.session.queryOptions())
 
     void queryClient.prefetchQuery(trpc.reviews.getOne.queryOptions({

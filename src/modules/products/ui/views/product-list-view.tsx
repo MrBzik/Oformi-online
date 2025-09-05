@@ -7,7 +7,7 @@ import {ProductList, ProductListLoading} from "@/modules/products/ui/components/
 import {useTRPC} from "@/trpc/client";
 import {useSuspenseQuery} from "@tanstack/react-query";
 import {BreadcrumbNavigation} from "@/app/(app)/(home)/search-filters/breadcrumb-navigation";
-import {useCategoryFilters, useProductFilters} from "@/modules/products/hooks/use-product-filters";
+import {useProductFilters} from "@/modules/products/hooks/use-product-filters";
 import {cn} from "@/lib/utils";
 
 interface Props {
@@ -36,8 +36,6 @@ export const ProductListView = ({
 
     const isDisplayFilters = filters.category || filters.search;
 
-    console.log("RERENDER")
-
     useEffect(() => {
         if(!filters.category && !filters.search){
             setFilters({maxPrice: "", minPrice: "", tags: []})
@@ -65,11 +63,11 @@ export const ProductListView = ({
                 <div className={cn("lg:col-span-4 xl:col-span-6",
                     !isDisplayFilters && "lg:col-span-6 xl:col-span-8"
                     )}>
-                    <Suspense fallback={<ProductListLoading narrowView={narrowView }/>}>
+                    <Suspense fallback={<ProductListLoading narrowView={narrowView}/>}>
                         <ProductList
                             tenantSlug={tenantSlug}
                             narrowView={narrowView}
-                            videView={!isDisplayFilters}
+                            wideView={!isDisplayFilters}
                         />
                     </Suspense>
                 </div>

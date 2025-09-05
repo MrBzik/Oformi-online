@@ -17,6 +17,7 @@ import {toast} from "sonner";
 import {reviewCountToText} from "@/modules/utils/reviewsUtils";
 import {ProductCard} from "@/modules/products/ui/components/product-card";
 import Link from "next/link";
+import {ProductAddToFavourite} from "@/modules/products/ui/components/product-favourite";
 
 interface Props {
     productId: string;
@@ -73,9 +74,8 @@ export const ProductView = ({productId, tenantSlug} : Props) => {
                                         )
                                     }
                                 </div>
-                                <div className="flex flex-row items-center gap-2">
-                                    <ProductOrder productId={productId} isArchived={data.isArchived ?? false}/>
-                                </div>
+                                <ProductOrder productId={productId} isArchived={data.isArchived ?? false}/>
+                                <ProductAddToFavourite productId={productId} isArchived={data.isArchived ?? false}/>
                                 <p className="font-medium">
                                     {`Зарабатывай с программой лояльности:`}
                                 </p>

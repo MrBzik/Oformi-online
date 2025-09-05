@@ -1,4 +1,4 @@
-import {BookmarkCheckIcon, ListFilterIcon, SearchIcon} from "lucide-react";
+import {HeartIcon, ListFilterIcon, SearchIcon} from "lucide-react";
 import {Input} from "@/components/ui/input";
 import {CategoriesSidebar} from "@/app/(app)/(home)/search-filters/categories-sidebar";
 import {useEffect, useState} from "react";
@@ -96,8 +96,8 @@ export const SearchInput = (
             </Button>
             {session.data?.user && (
                 <Button asChild>
-                    <Link href="/library">
-                        <BookmarkCheckIcon/>
+                    <Link href="/favourite">
+                        <HeartIcon/>
                         Избранное
                     </Link>
                 </Button>

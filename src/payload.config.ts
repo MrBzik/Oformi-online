@@ -19,6 +19,7 @@ import {Reviews} from "@/collections/Reviews";
 import {Orders} from "@/collections/Orders";
 import {isSuperAdmin} from "@/lib/access";
 import {resendAdapter} from "@payloadcms/email-resend";
+import {Favourite} from "@/collections/Favourite";
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -39,7 +40,7 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
   },
-  collections: [Users, Media, Categories, Products, Tags, Tenants, Reviews, Orders],
+  collections: [Users, Media, Categories, Products, Tags, Tenants, Reviews, Orders, Favourite],
   upload: {
     limits: {
       fileSize: 1000000

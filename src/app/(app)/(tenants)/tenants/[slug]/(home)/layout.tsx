@@ -1,5 +1,5 @@
-import {Navbar, NavbarLoading} from "@/modules/tenants/ui/components/navbar";
-import {Footer} from "@/modules/tenants/ui/components/footer";
+import {Navbar, NavbarLoading} from "@/modules/shared/ui/components/navbar";
+import {Footer} from "@/modules/shared/ui/components/footer";
 import {getQueryClient, trpc} from "@/trpc/server";
 import {dehydrate, HydrationBoundary} from "@tanstack/react-query";
 import {Suspense} from "react";
@@ -22,7 +22,7 @@ const Layout = async ({children, params} : LayoutProps) => {
         <div className="min-h-screen flex flex-col bg-bg-secondary ">
             <HydrationBoundary state={dehydrate(queryClient)}>
                 <Suspense fallback={<NavbarLoading/>}>
-                    <Navbar slug={slug}/>
+                    <Navbar tenantSlug={slug}/>
                 </Suspense>
             </HydrationBoundary>
             <div className="flex-1 border-[2px] border-e-[4px] border-b-[4px] rounded-xl mx-12 bg-bg-primary">

@@ -12,7 +12,7 @@ export const Footer = () => {
         <footer className="h-20 font-medium bg-bg-secondary">
             <div className="max-w-(--breakpoint-xl) mx-auto flex items-center h-full px-4 lg:px-12">
                 <Link href="/">
-                    <span className={cn("text-2xl font-semibold", poppins.className)}>
+                    <span className={cn("text-lg font-semibold", poppins.className)}>
                         Оформи онлайн
                     </span>
                 </Link>
