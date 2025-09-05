@@ -27,6 +27,10 @@ export const ProductCard = ({
         router.push(generateTenantURL(prod.tenant.slug))
     }
 
+    if(!prod.name){
+        return null
+    }
+
     return (
             <Link href={`${generateTenantURL(prod.tenant.slug)}/products/${prod.id}`}>
                 <div className="brutal-hover-shadow transition-shadow border rounded-md bg-card-primary overflow-hidden h-full flex flex-col">

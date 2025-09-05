@@ -18,17 +18,19 @@ const Layout = async ({ children }: Props) => {
     );
 
     return (
-        <div className="flex flex-col min-h-screen bg-bg-secondary">
-            <Navbar/>
-            <div className="flex-1 mx-8 border-[2px_4px_4px_2px] rounded-xl overflow-hidden bg-bg-primary">
-                <HydrationBoundary state={dehydrate(queryClient)}>
-                    <Suspense fallback={<SearchFiltersLoading/>}>
-                        <SearchFilters/>
-                    </Suspense>
-                </HydrationBoundary>
-                {children}
+        <div className="bg-bg-secondary">
+            <div className="max-w-(--breakpoint-2xl) mx-auto flex flex-col min-h-screen">
+                <Navbar/>
+                <div className="flex-1 mx-8 border-[2px_4px_4px_2px] rounded-xl overflow-hidden bg-bg-primary">
+                    <HydrationBoundary state={dehydrate(queryClient)}>
+                        <Suspense fallback={<SearchFiltersLoading/>}>
+                            <SearchFilters/>
+                        </Suspense>
+                    </HydrationBoundary>
+                    {children}
+                </div>
+                <Footer/>
             </div>
-            <Footer/>
         </div>
     )
 }
