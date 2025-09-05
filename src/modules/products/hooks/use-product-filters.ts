@@ -1,6 +1,5 @@
 import {parseAsArrayOf, parseAsString, parseAsStringLiteral, useQueryStates} from "nuqs";
-
-export const sortValues = ["новые", "популярные", "дешевле", "дороже", "по рейтингу"] as const;
+import {sortValues} from "@/modules/products/search-params";
 
 export const filtersParams = {
     minPrice: parseAsString
@@ -25,7 +24,7 @@ export const useProductSideFilters = () => {
 };
 
 export const sortParams = {
-    sort: parseAsStringLiteral(sortValues).withDefault("новые"),
+    sort: parseAsStringLiteral(sortValues).withDefault("популярные"),
 }
 export const useProductSortFilters = () => {
     return useQueryStates(sortParams);

@@ -1,5 +1,5 @@
 import {parseAsArrayOf, createLoader, parseAsString, parseAsStringLiteral} from "nuqs/server";
-export const sortValues = ["новые", "популярные", "дешевле", "дороже", "по рейтингу"] as const;
+export const sortValues = ["популярные", "по рейтингу", "дешевле", "дороже"] as const;
 
 const params = {
     category: parseAsString
@@ -12,7 +12,7 @@ const params = {
             clearOnDefault: true
         })
         .withDefault(""),
-    sort: parseAsStringLiteral(sortValues).withDefault("новые"),
+    sort: parseAsStringLiteral(sortValues).withDefault("популярные"),
     minPrice: parseAsString
         .withOptions({
             clearOnDefault: true

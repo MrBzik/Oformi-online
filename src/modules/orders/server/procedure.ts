@@ -53,9 +53,16 @@ export const ordersRouter  = createTRPCRouter({
             })
         ).mutation(async ({input, ctx}) => {
 
+            const transactionID = await ctx.payload.db.beginTransaction()
+
+            if(transactionID === null){
+                throw new TRPCError({code: "INTERNAL_SERVER_ERROR"})
+            }
+
             const product = await ctx.payload.findByID({
                 collection: "products",
-                id: input.productId
+                id: input.productId,
+                req: {transactionID}
             })
 
             if (!product){
@@ -78,6 +85,15 @@ export const ordersRouter  = createTRPCRouter({
                 path: '/',
             })
 
+            await ctx.payload.update({
+                collection: "products",
+                id: input.productId,
+                data: {
+                    totalOrders: product.totalOrders + 1
+                },
+                req: {transactionID}
+            })
+
             await ctx.payload.create({
                 collection: "orders",
                 data : {
@@ -88,8 +104,11 @@ export const ordersRouter  = createTRPCRouter({
                     username: input.username,
                     phone: input.phone,
                     telegram: input.telegram
-                }
+                },
+                req: {transactionID: transactionID}
             })
+
+            await ctx.payload.db.commitTransaction(transactionID)
 
         })
 })

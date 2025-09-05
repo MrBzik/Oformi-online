@@ -111,9 +111,16 @@ export const reviewsRouter = createTRPCRouter({
                 })
             }
 
+            const transactionID = await ctx.payload.db.beginTransaction()
+
+            if(transactionID === null){
+                throw new TRPCError({code: "INTERNAL_SERVER_ERROR"})
+            }
+
             const product = await ctx.payload.findByID({
                 collection: "products",
-                id: input.productId
+                id: input.productId,
+                req: {transactionID}
             })
 
             if (!product){
@@ -136,7 +143,8 @@ export const reviewsRouter = createTRPCRouter({
                             user: {equals: ctx.session.user.id}
                         }
                     ]
-                }
+                },
+                req: {transactionID}
             })
 
             let fiveStarRating = product.fiveStarsRatings
@@ -212,7 +220,8 @@ export const reviewsRouter = createTRPCRouter({
                     data: {
                         rating: input.rating,
                         description: input.description
-                    }
+                    },
+                    req: {transactionID}
                 })
             } else {
                 ratingCount +=1;
@@ -223,7 +232,8 @@ export const reviewsRouter = createTRPCRouter({
                         product: product.id,
                         rating: input.rating,
                         description: input.description
-                    }
+                    },
+                    req: {transactionID}
                 })
             }
 
@@ -238,8 +248,11 @@ export const reviewsRouter = createTRPCRouter({
                     threeStarsRatings: threeStarRating,
                     twoStarsRatings: twoStarRating,
                     oneStarsRatings: oneStarRating
-                }
+                },
+                req: {transactionID}
             })
+
+            await ctx.payload.db.commitTransaction(transactionID)
 
             return result
         })
