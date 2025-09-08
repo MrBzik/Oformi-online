@@ -21,7 +21,7 @@ const Page = async () => {
                 <div className="grid grid-cols-1 lg:grid-cols-6 xl:grid-cols-8 gap-y-6 gap-x-12">
                     <div className={cn("lg:col-span-6 xl:col-span-8",
                     )}>
-                        <Suspense fallback={<ProductListLoading/>}>
+                        <Suspense fallback={<ProductListLoading wideView/>}>
                             <FavouredProductsList/>
                         </Suspense>
                     </div>

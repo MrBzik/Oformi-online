@@ -9,7 +9,7 @@ const poppins = Poppins({
 
 export const MainHeader = () => {
     return (
-        <Link href="/" className="pl-6 flex items-center shrink-0">
+        <Link href="/" className="lg:pl-6 flex items-center shrink-0">
             <h1 className={cn("text-xl font-semibold", poppins.className)}>
                 <span className="text-sky-600">О</span>
                 <span>форми </span>

@@ -60,9 +60,8 @@ export const SearchInput = (
                 onCategoryPick={(categorySlug: string) => onCategoryChange?.(categorySlug)}
             />
             <div className="relative w-full">
-                <SearchIcon className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-neutral-500"/>
                 <Input
-                    className="pl-8 bg-card-primary border-[2px] border-gray-500 hover:border-black"
+                    className="pr-8 bg-card-primary border-[2px] border-gray-500 hover:border-black"
                     placeholder="Найти услугу"
                     disabled={disabled}
                     value={searchValue}
@@ -83,19 +82,17 @@ export const SearchInput = (
                         onCategoryChange?.(el.category.slug)
                     }}
                 />
+                <SearchIcon className="absolute right-5 top-1/2 -translate-y-1/2 size-4 text-neutral-500 cursor-pointer"
+                            onClick={() => {onSearchChange?.(searchValue)}}
+                />
             </div>
-            <Button
-                className="size-12 shrink-0 flex"
-                onClick={() => onSearchChange?.(searchValue)}>
-                <SearchIcon/>
-            </Button>
             <Button
              className="size-12 shrink-0 flex"
             onClick={() => setIsSidebarOpen(true)}>
                 <ListFilterIcon/>
             </Button>
             {session.data?.user && (
-                <Button asChild>
+                <Button asChild className="hidden lg:flex">
                     <Link href="/favourite">
                         <HeartIcon/>
                         Избранное

@@ -63,7 +63,7 @@ export const ProductListView = ({
                 <div className={cn("lg:col-span-4 xl:col-span-6",
                     !isDisplayFilters && "lg:col-span-6 xl:col-span-8"
                     )}>
-                    <Suspense fallback={<ProductListLoading narrowView={narrowView}/>}>
+                    <Suspense fallback={<ProductListLoading wideView={!isDisplayFilters}/>}>
                         <ProductList
                             tenantSlug={tenantSlug}
                             narrowView={narrowView}
