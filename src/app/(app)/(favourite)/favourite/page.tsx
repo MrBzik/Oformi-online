@@ -5,6 +5,7 @@ import {cn} from "@/lib/utils";
 import {Suspense} from "react";
 import {ProductListLoading} from "@/modules/products/ui/components/product-list";
 import {FavouredProductsList} from "@/modules/favourite/ui/views/FavouredProductsList";
+import {Breadcrumb, BreadcrumbItem, BreadcrumbList, BreadcrumbPage} from "@/components/ui/breadcrumb";
 
 export const dynamic = "force-dynamic";
 
@@ -17,7 +18,16 @@ const Page = async () => {
 
     return (
         <HydrationBoundary state={dehydrate(queryClient)}>
-            <div className="px-4 lg:px-12 py-8 gap-4">
+            <div className="px-4 lg:px-12 py-8 flex flex-col gap-6">
+                <Breadcrumb>
+                    <BreadcrumbList>
+                        <BreadcrumbItem>
+                            <BreadcrumbPage className="text-xl font-medium">
+                                Избранное
+                            </BreadcrumbPage>
+                        </BreadcrumbItem>
+                    </BreadcrumbList>
+                </Breadcrumb>
                 <div className="grid grid-cols-1 lg:grid-cols-6 xl:grid-cols-8 gap-y-6 gap-x-12">
                     <div className={cn("lg:col-span-6 xl:col-span-8",
                     )}>

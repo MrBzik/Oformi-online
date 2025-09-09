@@ -42,7 +42,7 @@ export const ProductCard = ({
                             className="object-cover"/>
                     </div>
                     <div className="p-4 border-y flex flex-col gap-3 flex-1">
-                            <h2 className="text-sm font-medium line-clamp-1">{prod.name}</h2>
+                            <h2 className="text-xs 2xl:text-sm font-medium line-clamp-1">{prod.name}</h2>
                         <div className="flex items-center gap-2" onClick={handleUserClick}>
                             {prod.tenant.image?.url && (
                                 <Image

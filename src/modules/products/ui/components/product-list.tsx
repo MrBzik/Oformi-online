@@ -53,9 +53,9 @@ export const ProductList = ({
 
     return(
         <>
-            <div className={cn("grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4",
+            <div className={cn("grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4",
                 narrowView && "lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-3",
-                wideView && "lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5"
+                wideView && "xl:grid-cols-5"
                 )}>
                 {data?.pages.flatMap((page) => page.docs).map(product => (
                     <ProductCard
@@ -76,9 +76,9 @@ export const ProductList = ({
 
 export const ProductListLoading = ({narrowView, wideView}: Props) => {
     return (
-        <div className={cn("grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4",
+        <div className={cn("grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4",
             narrowView && "lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-3",
-            wideView && "lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5")}
+            wideView && "xl:grid-cols-5")}
         >
             {Array.from({length: wideView ? 5 : 4}).map((_, index) => (
                 <ProductCardLoading key={index}/>

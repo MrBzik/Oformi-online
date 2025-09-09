@@ -8,13 +8,12 @@ import {Form, FormControl, FormDescription, FormField, FormItem, FormLabel, Form
 import {cn} from "@/lib/utils";
 import {Button} from "@/components/ui/button";
 import {Input} from "@/components/ui/input";
-import {useState} from "react";
-import {EyeIcon, EyeOffIcon} from "lucide-react";
 import {useTRPC} from "@/trpc/client";
 import {useMutation, useQueryClient} from "@tanstack/react-query";
 import {toast} from "sonner";
 import {useRouter} from "next/navigation";
 import {AuthNavigation} from "@/modules/auth/ui/components/auth-navigation";
+import {PasswordWithToggle} from "@/modules/auth/ui/components/password-with-toggle";
 
 export const SingUpView = () => {
 
@@ -53,16 +52,6 @@ export const SingUpView = () => {
     const usernameErrors = form.formState.errors.username;
 
     const showPreview = username && !usernameErrors;
-
-    const [passwordType, setIsPasswordVisible] = useState("password");
-
-    const togglePassVisibility = () => {
-        if(passwordType === "password") {
-            setIsPasswordVisible("text");
-        } else {
-            setIsPasswordVisible("password");
-        }
-    }
 
     return (
         <Form {...form}>
@@ -106,16 +95,11 @@ export const SingUpView = () => {
                                 Пароль
                             </FormLabel>
                             <FormControl>
-                                <Input {...field} type={passwordType}/>
+                                <PasswordWithToggle field={field}/>
                             </FormControl>
                             <FormMessage/>
                         </FormItem>
                     ) }/>
-                    <Button
-                        className="size-12 shrink-0 flex"
-                        onClick={() => togglePassVisibility()}>
-                        {(passwordType === "password") ? <EyeIcon/> : <EyeOffIcon/>}
-                    </Button>
                 </div>
                 <Button
                     disabled={register.isPending}

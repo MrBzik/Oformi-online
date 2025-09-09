@@ -39,6 +39,11 @@ export const Users: CollectionConfig = {
       generateEmailHTML: ({token}) => {
         return `<a href="${process.env.NEXT_PUBLIC_APP_URL}/verify-email?token=${token}">Подтвердить аккаунт</a>`
       }
+    },
+    forgotPassword: {
+      generateEmailHTML: (req) => {
+        return `<a href="${process.env.NEXT_PUBLIC_APP_URL}/reset-password?token=${req?.token}">Сменить пароль</a>`
+      }
     }
   },
   fields: [

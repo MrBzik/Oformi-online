@@ -2,46 +2,50 @@
 
 import {useForm} from "react-hook-form";
 import {z} from "zod";
-import {loginSchema} from "@/modules/auth/schemas";
+import {resetPasswordSchema} from "@/modules/auth/schemas";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {Form, FormControl, FormField, FormItem, FormLabel, FormMessage} from "@/components/ui/form";
 import {Button} from "@/components/ui/button";
-import {Input} from "@/components/ui/input";
 import {useTRPC} from "@/trpc/client";
 import {useMutation, useQueryClient} from "@tanstack/react-query";
 import {toast} from "sonner";
 import {useRouter} from "next/navigation";
 import {AuthNavigation} from "@/modules/auth/ui/components/auth-navigation";
-import Link from "next/link";
 import {PasswordWithToggle} from "@/modules/auth/ui/components/password-with-toggle";
 
-export const SignInView = () => {
+interface Props {
+    token: string;
+}
+
+export const ResetPassword = (
+    {token}: Props
+) => {
 
     const router = useRouter()
 
     const trpc = useTRPC();
     const queryClient = useQueryClient()
-    const login = useMutation(trpc.auth.login.mutationOptions({
+    const register = useMutation(trpc.auth.resetPassword.mutationOptions({
         onError: (error) => {
             toast.error(error.message);
         },
         onSuccess : async () => {
             await queryClient.invalidateQueries(trpc.auth.session.queryFilter())
-            router.push("/");
+            router.push("/sign-in");
         }
     }))
 
-    const form = useForm<z.infer<typeof loginSchema>>({
+    const form = useForm<z.infer<typeof resetPasswordSchema>>({
         mode:"all",
-        resolver: zodResolver(loginSchema),
+        resolver: zodResolver(resetPasswordSchema),
         defaultValues: {
-            email: "",
+            token: token,
             password: "",
         }
     });
 
-    const onSubmit = (values: z.infer<typeof loginSchema>) => {
-        login.mutate(values)
+    const onSubmit = (values: z.infer<typeof resetPasswordSchema>) => {
+        register.mutate(values)
     }
 
     return (
@@ -49,21 +53,10 @@ export const SignInView = () => {
             <form
                 onSubmit={form.handleSubmit(onSubmit)}
                 className="flex flex-col gap-8 p-4 lg:p-16">
-                <AuthNavigation label="Зарегистрироваться" navDestination="/sign-up"/>
+                <AuthNavigation label="Войти" navDestination="/sign-in"/>
                 <h1 className="text-4xl font-medium">
-                    Войти в существующий аккаунт
+                    Введите новый пароль
                 </h1>
-                <FormField name="email" render={({field}) => (
-                    <FormItem>
-                        <FormLabel>
-                            Электронная почта
-                        </FormLabel>
-                        <FormControl>
-                            <Input {...field}/>
-                        </FormControl>
-                        <FormMessage/>
-                    </FormItem>
-                ) }/>
                 <div className="flex items-end gap-2 w-full">
                     <FormField name="password" render={({field}) => (
                         <FormItem className="w-full">
@@ -76,21 +69,18 @@ export const SignInView = () => {
                             <FormMessage/>
                         </FormItem>
                     ) }/>
+
                 </div>
                 <Button
-                    disabled={login.isPending}
+                    disabled={register.isPending}
                     type="submit"
                     size="lg"
                     className="bg-black text-white hover:bg-pink-400 hover:text-primary">
-                    Войти
+                    Подтвердить
                 </Button>
-                <Link href="/forgot-password" className="text-blue-700">
-                    Забыли пароль?
-                </Link>
             </form>
         </Form>
     )
-
 }
 
 

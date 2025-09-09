@@ -3,6 +3,7 @@ import {Footer} from "@/modules/shared/ui/components/footer";
 import {getQueryClient, trpc} from "@/trpc/server";
 import {dehydrate, HydrationBoundary} from "@tanstack/react-query";
 import {Suspense} from "react";
+import {MainContainer} from "@/modules/shared/ui/components/main-container";
 
 interface LayoutProps {
     children: React.ReactNode;
@@ -26,9 +27,9 @@ const Layout = async ({children, params} : LayoutProps) => {
                         <Navbar tenantSlug={slug}/>
                     </Suspense>
                 </HydrationBoundary>
-                <div className="flex-1 border-[2px] border-e-[4px] border-b-[4px] rounded-xl mx-12 bg-bg-primary">
+                <MainContainer>
                     {children}
-                </div>
+                </MainContainer>
                 <Footer/>
             </div>
         </div>

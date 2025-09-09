@@ -1,7 +1,7 @@
 import {baseProcedure, createTRPCRouter} from "@/trpc/init";
 import {headers as getHeaders} from "next/headers";
 import {TRPCError} from "@trpc/server";
-import {loginSchema, registerSchema} from "@/modules/auth/schemas";
+import {forgotPasswordSchema, loginSchema, registerSchema, resetPasswordSchema} from "@/modules/auth/schemas";
 import {generateAuthCookie} from "@/modules/auth/utils";
 import {z} from "zod";
 
@@ -122,7 +122,50 @@ export const authRouter = createTRPCRouter({
 
                 return {success: true};
             } catch (error) {
+                console.log(error);
                 return {success: false};
             }
+        }),
+
+    forgotPassword: baseProcedure
+        .input(forgotPasswordSchema)
+        .mutation(async ({ input, ctx }) => {
+
+            try {
+                const token = await ctx.payload.forgotPassword({
+                    collection: "users",
+                    data: {
+                        email: input.email
+                    },
+                })
+
+                if(token === null || token === undefined){
+                    return {success: false};
+                }
+
+                return {success: true};
+            } catch (e) {
+                console.log(e);
+                return {success: false};
+            }
+        }),
+
+
+    resetPassword: baseProcedure
+        .input(resetPasswordSchema)
+        .mutation(async ({ input, ctx }) => {
+
+            await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/users/reset-password`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    token: input.token,
+                    password: input.password,
+                }),
+            });
         })
+
+
 });

@@ -24,7 +24,7 @@ export const ProductSort = () => {
             <DropdownMenuTrigger asChild>
                 <Button
                     asChild
-                    className="border-0"
+                    className="border-0 w-fit"
                     variant="ghost">
                     <div>
                         {position}

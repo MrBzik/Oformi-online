@@ -9,6 +9,7 @@ export const SignInButton = () => {
 
     const trpc = useTRPC()
     const session = useQuery(trpc.auth.session.queryOptions())
+    
     return (
         <div className="hidden lg:flex">
             <Button asChild variant="link"

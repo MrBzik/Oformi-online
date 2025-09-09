@@ -83,7 +83,7 @@ export const ProductView = ({productId, tenantSlug} : Props) => {
                                     className={cn("flex-1 bg-orange-400")}
                                     onClick={() => {
                                         setIsCopied(true)
-                                        navigator.clipboard.writeText(window.location.href)
+                                        navigator.clipboard.writeText(window.location.href + `/?ref=${data.id}`)
                                         toast.success("Реферальная ссылка скопирована. Больше информации в личном кабинете")
                                         setTimeout(() => {
                                             setIsCopied(false)

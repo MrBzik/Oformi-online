@@ -4,6 +4,7 @@ import {Footer} from "@/app/(app)/(home)/footer";
 import {SearchFilters, SearchFiltersLoading} from "@/app/(app)/(home)/search-filters";
 import {getQueryClient, trpc} from "@/trpc/server";
 import {Suspense} from "react";
+import {MainContainer} from "@/modules/shared/ui/components/main-container";
 
 
 interface Props {
@@ -21,14 +22,14 @@ const Layout = async ({ children }: Props) => {
         <div className="bg-bg-secondary">
             <div className="max-w-(--breakpoint-2xl) mx-auto flex flex-col min-h-screen">
                 <Navbar/>
-                <div className="flex-1 mx-8 border-[2px_4px_4px_2px] rounded-xl overflow-hidden bg-bg-primary">
+                <MainContainer>
                     <HydrationBoundary state={dehydrate(queryClient)}>
                         <Suspense fallback={<SearchFiltersLoading/>}>
                             <SearchFilters/>
                         </Suspense>
                     </HydrationBoundary>
                     {children}
-                </div>
+                </MainContainer>
                 <Footer/>
             </div>
         </div>

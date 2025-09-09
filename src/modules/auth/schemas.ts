@@ -5,6 +5,15 @@ export const loginSchema =  z.object({
     password: z.string()
 })
 
+export const forgotPasswordSchema =  z.object({
+    email: z.email(),
+})
+
+export const resetPasswordSchema = z.object({
+    token: z.string(),
+    password: z.string().min(5, "Пароль должен быть длиннее 5 символов"),
+})
+
 export const registerSchema = z.object({
     email: z.email("Некорректный формат почты"),
     password: z.string().min(5, "Пароль должен быть длиннее 5 символов"),
