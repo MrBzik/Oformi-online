@@ -11,7 +11,7 @@ const BottomNav = () => {
     const trpc = useTRPC()
     const session = useQuery(trpc.auth.session.queryOptions())
 
-    const profileLink = session.data?.user ? "/admin" : "/sign-in";
+    const profileLink = session.data?.user ? "/profile" : "/sign-in";
 
     const scrollDirection = useScrollingEffect(); // Use the custom hook
     const navClass = scrollDirection === 'up' ? '' : 'opacity-25 duration-500';

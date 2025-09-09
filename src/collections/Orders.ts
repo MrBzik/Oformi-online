@@ -4,6 +4,7 @@ import {isSuperAdmin} from "@/lib/access";
 export const Orders: CollectionConfig = {
     slug: "orders",
     access: {
+        read : ({req}) => (req.user?.tenants?.length ?? 0) > 0 || isSuperAdmin(req.user),
         create : ({req}) => isSuperAdmin(req.user),
         update : ({req}) => isSuperAdmin(req.user),
         delete : ({req}) => isSuperAdmin(req.user),

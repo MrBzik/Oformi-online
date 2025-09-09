@@ -16,7 +16,7 @@ export const SignInButton = () => {
                     className="h-full text-lg border-0">
                 {
                     session.data?.user ? (
-                        <Link href="/admin" className="underline">
+                        <Link href="/profile" className="underline">
                             {session.data!.user.username}
                         </Link>
                     ) : (

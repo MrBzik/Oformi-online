@@ -21,7 +21,7 @@ export const TenantLink = ({
 
 
     return (
-        <Link href={generateTenantURL(tenantSlug)} className="flex items-center gap-2">
+        <div className="flex items-center gap-2">
             {data.image?.url && (
                 <Image
                     src={data.image.url}
@@ -31,7 +31,7 @@ export const TenantLink = ({
                     height={32}
                 />
             )}
-            <p className="text-xl underline">{data.name}</p>
-        </Link>
+            <p className="text-xl">{data.name}</p>
+        </div>
     )
 }

@@ -176,6 +176,7 @@ export interface Tenant {
    * Поддомен магазина
    */
   slug: string;
+  description?: string | null;
   image?: (string | null) | Media;
   updatedAt: string;
   createdAt: string;
@@ -515,6 +516,7 @@ export interface TagsSelect<T extends boolean = true> {
 export interface TenantsSelect<T extends boolean = true> {
   name?: T;
   slug?: T;
+  description?: T;
   image?: T;
   updatedAt?: T;
   createdAt?: T;

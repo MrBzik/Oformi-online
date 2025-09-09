@@ -4,15 +4,19 @@ import {isSuperAdmin} from "@/lib/access";
 export const Tenants: CollectionConfig = {
     slug: 'tenants',
     access: {
+        read : ({req}) => (req.user?.tenants?.length ?? 0) > 0 || isSuperAdmin(req.user),
         create : ({req}) => isSuperAdmin(req.user),
         delete : ({req}) => isSuperAdmin(req.user),
-    },    admin: {
+    },
+
+    admin: {
         useAsTitle: 'slug',
     },
     fields: [
         {
             name: "name",
             required: true,
+            unique: true,
             type: "text",
             label: "Название магазина"
         },
@@ -25,10 +29,19 @@ export const Tenants: CollectionConfig = {
             access: {
                 update : ({req}) => isSuperAdmin(req.user),
             },
+            label: "Ссылка на магазин",
             admin: {
                 description: "Поддомен магазина"
             }
         },
+
+        {
+            name: "description",
+            type: "text",
+            required: false,
+            label: "Описание магазина"
+        },
+
         {
             name: "image",
             type: "upload",

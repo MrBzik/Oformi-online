@@ -52,7 +52,7 @@ export const ProductCard = ({
                                     height={24}
                                     className="rounded-full border shrink-0 size-[24px]"/>
                             )}
-                            <p className="text-sm underline font-medium">{prod.tenant.slug}</p>
+                            <p className="text-sm underline font-medium">{prod.tenant.name}</p>
                         </div>
                         <div className="flex items-center gap-1">
                             <StarIcon className="size-3.5 fill-black"/>

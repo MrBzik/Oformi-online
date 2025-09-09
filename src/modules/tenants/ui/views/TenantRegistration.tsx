@@ -2,7 +2,6 @@
 
 import {useForm} from "react-hook-form";
 import {z} from "zod";
-import {registerSchema} from "@/modules/auth/schemas";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage} from "@/components/ui/form";
 import {cn} from "@/lib/utils";
@@ -12,101 +11,95 @@ import {useTRPC} from "@/trpc/client";
 import {useMutation, useQueryClient} from "@tanstack/react-query";
 import {toast} from "sonner";
 import {useRouter} from "next/navigation";
-import {AuthNavigation} from "@/modules/auth/ui/components/auth-navigation";
-import {PasswordWithToggle} from "@/modules/auth/ui/components/password-with-toggle";
+import {tenantCreateSchema} from "@/modules/tenants/schemas";
+import {Textarea} from "@/components/ui/textarea";
 
-export const SingUpView = () => {
+export const TenantRegistration = () => {
 
     const router = useRouter()
 
     const trpc = useTRPC();
     const queryClient = useQueryClient()
-    const register = useMutation(trpc.auth.register.mutationOptions({
+    const register = useMutation(trpc.tenants.create.mutationOptions({
         onError: (error) => {
-            if(error.data?.code === "INTERNAL_SERVER_ERROR"){
-                router.push("/verify-sent");
-            }
             toast.error(error.message);
         },
         onSuccess : async () => {
             await queryClient.invalidateQueries(trpc.auth.session.queryFilter())
-            router.push("/");
+            router.push("/profile");
         }
     }))
 
-    const form = useForm<z.infer<typeof registerSchema>>({
+    const form = useForm<z.infer<typeof tenantCreateSchema>>({
         mode:"all",
-        resolver: zodResolver(registerSchema),
+        resolver: zodResolver(tenantCreateSchema),
         defaultValues: {
-            email: "",
-            password: "",
-            username: ""
+            tenantName: "",
+            tenantSlug: "",
+            description: ""
         }
     });
 
-    const onSubmit = (values: z.infer<typeof registerSchema>) => {
+    const onSubmit = (values: z.infer<typeof tenantCreateSchema>) => {
         register.mutate(values)
     }
 
-    const username = form.watch("username")
-    const usernameErrors = form.formState.errors.username;
+    const tenantSlug = form.watch("tenantSlug")
+    const usernameErrors = form.formState.errors.tenantSlug;
 
-    const showPreview = username && !usernameErrors;
+    const showPreview = tenantSlug && !usernameErrors;
 
     return (
         <Form {...form}>
             <form
                 onSubmit={form.handleSubmit(onSubmit)}
-                className="flex flex-col gap-8 p-4 lg:p-16">
-                <AuthNavigation label="Войти" navDestination="/sign-in"/>
-                <h1 className="text-4xl font-medium">
-                    Успей стать участником команды Оформи Онлайн
-                </h1>
-                <FormField name="username" render={({field}) => (
+                className="flex flex-col gap-8">
+                <h2 className="text-lg font-medium">
+                    Стать участником коллектива Оформи Онлайн
+                </h2>
+                <FormField name="tenantName" render={({field}) => (
                     <FormItem>
                         <FormLabel>
-                            Имя пользователя
+                            Название магазина*
+                        </FormLabel>
+                        <FormControl>
+                            <Input {...field}/>
+                        </FormControl>
+                        <FormMessage/>
+                    </FormItem>
+                ) }/>
+                <FormField name="tenantSlug" render={({field}) => (
+                    <FormItem>
+                        <FormLabel>
+                            Ссылка магазина*
                         </FormLabel>
                         <FormControl>
                             <Input {...field}/>
                         </FormControl>
                         <FormDescription className={cn("hidden", showPreview && "block")}>
                             Ваш магазин будет доступен по ссылке&nbsp;
-                            <strong>{username}</strong>
+                            <strong>{tenantSlug}</strong>
                         </FormDescription>
                         <FormMessage/>
                     </FormItem>
                 ) }/>
-                <FormField name="email" render={({field}) => (
+                <FormField name="description" render={({field}) => (
                     <FormItem>
                         <FormLabel>
-                            Электронная почта
+                            Описание магазина (до 320 символов)
                         </FormLabel>
                         <FormControl>
-                            <Input {...field}/>
+                            <Textarea {...field}/>
                         </FormControl>
                         <FormMessage/>
                     </FormItem>
                 ) }/>
-                <div className="flex items-end gap-2 w-full">
-                    <FormField name="password" render={({field}) => (
-                        <FormItem className="w-full">
-                            <FormLabel>
-                                Пароль
-                            </FormLabel>
-                            <FormControl>
-                                <PasswordWithToggle field={field}/>
-                            </FormControl>
-                            <FormMessage/>
-                        </FormItem>
-                    ) }/>
-                </div>
                 <Button
                     disabled={register.isPending}
                     type="submit"
                     size="lg"
                     className="bg-black text-white hover:bg-pink-400 hover:text-primary">
-                    Создать аккаунт
+                    Зарегистрировать свой магазин
                 </Button>
             </form>
         </Form>

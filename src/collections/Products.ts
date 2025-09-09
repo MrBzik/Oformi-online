@@ -3,6 +3,9 @@ import {isSuperAdmin} from "@/lib/access";
 
 export const Products : CollectionConfig = {
     slug: "products",
+    access: {
+        read : ({req}) => (req.user?.tenants?.length ?? 0) > 0 || isSuperAdmin(req.user),
+    },
     labels: {
         singular: "Услуга",
         plural: "Услуги"
