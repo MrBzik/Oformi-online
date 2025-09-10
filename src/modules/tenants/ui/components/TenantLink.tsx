@@ -1,7 +1,5 @@
 "use client"
 
-import Link from "next/link";
-import {generateTenantURL} from "@/lib/utils";
 import Image from "next/image";
 import {useTRPC} from "@/trpc/client";
 import {useSuspenseQuery} from "@tanstack/react-query";
@@ -21,7 +19,7 @@ export const TenantLink = ({
 
 
     return (
-        <div className="flex items-center gap-2">
+        <div className="flex gap-4 items-start">
             {data.image?.url && (
                 <Image
                     src={data.image.url}
@@ -31,7 +29,10 @@ export const TenantLink = ({
                     height={32}
                 />
             )}
-            <p className="text-xl">{data.name}</p>
+            <p className="text-xl shrink-0">{data.name}</p>
+            <p className="hidden lg:block rounded-md text-xl text-muted-foreground">
+                · {data.description}
+            </p>
         </div>
     )
 }

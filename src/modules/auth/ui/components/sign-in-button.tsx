@@ -11,8 +11,8 @@ export const SignInButton = () => {
     const session = useQuery(trpc.auth.session.queryOptions())
     
     return (
-        <div className="hidden lg:flex">
-            <Button asChild variant="link"
+        <div className="hidden lg:flex lg:pr-6 ">
+            <div
                     className="h-full text-lg border-0">
                 {
                     session.data?.user ? (
@@ -25,7 +25,7 @@ export const SignInButton = () => {
                         </Link>
                     )
                 }
-            </Button>
+            </div>
         </div>
     )
 }
