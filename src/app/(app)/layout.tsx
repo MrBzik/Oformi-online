@@ -21,7 +21,7 @@ export default function RootLayout({
     children: React.ReactNode;
 }>) {
     return (
-        <html lang="ru" className="scroll-smooth bg-bg-secondary">
+        <html lang="ru" className="scroll-smooth">
         <body
             className={`${dmSans.className} antialiased`}
         >
