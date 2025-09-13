@@ -16,7 +16,7 @@ export const Navbar = () => {
     const [filters, setFilters] = useProductFilters();
 
     return (
-        <nav className="h-30 flex flex-col lg:flex-row font-medium items-center gap-y-4 lg:gap-x-4 m-4 lg:m-0">
+        <nav className="h-30 flex flex-col lg:flex-row font-medium items-center gap-y-4 lg:gap-x-4 m-4 lg:m-0 bg-bg-secondary z-100 sticky top-0">
             <MainHeader/>
 
             <SearchInput

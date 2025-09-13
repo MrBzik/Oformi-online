@@ -20,7 +20,7 @@ const Layout = async ({ children }: Props) => {
 
     return (
         <div className="bg-bg-secondary">
-            <div className="max-w-(--breakpoint-2xl) mx-auto flex flex-col min-h-screen">
+            <div className="max-w-(--breakpoint-2xl) mx-auto min-h-screen">
                 <Navbar/>
                 <MainContainer>
                     <HydrationBoundary state={dehydrate(queryClient)}>
