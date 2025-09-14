@@ -8,7 +8,6 @@ import {useQuery} from "@tanstack/react-query";
 import Link from "next/link";
 import {SearchSuggestions} from "@/app/(app)/(home)/search-filters/search-suggestions";
 import {Icon} from "@iconify/react";
-import {Button} from "@/components/ui/button";
 
 interface Props {
     disabled?: boolean;
@@ -61,15 +60,15 @@ export const SearchInput = (
                 onCategoryPick={(categorySlug: string) => onCategoryChange?.(categorySlug)}
             />
             <div className="relative w-full">
+                <div className="absolute w-full border-x-[55px] border-input-primary rounded-xl h-12 pointer-events-none"/>
+                <div className="absolute left-12 w-[calc(100%-6rem)] border-x-[7px] border-white rounded-xl h-12 pointer-events-none"/>
+                <div className="absolute w-full border-[2px] border-input-primary rounded-xl h-12 pointer-events-none"/>
                 <ListFilterIcon
-                    className="absolute left-5 top-1/2 -translate-y-1/2 size-4 text-neutral-500 cursor-pointer"
+                    className="absolute left-5 top-1/2 -translate-y-1/2 size-4 text-white cursor-pointer"
                     onClick={() => setIsSidebarOpen(true)}
                 />
-                <div className="absolute w-full border-r-[55px] border-gray-500 rounded-xl h-12 pointer-events-none"/>
-                <div className="absolute w-[calc(100%-3rem)] border-r-[55px] border-white rounded-xl h-12 pointer-events-none"/>
-                <div className="absolute w-full border-[2px] border-gray-500 rounded-xl h-12 pointer-events-none"/>
                 <Input
-                    className="px-12 bg-card-primary rounded-xl"
+                    className="px-14 bg-card-primary rounded-xl"
                     placeholder="Найти услугу"
                     disabled={disabled}
                     value={searchValue}

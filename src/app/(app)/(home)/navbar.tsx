@@ -6,10 +6,15 @@ import {useSuspenseQuery} from "@tanstack/react-query";
 import {SearchInput} from "@/app/(app)/(home)/search-filters/search-input";
 import {useProductFilters} from "@/modules/products/hooks/use-product-filters";
 import {MainHeader} from "@/modules/shared/ui/components/main-header";
-import {Suspense} from "react";
+import {Suspense, useEffect, useState} from "react";
 import {DEFAULT_HEADER_COLOR} from "@/modules/home/constants";
 import {Categories} from "@/app/(app)/(home)/search-filters/categories";
 
+const lgScreenPx = parseFloat(getComputedStyle(document.documentElement).fontSize) * 64;
+
+function getIsWindowLarge() {
+    return window.innerWidth >= lgScreenPx
+}
 
 export const Navbar = () => {
 
@@ -24,13 +29,26 @@ export const Navbar = () => {
         .find((sub) => sub.slug === activeCategory);
     const activeCategoryColor = activeCategoryData?.color || DEFAULT_HEADER_COLOR;
 
-    return (
-        <nav className="z-20 sticky top-0 p-6 border-b-[2px] border-l-[2px] border-r-[2px] rounded-bl-4xl rounded-br-4xl flex flex-col gap-y-4"
-             style={{ backgroundColor: activeCategoryColor }}
-        >
+    const [isLargeWindow, setIsLargeWindow] = useState(getIsWindowLarge());
 
-            <div className="flex flex-col lg:flex-row font-medium items-center gap-y-4 lg:gap-x-4 m-4 lg:m-0">
-                <MainHeader/>
+    useEffect(() => {
+        function handleResize() {
+            setIsLargeWindow(
+                window.innerWidth >= lgScreenPx
+            );
+        }
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
+
+    return (
+        <nav className="z-20 sticky top-0 lg:p-6 border-0 lg:border-b-[2px] lg:border-l-[2px] lg:border-r-[2px] lg:rounded-bl-4xl lg:rounded-br-4xl flex flex-col gap-y-4"
+             style={{ backgroundColor: isLargeWindow ? activeCategoryColor : "#f9f5f2" }}
+        >
+            <div className="flex font-medium items-center gap-y-4 lg:gap-x-4 m-4 lg:m-0">
+                <div className="hidden lg:block shrink-0">
+                    <MainHeader/>
+                </div>
                 <SearchInput
                     categories={data}
                     defaultValue={filters.search}
