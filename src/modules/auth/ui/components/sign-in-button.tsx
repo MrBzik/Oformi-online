@@ -1,6 +1,5 @@
 "use client"
 
-import {Button} from "@/components/ui/button";
 import Link from "next/link";
 import {useTRPC} from "@/trpc/client";
 import {useQuery} from "@tanstack/react-query";

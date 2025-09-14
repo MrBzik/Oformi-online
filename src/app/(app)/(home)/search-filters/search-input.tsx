@@ -1,13 +1,14 @@
-import {HeartIcon, ListFilterIcon, SearchIcon} from "lucide-react";
+import {ListFilterIcon, SearchIcon} from "lucide-react";
 import {Input} from "@/components/ui/input";
 import {CategoriesSidebar} from "@/app/(app)/(home)/search-filters/categories-sidebar";
 import {useEffect, useState} from "react";
-import {Button} from "@/components/ui/button";
 import {CategoriesList} from "@/modules/categories/types";
 import {useTRPC} from "@/trpc/client";
 import {useQuery} from "@tanstack/react-query";
 import Link from "next/link";
 import {SearchSuggestions} from "@/app/(app)/(home)/search-filters/search-suggestions";
+import {Icon} from "@iconify/react";
+import {Button} from "@/components/ui/button";
 
 interface Props {
     disabled?: boolean;
@@ -52,7 +53,7 @@ export const SearchInput = (
     }, [searchValue])
 
     return (
-        <div className="flex items-center gap-2 w-full">
+        <div className="flex items-center gap-4 w-full">
             <CategoriesSidebar
                 isOpen={isSidebarOpen}
                 onOpenChange={setIsSidebarOpen}
@@ -60,8 +61,15 @@ export const SearchInput = (
                 onCategoryPick={(categorySlug: string) => onCategoryChange?.(categorySlug)}
             />
             <div className="relative w-full">
+                <ListFilterIcon
+                    className="absolute left-5 top-1/2 -translate-y-1/2 size-4 text-neutral-500 cursor-pointer"
+                    onClick={() => setIsSidebarOpen(true)}
+                />
+                <div className="absolute w-full border-r-[55px] border-gray-500 rounded-xl h-12 pointer-events-none"/>
+                <div className="absolute w-[calc(100%-3rem)] border-r-[55px] border-white rounded-xl h-12 pointer-events-none"/>
+                <div className="absolute w-full border-[2px] border-gray-500 rounded-xl h-12 pointer-events-none"/>
                 <Input
-                    className="pr-8 bg-card-primary border-[2px] border-gray-500 hover:border-black"
+                    className="px-12 bg-card-primary rounded-xl"
                     placeholder="Найти услугу"
                     disabled={disabled}
                     value={searchValue}
@@ -82,23 +90,52 @@ export const SearchInput = (
                         onCategoryChange?.(el.category.slug)
                     }}
                 />
-                <SearchIcon className="absolute right-5 top-1/2 -translate-y-1/2 size-4 text-neutral-500 cursor-pointer"
-                            onClick={() => {onSearchChange?.(searchValue)}}
+
+                <SearchIcon
+                    className="absolute right-5 top-1/2 -translate-y-1/2 size-4 text-neutral-500 cursor-pointer"
+                    style={{color: "white"}}
+                    onClick={() => {onSearchChange?.(searchValue)}}
                 />
             </div>
-            <Button
-             className="size-12 shrink-0 flex"
-            onClick={() => setIsSidebarOpen(true)}>
-                <ListFilterIcon/>
-            </Button>
-            {session.data?.user && (
-                <Button asChild className="hidden lg:flex">
-                    <Link href="/favourite">
-                        <HeartIcon/>
+            <div className="flex gap-3">
+                <Link
+                    href={session.data?.user ? "/profile" : "/sign-in"}
+                    className="hidden lg:flex flex-col items-center"
+                >
+                    <Icon icon="mingcute:user-2-line" width="24" height="24" style={{color: 'black'} } />
+                    <span className="text-xs underline">
+                        {
+                            session.data?.user ? "Профиль" : "Войти"
+                        }
+                    </span>
+                </Link>
+
+                {session.data?.user && (
+                    <Link
+                        href="/favourite"
+                        className="hidden lg:flex flex-col items-center"
+                    >
+                        <Icon icon="mingcute:heart-line" width="24" height="24" style={{color: 'black'} } />
+                        <span className="text-xs underline">
                         Избранное
+                    </span>
                     </Link>
-                </Button>
-            )}
+                )}
+
+                {session.data?.user && (
+                    <Link
+                        href="/referral"
+                        className="hidden lg:flex flex-col items-center"
+                    >
+                        <Icon icon="mingcute:link-line" width="24" height="24" style={{color: 'black'}}  />
+                        <span className="text-xs underline">
+                        Доход
+                    </span>
+                    </Link>
+                )}
+            </div>
+
+
         </div>
     )
 }

@@ -6,7 +6,6 @@ import {useSuspenseQuery} from "@tanstack/react-query";
 import {SearchInput} from "@/app/(app)/(home)/search-filters/search-input";
 import {useProductFilters} from "@/modules/products/hooks/use-product-filters";
 import {MainHeader} from "@/modules/shared/ui/components/main-header";
-import {SignInButton} from "@/modules/auth/ui/components/sign-in-button";
 import {Suspense} from "react";
 import {DEFAULT_HEADER_COLOR} from "@/modules/home/constants";
 import {Categories} from "@/app/(app)/(home)/search-filters/categories";
@@ -26,34 +25,28 @@ export const Navbar = () => {
     const activeCategoryColor = activeCategoryData?.color || DEFAULT_HEADER_COLOR;
 
     return (
-        <nav className="z-100 sticky top-0 p-6 border-b-[2px]"
+        <nav className="z-20 sticky top-0 p-6 border-b-[2px] border-l-[2px] border-r-[2px] rounded-bl-4xl rounded-br-4xl flex flex-col gap-y-4"
              style={{ backgroundColor: activeCategoryColor }}
         >
-            <div className="max-w-(--breakpoint-2xl) mx-auto flex flex-col gap-y-4">
-                <div className="flex flex-col lg:flex-row font-medium items-center gap-y-4 lg:gap-x-4 m-4 lg:m-0">
-                    <MainHeader/>
-                    <SearchInput
-                        categories={data}
-                        defaultValue={filters.search}
-                        onSearchChange={(searchInput) => setFilters({
-                            search: searchInput,
-                        })}
-                        onCategoryChange={(categorySlug) => setFilters({
-                            category: categorySlug,
-                        })}
-                    />
 
-                    <SignInButton/>
-                </div>
-                <Suspense fallback={<SearchFiltersLoading/>}>
-                    <div className="hidden lg:flex flex-col gap-4 w-full ">
-                        <Categories data={data}/>
-                    </div>
-                </Suspense>
+            <div className="flex flex-col lg:flex-row font-medium items-center gap-y-4 lg:gap-x-4 m-4 lg:m-0">
+                <MainHeader/>
+                <SearchInput
+                    categories={data}
+                    defaultValue={filters.search}
+                    onSearchChange={(searchInput) => setFilters({
+                        search: searchInput,
+                    })}
+                    onCategoryChange={(categorySlug) => setFilters({
+                        category: categorySlug,
+                    })}
+                />
             </div>
-
-
-
+            <Suspense fallback={<SearchFiltersLoading/>}>
+                <div className="hidden lg:flex flex-col gap-4 w-full ">
+                    <Categories data={data}/>
+                </div>
+            </Suspense>
         </nav>
     )
 }

@@ -24,7 +24,7 @@ export const ProductCard = ({
         event.preventDefault();
         event.stopPropagation();
 
-        router.push(generateTenantURL(prod.tenant.slug))
+        router.push(generateTenantURL(prod.tenant?.slug))
     }
 
     if(!prod.name){
@@ -32,11 +32,11 @@ export const ProductCard = ({
     }
 
     return (
-            <Link href={`${generateTenantURL(prod.tenant.slug)}/products/${prod.id}`}>
+            <Link href={`${generateTenantURL(prod.tenant?.slug)}/products/${prod.id}`}>
                 <div className="brutal-hover-shadow transition-shadow border rounded-md bg-card-primary overflow-hidden h-full flex flex-col">
                     <div className="relative aspect-square">
                         <Image
-                            alt={prod.name}
+                            alt={prod?.name}
                             fill
                             src={prod.image?.url || "/placeholder.png"}
                             className="object-cover"/>
@@ -44,15 +44,15 @@ export const ProductCard = ({
                     <div className="p-4 border-y flex flex-col gap-3 flex-1">
                             <h2 className="text-xs 2xl:text-sm font-medium line-clamp-1">{prod.name}</h2>
                         <div className="flex items-center gap-2" onClick={handleUserClick}>
-                            {prod.tenant.image?.url && (
+                            {prod.tenant?.image?.url && (
                                 <Image
                                     src={prod.tenant.image?.url}
-                                    alt={prod.tenant.slug}
+                                    alt={prod.tenant?.slug}
                                     width={24}
                                     height={24}
                                     className="rounded-full border shrink-0 size-[24px]"/>
                             )}
-                            <p className="text-sm underline font-medium">{prod.tenant.name}</p>
+                            <p className="text-sm underline font-medium">{prod.tenant?.name}</p>
                         </div>
                         <div className="flex items-center gap-1">
                             <StarIcon className="size-3.5 fill-black"/>

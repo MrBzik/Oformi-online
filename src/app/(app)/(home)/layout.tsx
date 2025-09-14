@@ -16,11 +16,11 @@ const Layout = async ({ children }: Props) => {
     );
 
     return (
-        <div className="bg-bg-primary">
-            <HydrationBoundary state={dehydrate(queryClient)}>
-                <Navbar/>
-            </HydrationBoundary>
-            <div className="max-w-(--breakpoint-2xl) mx-auto min-h-screen flex flex-col">
+        <div className="bg-bg-primary overflow-clip">
+            <div className="max-w-(--breakpoint-2xl) mx-auto flex flex-col min-h-screen">
+                <HydrationBoundary state={dehydrate(queryClient)}>
+                    <Navbar/>
+                </HydrationBoundary>
                 <div className="flex-1">
                     {children}
                 </div>
