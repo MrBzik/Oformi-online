@@ -96,10 +96,10 @@ export const SearchInput = (
                     onClick={() => {onSearchChange?.(searchValue)}}
                 />
             </div>
-            <div className="flex gap-3">
+            <div className="hidden lg:flex gap-3">
                 <Link
                     href={session.data?.user ? "/profile" : "/sign-in"}
-                    className="hidden lg:flex flex-col items-center"
+                    className="flex flex-col items-center"
                 >
                     <Icon icon="mingcute:user-2-line" width="24" height="24" style={{color: 'black'} } />
                     <span className="text-xs underline">
@@ -112,7 +112,7 @@ export const SearchInput = (
                 {session.data?.user && (
                     <Link
                         href="/favourite"
-                        className="hidden lg:flex flex-col items-center"
+                        className="flex flex-col items-center"
                     >
                         <Icon icon="mingcute:heart-line" width="24" height="24" style={{color: 'black'} } />
                         <span className="text-xs underline">
@@ -124,7 +124,7 @@ export const SearchInput = (
                 {session.data?.user && (
                     <Link
                         href="/referral"
-                        className="hidden lg:flex flex-col items-center"
+                        className="flex flex-col items-center"
                     >
                         <Icon icon="mingcute:link-line" width="24" height="24" style={{color: 'black'}}  />
                         <span className="text-xs underline">

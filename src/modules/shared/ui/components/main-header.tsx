@@ -13,8 +13,22 @@ export const MainHeader = () => {
             <h1 className={cn("text-xl font-semibold", poppins.className)}>
                 <span className="text-sky-600">О</span>
                 <span>форми </span>
-                <span className="text-orange-500">О</span>
+                <span className="text-input-primary">О</span>
                 <span>нлайн</span>
+            </h1>
+        </Link>
+    )
+}
+
+export const MainHeaderTwoLines = () => {
+    return (
+        <Link href="/" className="pl-28 flex items-center">
+            <h1 className={cn("text-lg font-semibold leading-tight", poppins.className)}>
+                <span className="text-sky-600">О</span>
+                <span>форми </span>
+                <br/>
+                <span className="text-input-primary">О</span>
+                <span className="tracking-widest">нлайн</span>
             </h1>
         </Link>
     )

@@ -5,10 +5,11 @@ import {useTRPC} from "@/trpc/client";
 import {useSuspenseQuery} from "@tanstack/react-query";
 import {SearchInput} from "@/app/(app)/(home)/search-filters/search-input";
 import {useProductFilters} from "@/modules/products/hooks/use-product-filters";
-import {MainHeader} from "@/modules/shared/ui/components/main-header";
+import {MainHeaderTwoLines} from "@/modules/shared/ui/components/main-header";
 import {Suspense} from "react";
 import {DEFAULT_HEADER_COLOR} from "@/modules/home/constants";
 import {Categories} from "@/app/(app)/(home)/search-filters/categories";
+import Image from "next/image";
 
 export const Navbar = () => {
 
@@ -29,7 +30,8 @@ export const Navbar = () => {
         >
             <div className="flex font-medium items-center gap-y-4 lg:gap-x-4 m-4 lg:m-0">
                 <div className="hidden lg:block shrink-0">
-                    <MainHeader/>
+                    <Image src="/big_logo.png" alt="logo" width={120} height={120} className="absolute -translate-y-1/4 -translate-x-1/6"/>
+                    <MainHeaderTwoLines/>
                 </div>
                 <SearchInput
                     categories={data}
