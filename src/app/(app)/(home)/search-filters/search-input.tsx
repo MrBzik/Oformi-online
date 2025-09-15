@@ -59,16 +59,13 @@ export const SearchInput = (
                 data={categories}
                 onCategoryPick={(categorySlug: string) => onCategoryChange?.(categorySlug)}
             />
-            <div className="relative w-full">
-                <div className="absolute w-full border-x-[55px] border-input-primary rounded-xl h-12 pointer-events-none"/>
-                <div className="absolute left-12 w-[calc(100%-6rem)] border-x-[7px] border-white rounded-xl h-12 pointer-events-none"/>
-                <div className="absolute w-full border-[2px] border-input-primary rounded-xl h-12 pointer-events-none"/>
+            <div className="relative w-full rounded-xl bg-gradient-to-r from-sky-600 to-input-primary px-12 py-2">
                 <ListFilterIcon
                     className="absolute left-5 top-1/2 -translate-y-1/2 size-4 text-white cursor-pointer"
                     onClick={() => setIsSidebarOpen(true)}
                 />
                 <Input
-                    className="px-14 bg-card-primary rounded-xl"
+                    className="bg-card-primary rounded-xl border-0"
                     placeholder="Найти услугу"
                     disabled={disabled}
                     value={searchValue}

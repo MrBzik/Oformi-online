@@ -11,7 +11,7 @@ export const Favourite: CollectionConfig = {
     },
 
     admin: {
-        useAsTitle: "product"
+        useAsTitle: "product",
     },
 
     fields: [

@@ -33,7 +33,8 @@ export const ProductCard = ({
 
     return (
             <Link href={`${generateTenantURL(prod.tenant?.slug)}/products/${prod.id}`}>
-                <div className="brutal-hover-shadow transition-shadow border rounded-md bg-card-primary overflow-hidden h-full flex flex-col">
+                <div className="brutal-hover-shadow transition-shadow border rounded-lg bg-card-primary overflow-hidden h-full flex flex-col">
+
                     <div className="relative aspect-square">
                         <Image
                             alt={prod?.name}
@@ -41,7 +42,8 @@ export const ProductCard = ({
                             src={prod.image?.url || "/placeholder.png"}
                             className="object-cover"/>
                     </div>
-                    <div className="p-4 border-y flex flex-col gap-3 flex-1">
+                    <div className="p-4 border-y flex flex-col gap-3 flex-1"
+                    >
                             <h2 className="text-xs 2xl:text-sm font-medium line-clamp-1">{prod.name}</h2>
                         <div className="flex items-center gap-2" onClick={handleUserClick}>
                             {prod.tenant?.image?.url && (
@@ -72,7 +74,7 @@ export const ProductCard = ({
                         </div>
                         {
                             prod.oldPrice && (
-                                <span className="text-lg text-muted-foreground line-through">
+                                <span className="text-sm text-muted-foreground line-through">
                                     {formatCurrency(prod.oldPrice)}
                                 </span>
                             )
