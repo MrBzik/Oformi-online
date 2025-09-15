@@ -48,7 +48,7 @@ export default buildConfig({
   },
   editor: lexicalEditor({
     features: ({ defaultFeatures }) => [
-        ...defaultFeatures.filter((feature) => feature.key !== "relationship"),
+        ...defaultFeatures.filter((feature) => feature.key !== "relationship" && feature.key !==  "upload"),
         HeadingFeature({ enabledHeadingSizes: ['h2', 'h3', 'h4', 'h5', 'h6'] }),
     ]
   }),

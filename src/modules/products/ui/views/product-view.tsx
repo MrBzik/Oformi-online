@@ -18,6 +18,7 @@ import {reviewCountToText} from "@/modules/utils/reviewsUtils";
 import {ProductCard} from "@/modules/products/ui/components/product-card";
 import Link from "next/link";
 import {ProductAddToFavourite} from "@/modules/products/ui/components/product-favourite";
+import Image from "next/image";
 
 interface Props {
     productId: string;
@@ -57,7 +58,15 @@ export const ProductView = ({productId, tenantSlug} : Props) => {
 
                 <div className="grid grid-cols-1 lg:grid-cols-6 gap-y-4">
                     <div className="col-span-4 border border-e-[3px] border-b-[3px] rounded-sm bg-card-primary">
-                        <div className="p-6">
+                        <div className="p-6 flex flex-col gap-y-4">
+                            <Image
+                                src={data.image?.url || ""}
+                                width={data.image?.width || 0}
+                                height={data.image?.height || 0}
+                                alt={data.image?.alt || "product image"}
+                                className="object-contain w-full h-auto"
+                            />
+
                             <RichText data={data.description} className="leading-8"/>
                         </div>
                     </div>

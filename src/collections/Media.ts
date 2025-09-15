@@ -10,6 +10,9 @@ export const Media: CollectionConfig = {
   access: {
     read : ({req}) => (req.user?.tenants?.length ?? 0) > 0 || isSuperAdmin(req.user),
   },
+  admin: {
+    hidden: true
+  },
   fields: [
     {
       name: 'alt',
