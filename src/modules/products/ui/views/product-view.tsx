@@ -26,6 +26,7 @@ interface Props {
 }
 
 export const ProductView = ({productId, tenantSlug} : Props) => {
+
     const trpc = useTRPC();
     const {data} = useSuspenseQuery(trpc.products.getOne.queryOptions({
         id: productId,
