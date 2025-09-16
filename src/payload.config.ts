@@ -20,7 +20,6 @@ import {Orders} from "@/collections/Orders";
 import {isSuperAdmin} from "@/lib/access";
 import {resendAdapter} from "@payloadcms/email-resend";
 import {Favourite} from "@/collections/Favourite";
-import {uploadthingStorage} from "@payloadcms/storage-uploadthing";
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -74,21 +73,12 @@ export default buildConfig({
       },
       userHasAccessToAllTenants: (user) => isSuperAdmin(user),
     }),
-    // vercelBlobStorage({
-    //   enabled: true,
-    //   collections: {
-    //     media: true
-    //   },
-    //   token: process.env.BLOB_READ_WRITE_TOKEN
-    // })
-    uploadthingStorage({
+    vercelBlobStorage({
+      enabled: true,
       collections: {
-        media: true,
+        media: true
       },
-      options: {
-        token: process.env.UPLOADTHING_TOKEN,
-        acl: 'public-read',
-      },
-    }),
+      token: process.env.BLOB_READ_WRITE_TOKEN
+    })
   ],
 })
