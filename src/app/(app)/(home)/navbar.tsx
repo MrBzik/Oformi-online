@@ -28,7 +28,6 @@ export const Navbar = () => {
     const navContainer = useRef<HTMLDivElement>(null)
 
     const showNavBar = useScrollThreshold(navContainer)
-    console.log(showNavBar)
 
     return (
         <>
