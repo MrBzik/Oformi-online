@@ -20,6 +20,7 @@ import {Orders} from "@/collections/Orders";
 import {isSuperAdmin} from "@/lib/access";
 import {resendAdapter} from "@payloadcms/email-resend";
 import {Favourite} from "@/collections/Favourite";
+import {s3Storage} from "@payloadcms/storage-s3";
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -73,12 +74,26 @@ export default buildConfig({
       },
       userHasAccessToAllTenants: (user) => isSuperAdmin(user),
     }),
-    vercelBlobStorage({
-      enabled: true,
-      collections: {
-        media: true
-      },
-      token: process.env.BLOB_READ_WRITE_TOKEN
-    })
+    // vercelBlobStorage({
+    //   enabled: true,
+    //   collections: {
+    //     media: true
+    //   },
+    //   token: process.env.BLOB_READ_WRITE_TOKEN
+    // })
+      s3Storage({
+        collections: {
+          media: true
+        },
+        bucket: process.env.S3_BUCKET || "",
+        config: {
+          credentials: {
+            accessKeyId: process.env.S3_ACCESS_KEY_ID || '',
+            secretAccessKey: process.env.S3_SECRET || '',
+          },
+          region: "auto",
+          endpoint: process.env.S3_ENDPOINT,
+        }
+      })
   ],
 })
