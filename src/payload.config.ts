@@ -40,6 +40,13 @@ export default buildConfig({
     importMap: {
       baseDir: path.resolve(dirname),
     },
+    
+    components: {
+      afterNavLinks: [`/components/payload/back-to-site.tsx`],
+      beforeLogin: [`/components/payload/login-brand.tsx`],
+      afterLogin: [`/components/payload/back-to-site.tsx`],
+      beforeDashboard: [`/components/payload/dashboard-header.tsx`],
+    }
   },
   collections: [Users, Media, Categories, Products, Tags, Tenants, Reviews, Orders, Favourite],
   upload: {
