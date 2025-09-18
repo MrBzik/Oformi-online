@@ -81,26 +81,26 @@ export default buildConfig({
       },
       userHasAccessToAllTenants: (user) => isSuperAdmin(user),
     }),
-    vercelBlobStorage({
-      enabled: true,
-      collections: {
-        media: true
-      },
-      token: process.env.BLOB_READ_WRITE_TOKEN
-    })
-    //   s3Storage({
-    //     collections: {
-    //       media: true
-    //     },
-    //     bucket: process.env.S3_BUCKET || "",
-    //     config: {
-    //       credentials: {
-    //         accessKeyId: process.env.S3_ACCESS_KEY_ID || '',
-    //         secretAccessKey: process.env.S3_SECRET || '',
-    //       },
-    //       region: "auto",
-    //       endpoint: process.env.S3_ENDPOINT,
-    //     }
-    //   })
+    // vercelBlobStorage({
+    //   enabled: true,
+    //   collections: {
+    //     media: true
+    //   },
+    //   token: process.env.BLOB_READ_WRITE_TOKEN
+    // })
+      s3Storage({
+        collections: {
+          media: true
+        },
+        bucket: process.env.S3_BUCKET || "",
+        config: {
+          credentials: {
+            accessKeyId: process.env.S3_ACCESS_KEY_ID || '',
+            secretAccessKey: process.env.S3_SECRET || '',
+          },
+          region: "auto",
+          endpoint: process.env.S3_ENDPOINT,
+        }
+      })
   ],
 })

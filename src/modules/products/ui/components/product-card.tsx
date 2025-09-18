@@ -39,6 +39,7 @@ export const ProductCard = ({
                         <Image
                             alt={prod?.name}
                             fill
+                            loader={(img) => img.src}
                             src={prod.image?.url || "/placeholder.png"}
                             className="object-cover"/>
                     </div>
