@@ -3,6 +3,7 @@
 import Image from "next/image";
 import {useTRPC} from "@/trpc/client";
 import {useSuspenseQuery} from "@tanstack/react-query";
+import {imageNameToSrc} from "@/modules/utils/s3_url";
 
 interface Props {
     tenantSlug: string;
@@ -17,12 +18,13 @@ export const TenantLink = ({
         slug: tenantSlug
     }))
 
+    const tenantImgSrc = imageNameToSrc(data.image?.url)
 
     return (
         <div className="flex gap-4 items-start">
-            {data.image?.url && (
+            {tenantImgSrc && (
                 <Image
-                    src={data.image.url}
+                    src={tenantImgSrc}
                     alt={tenantSlug}
                     className="rounded-full border shrink-0 size-[32px]"
                     width={32}

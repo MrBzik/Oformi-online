@@ -19,6 +19,7 @@ import {ProductCard} from "@/modules/products/ui/components/product-card";
 import Link from "next/link";
 import {ProductAddToFavourite} from "@/modules/products/ui/components/product-favourite";
 import Image from "next/image";
+import {imageNameToSrc} from "@/modules/utils/s3_url";
 
 interface Props {
     productId: string;
@@ -43,6 +44,8 @@ export const ProductView = ({productId, tenantSlug} : Props) => {
 
     const [isCopied, setIsCopied] = useState(false);
 
+    const src = imageNameToSrc(data.image?.filename) || "";
+
     return (
         <div className="px-4 lg:px-12 py-10">
             <div className="p-6 flex flex-col gap-4">
@@ -60,7 +63,7 @@ export const ProductView = ({productId, tenantSlug} : Props) => {
                     <div className="col-span-4 border border-e-[3px] border-b-[3px] rounded-sm bg-card-primary">
                         <div className="p-6 flex flex-col gap-y-4">
                             <Image
-                                src={data.image?.url || ""}
+                                src={src}
                                 width={data.image?.width || 0}
                                 height={data.image?.height || 0}
                                 alt={data.image?.alt || "product image"}

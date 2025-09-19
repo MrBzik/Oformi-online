@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" xmlns:bx="https://boxy-svg.com">
+  <defs>
+    <bx:export>
+      <bx:file format="svg" href="#object-0"/>
+    </bx:export>
+    <pattern x="0" y="0" width="25" height="25" patternUnits="userSpaceOnUse" viewBox="0 0 100 100" id="pattern-0">
+      <rect x="0" y="0" width="50" height="100" style="fill: rgb(240, 88, 74);"/>
+    </pattern>
+    <pattern id="pattern-0-0" href="#pattern-0" patternTransform="matrix(2.437681, -12.789843, 6.454699, 1.230234, 375.313266, 462.876559)"/>
+  </defs>
+  <ellipse style="fill: rgba(216, 216, 216, 0); stroke-width: 50px; stroke: rgb(240, 88, 74);" cx="345" cy="250" rx="125" ry="125"/>
+  <ellipse style="fill: rgba(216, 216, 216, 0); stroke-width: 50; stroke: rgb(0, 132, 208);" cx="155" cy="250" rx="125" ry="125" id="object-0"/>
+  <ellipse style="fill: rgba(216, 216, 216, 0); stroke-width: 50; stroke: url(&quot;#pattern-0-0&quot;);" cx="345" cy="250" rx="125" ry="125"/>
+</svg>

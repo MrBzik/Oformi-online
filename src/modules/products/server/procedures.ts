@@ -66,10 +66,16 @@ export const productsRouter = createTRPCRouter({
                 ]
             };
 
-            let sort: Sort = "-createdAt"
+            let sort: Sort = "-totalOrders"
 
-            if (input.sort === "популярные"){
-                sort = "+createdAt"
+            if (input.sort === "дешевле"){
+                sort = "price"
+            } else if (input.sort === "дороже"){
+                sort = "-price"
+            } else if (input.sort === "по рейтингу"){
+                sort = "-totalRating"
+            } else if (input.sort === "популярные"){
+                sort = "-totalOrders"
             }
 
 
