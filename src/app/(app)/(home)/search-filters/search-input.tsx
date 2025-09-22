@@ -98,8 +98,8 @@ export const SearchInput = (
                     href={session.data?.user ? "/profile" : "/sign-in"}
                     className="flex flex-col items-center"
                 >
-                    <Icon icon="mingcute:user-2-line" width="24" height="24" style={{color: 'black'} } />
-                    <span className="text-xs underline">
+                    <Icon icon="mingcute:user-2-line" width="32" height="32" style={{color: 'black'} } />
+                    <span className="text-md underline">
                         {
                             session.data?.user ? "Профиль" : "Войти"
                         }
@@ -111,24 +111,22 @@ export const SearchInput = (
                         href="/favourite"
                         className="flex flex-col items-center"
                     >
-                        <Icon icon="mingcute:heart-line" width="24" height="24" style={{color: 'black'} } />
-                        <span className="text-xs underline">
+                        <Icon icon="mingcute:heart-line" width="32" height="32" style={{color: 'black'} } />
+                        <span className="text-md underline">
                         Избранное
                     </span>
                     </Link>
                 )}
 
-                {session.data?.user && (
-                    <Link
-                        href="/referral"
-                        className="flex flex-col items-center"
-                    >
-                        <Icon icon="mingcute:link-line" width="24" height="24" style={{color: 'black'}}  />
-                        <span className="text-xs underline">
+                <Link
+                    href="/referral"
+                    className="flex flex-col items-center"
+                >
+                    <Icon icon="mingcute:link-line" width="32" height="32" style={{color: 'black'}}  />
+                    <span className="text-md underline">
                         Доход
                     </span>
-                    </Link>
-                )}
+                </Link>
             </div>
 
 

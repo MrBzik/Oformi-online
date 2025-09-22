@@ -5,6 +5,7 @@ import {PlainFooter} from "@/modules/shared/ui/components/plain-footer";
 import {TgNotificationsSetup} from "@/modules/auth/ui/views/tg-notifications-setup";
 import {Tenant} from "@/payload-types";
 import {isSuperAdmin} from "@/lib/access";
+import {redirect} from "next/navigation";
 
 export const dynamic = "force-dynamic";
 
@@ -13,6 +14,10 @@ const Page = async () => {
     const session = await caller.auth.session();
 
     const tenant = session.user?.tenants?.[0]?.tenant as Tenant | undefined;
+
+    if(!session.user) {
+        redirect("/sign-up");
+    }
 
     return (
         <div className="flex flex-col h-screen">

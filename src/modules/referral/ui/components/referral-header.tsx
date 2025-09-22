@@ -2,6 +2,7 @@
 
 import {toast} from "sonner";
 import Link from "next/link";
+import {cn} from "@/lib/utils";
 
 interface Props {
     userId?: string,
@@ -14,23 +15,37 @@ export const ReferralHeader = ({
 } : Props) => {
     return (
         <div className="flex flex-col gap-y-4">
+            {
+                !userId && (
+                    <div className="flex gap-x-1">
+                        <Link href="/sign-in" className="cursor-pointer underline text-input-primary">Регистрируйся</Link>
+                        <span>и начинай зарабатывать!</span>
+                    </div>
+                )
+            }
             <div className="flex gap-x-1">
                 <span>Приглашай новых покупателей по</span>
                 <span
-                    className="underline text-input-primary cursor-pointer"
+                    className={cn(userId && "underline text-input-primary cursor-pointer")}
                     onClick={() => {
-                        navigator.clipboard.writeText(`https:/oformi.online/?ref=${userId}`)
-                        toast.success("Реферальная ссылка скопирована")
+                        if(userId){
+                            navigator.clipboard.writeText(`https:/oformi.online/?ref=${userId}`)
+                            toast.success("Реферальная ссылка скопирована")
+                        }
                     }}
                 >реферальной ссылке!</span>
                 <span>Зарабатывай {refPercentage}% с каждой продажи!</span>
             </div>
-            <div className="flex gap-x-1">
-                <span>Не забудь подключить Telegram уведомления</span>
-                <Link className="underline cursor-pointer text-input-variant" href="/profile">
-                    здесь
-                </Link>
-            </div>
+            {
+                userId && (
+                    <div className="flex gap-x-1">
+                        <span>Не забудь подключить Telegram уведомления</span>
+                        <Link className="underline cursor-pointer text-input-variant" href="/profile">
+                            здесь
+                        </Link>
+                    </div>
+                )
+            }
         </div>
     )
 }
