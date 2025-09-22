@@ -3,8 +3,7 @@
 import {useTRPC} from "@/trpc/client";
 import {useMutation, useQuery, useSuspenseInfiniteQuery, useSuspenseQuery} from "@tanstack/react-query";
 import {cn, formatCurrency} from "@/lib/utils";
-import {StarRating} from "@/components/star-rating";
-import {StarIcon} from "lucide-react";
+import {LoaderIcon, StarIcon} from "lucide-react";
 import {Fragment, useEffect, useState} from "react";
 import {Progress} from "@/components/ui/progress";
 import {RichText} from "@payloadcms/richtext-lexical/react"
@@ -20,6 +19,9 @@ import Link from "next/link";
 import {ProductAddToFavourite} from "@/modules/products/ui/components/product-favourite";
 import Image from "next/image";
 import {imageNameToSrc} from "@/modules/utils/s3_url";
+import {Tenant} from "@/payload-types";
+import {ReviewItem} from "@/modules/reviews/ui/components/review-item";
+import InfiniteScroll from "@/components/ui/infinite-scroll";
 
 interface Props {
     productId: string;
@@ -38,14 +40,20 @@ export const ProductView = ({
     }))
     const {data: session} = useQuery(trpc.auth.session.queryOptions())
 
-    const {data: reviews} = useSuspenseInfiniteQuery(trpc.reviews.getMany.infiniteQueryOptions({
+    const {
+        data: reviews,
+        hasNextPage,
+        isFetchingNextPage,
+        fetchNextPage,
+    } = useSuspenseInfiniteQuery(trpc.reviews.getMany.infiniteQueryOptions({
         productId: data.id,
     },
         {
             getNextPageParam : (lastPage) => {
                 return lastPage.docs.length > 0 ? lastPage.nextPage : undefined;
-            }
-        }))
+            },
+        }
+        ))
 
     const [isCopied, setIsCopied] = useState(false);
 
@@ -55,6 +63,15 @@ export const ProductView = ({
     }, []);
 
     const src = imageNameToSrc(data.image?.filename) || "";
+
+    let isProductOwner = false
+
+    if((session?.user?.tenants?.length || 0) > 0 ){
+        const userTenant = session?.user?.tenants?.[0]?.tenant as Tenant
+        if(userTenant.slug === tenantSlug){
+            isProductOwner = true
+        }
+    }
 
     return (
         <div className="px-4 lg:px-12 py-10">
@@ -96,25 +113,36 @@ export const ProductView = ({
                                         )
                                     }
                                 </div>
-                                <ProductOrder productId={productId} isArchived={data.isArchived ?? false}/>
-                                <ProductAddToFavourite productId={productId} isArchived={data.isArchived ?? false}/>
-                                <p className="font-medium">
-                                    {`Зарабатывай с программой лояльности:`}
-                                </p>
-                                <Button
-                                    className={cn("flex-1 bg-orange-400")}
-                                    onClick={async () => {
-                                        setIsCopied(true)
-                                        navigator.clipboard.writeText(window.location.href + `/?ref=${session?.user?.id}`)
-                                        toast.success("Реферальная ссылка скопирована. Больше информации в личном кабинете")
-                                        setTimeout(() => {
-                                            setIsCopied(false)
-                                        }, 1000)
-                                    }}
-                                    disabled={isCopied || session?.user == null}
-                                >
-                                    {session?.user ? "Реферальная ссылка" : "Требуется авторизация"}
-                                </Button>
+                                {
+                                    isProductOwner ? (
+                                        <Link
+                                            className="text-lg underline text-input-variant"
+                                            href={`/admin/collections/products/${data.id}`}>Редактировать услугу</Link>
+                                    ) : (
+                                        <div className="flex flex-col gap-4">
+                                            <ProductOrder productId={productId} isArchived={data.isArchived ?? false}/>
+                                            <ProductAddToFavourite productId={productId} isArchived={data.isArchived ?? false}/>
+                                            <p className="font-medium">
+                                                {`Зарабатывай с программой лояльности:`}
+                                            </p>
+                                            <Button
+                                                className={cn("flex-1 bg-orange-400")}
+                                                onClick={async () => {
+                                                    setIsCopied(true)
+                                                    navigator.clipboard.writeText(window.location.href + `/?ref=${session?.user?.id}`)
+                                                    toast.success("Реферальная ссылка скопирована. Больше информации в личном кабинете")
+                                                    setTimeout(() => {
+                                                        setIsCopied(false)
+                                                    }, 1000)
+                                                }}
+                                                disabled={isCopied || session?.user == null}
+                                            >
+                                                {session?.user ? "Реферальная ссылка" : "Требуется авторизация"}
+                                            </Button>
+                                        </div>
+                                    )
+                                }
+
                             </div>
                             <div className="p-6">
                                 {
@@ -183,34 +211,38 @@ export const ProductView = ({
                 }
                 <div className="grid grid-cols-1 lg:grid-cols-6 gap-x-4">
                     <div className="col-span-4">
-                        <div className="col-span-4 w-full">
-                            <div className="p-6">
-                                <ReviewForm productId={productId}/>
-                            </div>
-                        </div>
-                        <div id="reviews" className="border border-e-[3px] border-b-[3px] rounded-sm bg-card-primary">
-                            <div className="p-6">
-                                <h2>Отзывы</h2>
-                            </div>
+                        {
+                            !isProductOwner && (
+                                <div className="col-span-4 w-full">
+                                    <div className="p-6">
+                                        <ReviewForm productId={productId}/>
+                                    </div>
+                                </div>
+                            )
+                        }
+                        <div id="reviews">
+                            <h2 className="p-6">Отзывы</h2>
                             { reviews.pages?.[0]?.docs.length ===0 ? (
                                 <p className="p-6 text-muted-foreground">
                                     У этой улсуги пока нет отзывов
-                                </p>) :
-                                reviews.pages.flatMap((page) => page.docs).map((review) => (
-                                    <div
-                                        key={review.id}
-                                        className="p-6 flex flex-col gap-2 border-t">
-                                        <div className="flex flex-row justify-between">
-                                            <p className="font-semibold">{review.user.username}</p>
-                                            <StarRating
-                                                rating={review.rating}
-                                                iconClassName="size-3"
-                                            />
+                                </p>) : (
+                                    <>
+                                        <div className="space-y-4">
+                                            {reviews.pages.flatMap((page) => page.docs).map((review) => (
+                                                <ReviewItem
+                                                    key={review.id}
+                                                    review={review}
+                                                    canResponse={isProductOwner}
+                                                />
+                                            ))}
                                         </div>
-                                        <p className="font-medium">{review.description}</p>
-                                    </div>
-                                ))
-                            }
+                                        <div className="flex w-full justify-center">
+                                            <InfiniteScroll isLoading={isFetchingNextPage} hasMore={hasNextPage} next={fetchNextPage}>
+                                                {hasNextPage && <LoaderIcon className="my-14 h-8 w-8 animate-spin" />}
+                                            </InfiniteScroll>
+                                        </div>
+                                    </>
+                            )}
                         </div>
                     </div>
                 </div>

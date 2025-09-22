@@ -40,6 +40,11 @@ export const Reviews: CollectionConfig = {
             relationTo: "users",
             hasMany: false,
             required: true,
+        },
+        {
+            name: "response",
+            type: "text",
+            required: false
         }
     ],
     labels: {

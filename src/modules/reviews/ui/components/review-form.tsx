@@ -6,23 +6,20 @@ import {Textarea} from "@/components/ui/textarea";
 import {Button} from "@/components/ui/button";
 import {StarPicker} from "@/modules/reviews/ui/components/star-picker";
 import {useTRPC} from "@/trpc/client";
-import {useMutation, useQuery, useSuspenseQuery} from "@tanstack/react-query";
+import {useMutation, useQuery, useQueryClient, useSuspenseQuery} from "@tanstack/react-query";
 import {toast} from "sonner";
+import {reviewSchema} from "@/modules/reviews/schemas";
 
 interface Props {
     productId: string;
 }
-
-const formSchema = z.object({
-    rating: z.number().min(1, {message: "Необходимо указать рейтинг"}).max(5),
-    description: z.string().min(1, {message: "Необходимо описание"})
-})
 
 export const ReviewForm = ({
     productId,
 } : Props) => {
 
     const trpc = useTRPC();
+    const queryClient = useQueryClient()
     const {data: session} = useQuery(trpc.auth.session.queryOptions())
 
     const {data: initialData} = useSuspenseQuery(trpc.reviews.getOne.queryOptions({
@@ -30,20 +27,23 @@ export const ReviewForm = ({
     }))
 
     const upsertReview = useMutation(trpc.reviews.upsert.mutationOptions({
-        onSuccess: () => {
+        onSuccess: async () => {
+            await queryClient.invalidateQueries({
+                queryKey: [trpc.reviews.getMany.queryKey().entries()]
+            });
             toast.success("Отзыв успешно опубликован")
         }
     }))
 
-    const form = useForm<z.infer<typeof formSchema>>({
-        resolver: zodResolver(formSchema),
+    const form = useForm<z.infer<typeof reviewSchema>>({
+        resolver: zodResolver(reviewSchema),
         defaultValues: {
             rating: initialData?.rating ?? 0,
             description: initialData?.description ?? ""
         }
     })
 
-    const onSubmit = (data: z.infer<typeof formSchema>) => {
+    const onSubmit = (data: z.infer<typeof reviewSchema>) => {
         upsertReview.mutate({
             productId: productId,
             rating: data.rating,
@@ -87,7 +87,7 @@ export const ReviewForm = ({
                     )}
                 />
                 <Button
-                    disabled={session?.user == null}
+                    disabled={session?.user == null || upsertReview.isPending}
                     type={"submit"}
                     size="lg"
                     className="bg-black text-white hover:bg-blue-400 hover:text-primary w-full lg:w-fit"

@@ -4,6 +4,7 @@ import {TRPCError} from "@trpc/server";
 import {DEFAULT_LIMIT_REVIEWS} from "@/constants";
 import {Review, Tenant, User} from "@/payload-types";
 import {generateTgReqUrl, sendTgMessage} from "@/modules/utils/generateTgReqUrl";
+import {reviewResponseSchema, reviewResponseSubmitSchema, reviewSubmitSchema} from "@/modules/reviews/schemas";
 
 export const reviewsRouter = createTRPCRouter({
     getOne: protectedProcedure
@@ -97,13 +98,7 @@ export const reviewsRouter = createTRPCRouter({
         }),
 
     upsert: protectedProcedure
-        .input(
-            z.object({
-                productId: z.string(),
-                rating: z.number().min(1, {message: "Необходимо указать рейтинг"}).max(5),
-                description: z.string().min(1, {message: "Необходимо описание"})
-            })
-        ).mutation(async ({input, ctx}) => {
+        .input(reviewSubmitSchema).mutation(async ({input, ctx}) => {
 
             if(!ctx.session.user?.id){
                 throw new TRPCError({
@@ -282,5 +277,16 @@ export const reviewsRouter = createTRPCRouter({
             await ctx.payload.db.commitTransaction(transactionID)
 
             return result
+        }),
+
+    submitResponse: baseProcedure
+        .input(reviewResponseSubmitSchema).mutation(async ({input, ctx}) => {
+            await ctx.payload.update({
+                collection: "reviews",
+                id: input.reviewId,
+                data: {
+                    response: input.response
+                }
+            })
         })
 })

@@ -302,6 +302,7 @@ export interface Review {
   rating: number;
   product: string | Product;
   user: string | User;
+  response?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -562,6 +563,7 @@ export interface ReviewsSelect<T extends boolean = true> {
   rating?: T;
   product?: T;
   user?: T;
+  response?: T;
   updatedAt?: T;
   createdAt?: T;
 }
