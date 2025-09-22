@@ -5,7 +5,7 @@ import {ProductFilters} from "@/modules/products/ui/components/product-filters";
 import {Suspense, useEffect} from "react";
 import {ProductList, ProductListLoading} from "@/modules/products/ui/components/product-list";
 import {useTRPC} from "@/trpc/client";
-import {useSuspenseQuery} from "@tanstack/react-query";
+import {useMutation, useSuspenseQuery} from "@tanstack/react-query";
 import {BreadcrumbNavigation} from "@/app/(app)/(home)/search-filters/breadcrumb-navigation";
 import {useProductFilters} from "@/modules/products/hooks/use-product-filters";
 import {cn} from "@/lib/utils";
@@ -14,15 +14,19 @@ interface Props {
     category?: string;
     tenantSlug?: string;
     narrowView?: boolean;
+    refLink?: string;
 }
 
 export const ProductListView = ({
     tenantSlug,
     narrowView,
+    refLink
 } : Props) => {
 
     const trpc = useTRPC();
     const { data } = useSuspenseQuery(trpc.categories.getMany.queryOptions());
+
+    const handleRefLink = useMutation(trpc.referral.addReferralCookie.mutationOptions({}))
 
     const [filters, setFilters] = useProductFilters();
 
@@ -41,6 +45,10 @@ export const ProductListView = ({
             setFilters({maxPrice: "", minPrice: "", tags: []})
         }
     }, [filters.search, filters.category])
+
+    useEffect(() => {
+        handleRefLink.mutate({refLink: refLink})
+    }, []);
 
     return (
         <div className="px-4 lg:px-12 py-8 flex flex-col gap-4">

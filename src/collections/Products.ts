@@ -4,7 +4,7 @@ import {isSuperAdmin} from "@/lib/access";
 export const Products : CollectionConfig = {
     slug: "products",
     access: {
-        read : ({req}) => (req.user?.tenants?.length ?? 0) > 0 || isSuperAdmin(req.user),
+        read : () => true,
     },
     labels: {
         singular: "Услуга",
@@ -177,7 +177,7 @@ export const Products : CollectionConfig = {
         {
             name: "isVerified",
             type: "checkbox",
-            defaultValue: false,
+            defaultValue: true,
             label: "Пройдена модерация",
             access: {
                 create : ({req}) => isSuperAdmin(req.user),

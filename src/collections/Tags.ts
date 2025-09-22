@@ -4,7 +4,7 @@ import {isSuperAdmin} from "@/lib/access";
 export const Tags : CollectionConfig = {
     slug : "tags",
     access: {
-        read : ({req}) => (req.user?.tenants?.length ?? 0) > 0 || isSuperAdmin(req.user),
+        read : () => true,
         update : ({req}) => isSuperAdmin(req.user),
         delete : ({req}) => isSuperAdmin(req.user),
     },

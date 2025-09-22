@@ -62,6 +62,11 @@ export const productsRouter = createTRPCRouter({
                         isVerified: {
                             equals: true
                         }
+                    },
+                    {
+                        "tenant.isVerified": {
+                            equals: true
+                        }
                     }
                 ]
             };

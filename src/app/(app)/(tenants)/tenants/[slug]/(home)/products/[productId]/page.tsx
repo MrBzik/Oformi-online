@@ -2,14 +2,20 @@ import {getQueryClient, trpc} from "@/trpc/server";
 import {dehydrate, HydrationBoundary} from "@tanstack/react-query";
 import {ProductView, ProductViewLoading} from "@/modules/products/ui/views/product-view";
 import {Suspense} from "react";
+import {loadRefLink} from "@/modules/products/search-params";
+import type {SearchParams} from "nuqs/server";
 
 interface Props {
-    params: Promise<{ productId: string; slug: string}>
+    params: Promise<{ productId: string; slug: string}>,
+    searchParams: Promise<SearchParams>
 }
 
-const Page = async ({params}: Props) => {
+const Page = async ({
+    params, searchParams
+}: Props) => {
 
     const { productId, slug} = await params;
+    const refParams = await loadRefLink(searchParams)
 
     const queryClient = getQueryClient();
     void queryClient.prefetchQuery(trpc.products.getOne.queryOptions({
@@ -37,7 +43,7 @@ const Page = async ({params}: Props) => {
     return (
         <HydrationBoundary state={dehydrate(queryClient)}>
             <Suspense fallback={<ProductViewLoading/>}>
-                <ProductView productId={productId} tenantSlug={slug} />
+                <ProductView productId={productId} tenantSlug={slug} refLink={refParams.ref} />
             </Suspense>
         </HydrationBoundary>
     );

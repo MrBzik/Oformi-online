@@ -4,7 +4,7 @@ import {isSuperAdmin} from "@/lib/access";
 export const Tenants: CollectionConfig = {
     slug: 'tenants',
     access: {
-        read : ({req}) => (req.user?.tenants?.length ?? 0) > 0 || isSuperAdmin(req.user),
+        read : () => true,
         create : ({req}) => isSuperAdmin(req.user),
         delete : ({req}) => isSuperAdmin(req.user),
     },
@@ -46,6 +46,16 @@ export const Tenants: CollectionConfig = {
             name: "image",
             type: "upload",
             relationTo: "media"
+        },
+        {
+            name: "isVerified",
+            type: "checkbox",
+            defaultValue: false,
+            label: "Пройдена модерация",
+            access: {
+                create : ({req}) => isSuperAdmin(req.user),
+                update : ({req}) => isSuperAdmin(req.user),
+            },
         }
         // {
         //     name: "ukassaAccountId",

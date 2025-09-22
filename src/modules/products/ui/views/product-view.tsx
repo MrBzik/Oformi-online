@@ -1,11 +1,11 @@
 "use client"
 
 import {useTRPC} from "@/trpc/client";
-import {useQuery, useSuspenseInfiniteQuery, useSuspenseQuery} from "@tanstack/react-query";
+import {useMutation, useQuery, useSuspenseInfiniteQuery, useSuspenseQuery} from "@tanstack/react-query";
 import {cn, formatCurrency} from "@/lib/utils";
 import {StarRating} from "@/components/star-rating";
 import {StarIcon} from "lucide-react";
-import {Fragment, useState} from "react";
+import {Fragment, useEffect, useState} from "react";
 import {Progress} from "@/components/ui/progress";
 import {RichText} from "@payloadcms/richtext-lexical/react"
 import {ProductOrder} from "@/modules/products/ui/components/product-order";
@@ -24,9 +24,14 @@ import {imageNameToSrc} from "@/modules/utils/s3_url";
 interface Props {
     productId: string;
     tenantSlug: string;
+    refLink?: string
 }
 
-export const ProductView = ({productId, tenantSlug} : Props) => {
+export const ProductView = ({
+    refLink,
+    productId,
+    tenantSlug
+} : Props) => {
     const trpc = useTRPC();
     const {data} = useSuspenseQuery(trpc.products.getOne.queryOptions({
         id: productId,
@@ -43,6 +48,11 @@ export const ProductView = ({productId, tenantSlug} : Props) => {
         }))
 
     const [isCopied, setIsCopied] = useState(false);
+
+    const handleRefLink = useMutation(trpc.referral.addReferralCookie.mutationOptions({}))
+    useEffect(() => {
+        handleRefLink.mutate({refLink: refLink})
+    }, []);
 
     const src = imageNameToSrc(data.image?.filename) || "";
 
@@ -93,9 +103,9 @@ export const ProductView = ({productId, tenantSlug} : Props) => {
                                 </p>
                                 <Button
                                     className={cn("flex-1 bg-orange-400")}
-                                    onClick={() => {
+                                    onClick={async () => {
                                         setIsCopied(true)
-                                        navigator.clipboard.writeText(window.location.href + `/?ref=${data.id}`)
+                                        navigator.clipboard.writeText(window.location.href + `/?ref=${session?.user?.id}`)
                                         toast.success("Реферальная ссылка скопирована. Больше информации в личном кабинете")
                                         setTimeout(() => {
                                             setIsCopied(false)

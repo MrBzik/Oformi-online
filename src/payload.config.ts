@@ -21,6 +21,8 @@ import {isSuperAdmin} from "@/lib/access";
 import {resendAdapter} from "@payloadcms/email-resend";
 import {Favourite} from "@/collections/Favourite";
 import {s3Storage} from "@payloadcms/storage-s3";
+import {RefSetting} from "@/collections/RefSetting";
+import {RefIncome} from "@/collections/RefIncome";
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -48,7 +50,8 @@ export default buildConfig({
       beforeDashboard: [`/components/payload/dashboard-header.tsx`],
     }
   },
-  collections: [Users, Media, Categories, Products, Tags, Tenants, Reviews, Orders, Favourite],
+  collections: [Users, Media, Categories, Products, Tags, Tenants, Reviews, Orders, Favourite, RefIncome],
+  globals: [RefSetting],
   upload: {
     limits: {
       fileSize: 1000000

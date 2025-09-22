@@ -76,6 +76,7 @@ export interface Config {
     reviews: Review;
     orders: Order;
     favourite: Favourite;
+    refIncome: RefIncome;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
@@ -95,6 +96,7 @@ export interface Config {
     reviews: ReviewsSelect<false> | ReviewsSelect<true>;
     orders: OrdersSelect<false> | OrdersSelect<true>;
     favourite: FavouriteSelect<false> | FavouriteSelect<true>;
+    refIncome: RefIncomeSelect<false> | RefIncomeSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
@@ -102,8 +104,12 @@ export interface Config {
   db: {
     defaultIDType: string;
   };
-  globals: {};
-  globalsSelect: {};
+  globals: {
+    refSetting: RefSetting;
+  };
+  globalsSelect: {
+    refSetting: RefSettingSelect<false> | RefSettingSelect<true>;
+  };
   locale: null;
   user: User & {
     collection: 'users';
@@ -138,6 +144,9 @@ export interface UserAuthOperations {
 export interface User {
   id: string;
   username: string;
+  ref?: string | null;
+  potentialRefIncome: number;
+  tgNotificationsChatId?: string | null;
   roles?: ('super-admin' | 'user')[] | null;
   tenants?:
     | {
@@ -178,6 +187,7 @@ export interface Tenant {
   slug: string;
   description?: string | null;
   image?: (string | null) | Media;
+  isVerified?: boolean | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -306,6 +316,8 @@ export interface Order {
   product: string | Product;
   email: string;
   username: string;
+  referral?: string | null;
+  refPercentage?: number | null;
   phone?: string | null;
   telegram?: string | null;
   updatedAt: string;
@@ -319,6 +331,18 @@ export interface Favourite {
   id: string;
   user: string | User;
   product: string | Product;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "refIncome".
+ */
+export interface RefIncome {
+  id: string;
+  user: string | User;
+  income: number;
+  date: string;
   updatedAt: string;
   createdAt: string;
 }
@@ -364,6 +388,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'favourite';
         value: string | Favourite;
+      } | null)
+    | ({
+        relationTo: 'refIncome';
+        value: string | RefIncome;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -413,6 +441,9 @@ export interface PayloadMigration {
  */
 export interface UsersSelect<T extends boolean = true> {
   username?: T;
+  ref?: T;
+  potentialRefIncome?: T;
+  tgNotificationsChatId?: T;
   roles?: T;
   tenants?:
     | T
@@ -518,6 +549,7 @@ export interface TenantsSelect<T extends boolean = true> {
   slug?: T;
   description?: T;
   image?: T;
+  isVerified?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -543,6 +575,8 @@ export interface OrdersSelect<T extends boolean = true> {
   product?: T;
   email?: T;
   username?: T;
+  referral?: T;
+  refPercentage?: T;
   phone?: T;
   telegram?: T;
   updatedAt?: T;
@@ -555,6 +589,17 @@ export interface OrdersSelect<T extends boolean = true> {
 export interface FavouriteSelect<T extends boolean = true> {
   user?: T;
   product?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "refIncome_select".
+ */
+export interface RefIncomeSelect<T extends boolean = true> {
+  user?: T;
+  income?: T;
+  date?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -589,6 +634,40 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
   batch?: T;
   updatedAt?: T;
   createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "refSetting".
+ */
+export interface RefSetting {
+  id: string;
+  refPercent: number;
+  alertsTgBotToken?: string | null;
+  adminTgAccounts?:
+    | {
+        telegramId?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "refSetting_select".
+ */
+export interface RefSettingSelect<T extends boolean = true> {
+  refPercent?: T;
+  alertsTgBotToken?: T;
+  adminTgAccounts?:
+    | T
+    | {
+        telegramId?: T;
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

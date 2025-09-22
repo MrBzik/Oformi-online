@@ -2,6 +2,9 @@ import {caller} from "@/trpc/server";
 import Link from "next/link";
 import {TenantRegistration} from "@/modules/tenants/ui/views/TenantRegistration";
 import {PlainFooter} from "@/modules/shared/ui/components/plain-footer";
+import {TgNotificationsSetup} from "@/modules/auth/ui/views/tg-notifications-setup";
+import {Tenant} from "@/payload-types";
+import {isSuperAdmin} from "@/lib/access";
 
 export const dynamic = "force-dynamic";
 
@@ -9,7 +12,7 @@ const Page = async () => {
 
     const session = await caller.auth.session();
 
-    const isTenant = (session.user?.tenants?.length ?? 0) > 0;
+    const tenants = session.user?.tenants as Tenant[] | [];
 
     return (
         <div className="flex flex-col h-screen">
@@ -18,14 +21,15 @@ const Page = async () => {
                     Добро пожаловать, {session.user?.username}
                 </h1>
                 {
-                    !isTenant ? (
-                        <TenantRegistration />
-                    ) : (
-                        <Link href="/admin" className="underline cursor-pointer text-lg">
-                            Перейти в настройки магазина
-                        </Link>
-                    )
+                    (tenants.length > 0) ? (
+                        (tenants[0]!.isVerified || isSuperAdmin(session.user)) ?
+                            <Link href="/admin" className="underline cursor-pointer text-lg">
+                                Перейти в настройки магазина
+                            </Link> : <div className="text-muted-foreground">Ваш магазин на модерации</div>
+
+                    ) : <TenantRegistration />
                 }
+                <TgNotificationsSetup/>
             </div>
             <PlainFooter/>
         </div>

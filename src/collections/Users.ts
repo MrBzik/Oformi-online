@@ -55,6 +55,22 @@ export const Users: CollectionConfig = {
       type: "text"
     },
     {
+      name: "ref",
+      type: "text",
+      required: false,
+    },
+    {
+      name: "potentialRefIncome",
+      type: "number",
+      required: true,
+      defaultValue: 0,
+    },
+    {
+      name: "tgNotificationsChatId",
+      type: "text",
+      required: false,
+    },
+    {
       admin: {
         position: "sidebar"
       },

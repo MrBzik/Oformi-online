@@ -4,6 +4,7 @@ import {getQueryClient, trpc} from "@/trpc/server";
 import {dehydrate, HydrationBoundary} from "@tanstack/react-query";
 import {Suspense} from "react";
 import {MainContainer} from "@/modules/shared/ui/components/main-container";
+import {TenantLink} from "@/modules/tenants/ui/components/TenantLink";
 
 interface LayoutProps {
     children: React.ReactNode;
@@ -24,7 +25,9 @@ const Layout = async ({children, params} : LayoutProps) => {
             <div className="max-w-(--breakpoint-2xl) mx-auto flex flex-col min-h-screen w-full">
                 <HydrationBoundary state={dehydrate(queryClient)}>
                     <Suspense fallback={<NavbarLoading/>}>
-                        <Navbar tenantSlug={slug}/>
+                        <Navbar>
+                            <TenantLink tenantSlug={slug} />
+                        </Navbar>
                     </Suspense>
                 </HydrationBoundary>
                 <MainContainer>

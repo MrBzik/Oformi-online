@@ -140,6 +140,7 @@ const  seed = async () => {
         collection: "users",
         data: {
             _verified: true,
+            potentialRefIncome: 0,
             email: "serdichk@gmail.com",
             password: "1234",
             roles: ["super-admin"],

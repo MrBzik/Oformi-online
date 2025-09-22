@@ -1,5 +1,4 @@
 import type { CollectionConfig } from 'payload'
-import {isSuperAdmin} from "@/lib/access";
 
 export const Media: CollectionConfig = {
   slug: 'media',
@@ -8,7 +7,7 @@ export const Media: CollectionConfig = {
     plural: "Медиа файлы"
   },
   access: {
-    read : ({req}) => (req.user?.tenants?.length ?? 0) > 0 || isSuperAdmin(req.user),
+    read : () => true,
   },
   admin: {
     hidden: true

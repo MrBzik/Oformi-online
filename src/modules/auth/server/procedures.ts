@@ -1,9 +1,17 @@
-import {baseProcedure, createTRPCRouter} from "@/trpc/init";
+import {baseProcedure, createTRPCRouter, protectedProcedure} from "@/trpc/init";
 import {headers as getHeaders} from "next/headers";
 import {TRPCError} from "@trpc/server";
-import {forgotPasswordSchema, loginSchema, registerSchema, resetPasswordSchema} from "@/modules/auth/schemas";
+import {
+    forgotPasswordSchema,
+    loginSchema,
+    registerSchema,
+    resetPasswordSchema,
+    tgNotificationsConnectSchema
+} from "@/modules/auth/schemas";
 import {generateAuthCookie} from "@/modules/auth/utils";
 import {z} from "zod";
+import {cookies as getCookies} from "next/dist/server/request/cookies";
+import {refCookieName} from "@/modules/referral/server/procedures";
 
 export const authRouter = createTRPCRouter({
     session: baseProcedure.query(async ( { ctx }) => {
@@ -46,12 +54,17 @@ export const authRouter = createTRPCRouter({
                 }
             })
 
+            const cookies = await getCookies();
+            const refLink = cookies.get(refCookieName)?.value
+
             await ctx.payload.create({
                 collection: "users",
                 data: {
                     email: input.email,
                     username: input.username,
                     password: input.password,
+                    potentialRefIncome: 0,
+                    ref: refLink,
                     tenants: [
                         {
                             tenant: tenant.id
@@ -153,7 +166,7 @@ export const authRouter = createTRPCRouter({
 
     resetPassword: baseProcedure
         .input(resetPasswordSchema)
-        .mutation(async ({ input, ctx }) => {
+        .mutation(async ({ input }) => {
 
             await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/users/reset-password`, {
                 method: 'POST',
@@ -165,7 +178,24 @@ export const authRouter = createTRPCRouter({
                     password: input.password,
                 }),
             });
+        }),
+
+    tgNotificationsConnect: protectedProcedure
+        .input(
+            tgNotificationsConnectSchema,
+        )
+        .mutation(async ({ input, ctx }) => {
+
+            if(!ctx.session.user){
+                return false
+            }
+
+            await ctx.payload.update({
+                collection: "users",
+                id: ctx.session.user.id,
+                data: {
+                    tgNotificationsChatId: input.chatId
+                }
+            })
         })
-
-
 });

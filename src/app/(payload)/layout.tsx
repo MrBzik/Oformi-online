@@ -8,6 +8,10 @@ import React from 'react'
 
 import { importMap } from './admin/importMap.js'
 import './custom.scss'
+import {caller} from "@/trpc/server";
+import {Tenant} from "@/payload-types";
+import {redirect} from "next/navigation";
+import {isSuperAdmin} from "@/lib/access";
 
 type Args = {
   children: React.ReactNode
@@ -22,10 +26,25 @@ const serverFunction: ServerFunctionClient = async function (args) {
   })
 }
 
-const Layout = ({ children }: Args) => (
-  <RootLayout config={config} importMap={importMap} serverFunction={serverFunction}>
-    {children}
-  </RootLayout>
-)
+const Layout = async ({ children }: Args) => {
+
+  const session = await caller.auth.session();
+
+  const tenants = session.user?.tenants as Tenant[] | []
+
+
+  if(!isSuperAdmin(session.user) && (tenants.length === 0 || !tenants[0]!.isVerified)) {
+    if(session.user){
+      redirect("/")
+    }
+  }
+
+  return (
+      <RootLayout config={config} importMap={importMap} serverFunction={serverFunction}>
+        {children}
+      </RootLayout>
+  )
+
+}
 
 export default Layout

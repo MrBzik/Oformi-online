@@ -3,6 +3,7 @@ import {z} from "zod";
 import {TRPCError} from "@trpc/server";
 import {Media, Tenant} from "@/payload-types";
 import {tenantCreateSchema} from "@/modules/tenants/schemas";
+import {generateTgReqUrl, sendTgMessage} from "@/modules/utils/generateTgReqUrl";
 
 export const tenantsRouter = createTRPCRouter({
     getOne: baseProcedure
@@ -54,6 +55,18 @@ export const tenantsRouter = createTRPCRouter({
                     description: input.description
                 }
             })
+
+            const refSetting = await ctx.payload.findGlobal({
+                slug: "refSetting"
+            })
+            const adminMessage = `Добавлен новый магазин. Название: ${input.tenantName}`
+            const tgRequestLink = generateTgReqUrl(refSetting.alertsTgBotToken)
+
+            await Promise.all(
+                refSetting.adminTgAccounts!.map( account =>
+                    sendTgMessage(tgRequestLink, account.telegramId, adminMessage)
+                )
+            );
 
             await ctx.payload.update({
                 collection: "users",

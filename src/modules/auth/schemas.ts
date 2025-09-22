@@ -20,6 +20,10 @@ export const registerSchema = z.object({
     username: z.string().min(5, "Название должно быть длиннее 5 символов")
 })
 
+export const tgNotificationsConnectSchema =  z.object({
+    chatId: z.string().min(1, "Поле не должно быть пустым"),
+})
+
 export const orderProductSchema = z.object({
     username: z.string("Введите от 3-х символов").min(3),
     email: z.email("Некорректный формат почты"),

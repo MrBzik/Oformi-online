@@ -2,7 +2,8 @@ import {baseProcedure, createTRPCRouter, protectedProcedure} from "@/trpc/init";
 import {z} from "zod";
 import {TRPCError} from "@trpc/server";
 import {DEFAULT_LIMIT_REVIEWS} from "@/constants";
-import {Review, User} from "@/payload-types";
+import {Review, Tenant, User} from "@/payload-types";
+import {generateTgReqUrl, sendTgMessage} from "@/modules/utils/generateTgReqUrl";
 
 export const reviewsRouter = createTRPCRouter({
     getOne: protectedProcedure
@@ -182,7 +183,9 @@ export const reviewsRouter = createTRPCRouter({
 
             let result: Review
 
-            if(existingReviewsData.totalDocs > 0){
+            const oldReview = existingReviewsData.totalDocs > 0
+
+            if(oldReview){
 
                 const existingReview = existingReviewsData.docs[0]!
 
@@ -235,6 +238,30 @@ export const reviewsRouter = createTRPCRouter({
                     },
                     req: {transactionID}
                 })
+            }
+
+            const refSetting = await ctx.payload.findGlobal({
+                slug: "refSetting"
+            })
+            const tgRequestLink = generateTgReqUrl(refSetting.alertsTgBotToken)
+
+            const tenant = product.tenant as Tenant
+
+            const productOwnerUser = await ctx.payload.find({
+                collection: "users",
+                where: {
+                    "tenants.tenant": {
+                        equals: tenant.id,
+                    },
+                },
+                limit: 1,
+                pagination: false
+            })
+
+            const tgChatId = productOwnerUser.docs[0]!.tgNotificationsChatId
+            if(tgChatId){
+                const msg = `${oldReview ? "Обновлен" : "Добавлен"} отзыв на https://oformi.online. Услуга: ${product.name}. Оценка: ${input.rating}`
+                await sendTgMessage(tgRequestLink, tgChatId, msg)
             }
 
             await ctx.payload.update({

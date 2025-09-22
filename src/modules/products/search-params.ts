@@ -31,3 +31,13 @@ const params = {
 }
 
 export const loadProductFilters = createLoader(params)
+
+const refParam = {
+    ref: parseAsString
+        .withOptions({
+            clearOnDefault: true,
+        })
+        .withDefault(""),
+}
+
+export const loadRefLink = createLoader(refParam)
