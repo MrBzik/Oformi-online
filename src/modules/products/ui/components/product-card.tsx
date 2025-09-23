@@ -38,18 +38,18 @@ export const ProductCard = ({
 
     return (
             <Link href={`${generateTenantURL(prod.tenant?.slug)}/products/${prod.id}`}>
-                <div className="brutal-hover-shadow transition-shadow border rounded-lg bg-card-primary overflow-hidden h-full flex flex-col">
+                <div className="h-full flex flex-col">
                     <div className="relative aspect-square">
                         <Image
                             alt={prod?.name}
                             fill
                             src={imgSrc}
-                            className="object-cover"/>
+                            className="object-cover brutal-hover-shadow transition-shadow border rounded-lg border-muted-foreground"/>
                     </div>
-                    <div className="p-4 border-y flex flex-col gap-3 flex-1"
+                    <div className="flex flex-col gap-2 pt-4 flex-1"
                     >
-                            <h2 className="text-xs 2xl:text-sm font-medium line-clamp-1">{prod.name}</h2>
-                        <div className="flex items-center gap-2" onClick={handleUserClick}>
+
+                        <div className="flex items-center gap-2 min-h-6" onClick={handleUserClick}>
                             {tenantImgSrc && (
                                 <Image
                                     src={tenantImgSrc}
@@ -58,7 +58,7 @@ export const ProductCard = ({
                                     height={24}
                                     className="rounded-full border shrink-0 size-[24px]"/>
                             )}
-                            <p className="text-sm underline font-medium">{prod.tenant?.name}</p>
+                            <h2 className="text-xs 2xl:text-sm font-medium line-clamp-1">{prod.name}</h2>
                         </div>
                         <div className="flex items-center gap-1">
                             <StarIcon className="size-3.5 fill-black"/>
@@ -69,21 +69,22 @@ export const ProductCard = ({
                                     · {prod.ratingCount} {reviewCountToText(prod.ratingCount)}
                                 </span>
                         </div>
-                    </div>
-                    <div className="p-4 flex flex-row gap-2 items-center">
-                        <div className="relative px-2 py-1 border bg-blue-400 w-fit">
-                            <span className="text-sm font-medium">
+                        <div className="flex flex-row gap-2 w-fit min-w-[60%] items-center justify-center border brutal-hover-shadow transition-shadow rounded-full bg-card-primary px-2 border-muted-foreground">
+                            <div className="relative px-2 py-1  w-fit">
+                            <span className="text-sm font-medium text-input-variant">
                                 {formatCurrency(prod.price)}
                             </span>
-                        </div>
-                        {
-                            prod.oldPrice && (
-                                <span className="text-sm text-muted-foreground line-through">
+                            </div>
+                            {
+                                prod.oldPrice && (
+                                    <span className="text-xs text-muted-foreground line-through">
                                     {formatCurrency(prod.oldPrice)}
                                 </span>
-                            )
-                        }
+                                )
+                            }
+                        </div>
                     </div>
+
                 </div>
             </Link>
         )
