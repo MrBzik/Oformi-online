@@ -54,7 +54,7 @@ export const ProductList = ({
     return(
         <>
             <div className={cn("grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4",
-                narrowView && "lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-3",
+                narrowView && "lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-4",
                 wideView && "xl:grid-cols-5"
                 )}>
                 {data?.pages.flatMap((page) => page.docs).map(product => (

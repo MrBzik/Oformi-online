@@ -18,7 +18,7 @@ export const TenantLink = ({
         slug: tenantSlug
     }))
 
-    const tenantImgSrc = imageNameToSrc(data.image?.url)
+    const tenantImgSrc = imageNameToSrc(data.image?.filename)
 
     return (
         <div className="flex gap-4 items-start">
@@ -32,9 +32,13 @@ export const TenantLink = ({
                 />
             )}
             <p className="text-xl shrink-0">{data.name}</p>
-            <p className="hidden lg:block rounded-md text-xl text-muted-foreground">
-                · {data.description}
-            </p>
+            {
+                data.description && (
+                    <p className="hidden lg:block rounded-md text-xl text-muted-foreground">
+                        · {data.description}
+                    </p>
+                )
+            }
         </div>
     )
 }

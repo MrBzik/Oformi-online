@@ -178,7 +178,7 @@ export const ProductView = ({
                                             <div className="font-medium">{stars}</div>
                                             <Progress
                                                 value={data.ratingDistribution[stars]}
-                                                className="h-[0.8lh]"/>
+                                                className="h-[0.8lh] border-muted-foreground"/>
                                             <div className="font-medium">
                                                 {data.ratingDistribution[stars]}%
                                             </div>

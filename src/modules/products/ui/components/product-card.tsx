@@ -61,7 +61,7 @@ export const ProductCard = ({
                             <h2 className="text-xs 2xl:text-sm font-medium line-clamp-1">{prod.name}</h2>
                         </div>
                         <div className="flex items-center gap-1">
-                            <StarIcon className="size-3.5 fill-black"/>
+                            <StarIcon className="size-3.5 fill-input-primary stroke-input-primary"/>
                             <span className="text-sm font-medium">
                                     {prod.totalRating}
                                 </span>
@@ -69,9 +69,9 @@ export const ProductCard = ({
                                     · {prod.ratingCount} {reviewCountToText(prod.ratingCount)}
                                 </span>
                         </div>
-                        <div className="flex flex-row gap-2 w-fit min-w-[60%] items-center justify-center border brutal-hover-shadow transition-shadow rounded-full bg-card-primary px-2 border-muted-foreground">
-                            <div className="relative px-2 py-1  w-fit">
-                            <span className="text-sm font-medium text-input-variant">
+                        <div className="flex flex-row gap-2 w-fit min-w-[60%] items-center justify-center border-[1px_4px_4px_1px] transition-shadow rounded-full bg-card-primary  px-2 text-input-variant hover:bg-green-200">
+                            <div className="relative px-2 py-1 w-fit">
+                            <span className="text-sm font-medium ">
                                 {formatCurrency(prod.price)}
                             </span>
                             </div>
