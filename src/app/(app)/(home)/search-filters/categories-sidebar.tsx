@@ -6,17 +6,20 @@ import {useState} from "react";
 import {ChevronLeftIcon, ChevronRightIcon} from "lucide-react";
 import {CategoriesList, CategoryItem} from "@/modules/categories/types";
 import {useRouter} from "next/navigation";
+import {DEFAULT_HEADER_COLOR} from "@/modules/home/constants";
 
 interface Props {
     isOpen: boolean;
     onOpenChange: (isOpen: boolean) => void;
     data: CategoriesList;
+    onCategoryColorChange: (color: string) => void;
 }
 
 export const CategoriesSidebar = ({
     isOpen,
     onOpenChange,
-    data
+    data,
+    onCategoryColorChange
 } : Props) => {
 
     const router = useRouter()
@@ -37,6 +40,7 @@ export const CategoriesSidebar = ({
             setParentCategories(category.subcategories as CategoriesList);
             setSelectedCategory(category)
         } else {
+            onCategoryColorChange(backgroundColor || DEFAULT_HEADER_COLOR)
             if (parentCategories && selectedCategory) {
                 router.push(`/${selectedCategory.slug}/${category.slug}`);
             } else {
@@ -53,14 +57,14 @@ export const CategoriesSidebar = ({
         }
     }
 
-    const backgroundColor = selectedCategory?.color || "white"
+    const backgroundColor = selectedCategory?.color
 
     return (
         <Sheet open={isOpen} onOpenChange={handleOpenChange}>
             <SheetContent
             side="left"
             className="p-0 transition-none"
-            style={{backgroundColor}}
+            style={{backgroundColor: backgroundColor || "white"}}
             >
                 <SheetHeader className="p-4 border-b">
                     <SheetTitle>

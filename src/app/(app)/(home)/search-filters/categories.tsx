@@ -6,10 +6,14 @@ import {CategoriesList} from "@/modules/categories/types";
 import {useParams} from "next/navigation";
 
 interface Props {
-    data: CategoriesList
+    data: CategoriesList,
+    onCategoryColorChange: (color: string) => void,
 }
 
-export const Categories = ({data} : Props) => {
+export const Categories = ({
+    data,
+    onCategoryColorChange,
+} : Props) => {
 
     const params = useParams();
 
@@ -69,6 +73,7 @@ export const Categories = ({data} : Props) => {
                          ref={(el) => {itemRefs.current[i] = el}}
                     >
                         <CategoryDropdown
+                            onCategoryColorChange={onCategoryColorChange}
                             category={category}
                             isActive={activeCategory === category.slug}
                             isNavigationHovered={isAnyHovered}

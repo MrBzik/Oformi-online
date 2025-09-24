@@ -10,12 +10,14 @@ import {SearchSuggestions} from "@/app/(app)/(home)/search-filters/search-sugges
 import {Icon} from "@iconify/react";
 import {useRouter} from "next/navigation";
 import {Category} from "@/payload-types";
+import {DEFAULT_HEADER_COLOR} from "@/modules/home/constants";
 
 interface Props {
     disabled?: boolean;
     defaultValue?: string | undefined;
     onChange?: (value: string) => void;
     categories: CategoriesList;
+    onCategoryColorChange: (color: string) => void
 }
 
 export const SearchInput = (
@@ -23,7 +25,8 @@ export const SearchInput = (
         disabled,
         defaultValue,
         onChange,
-        categories
+        categories,
+        onCategoryColorChange
 }: Props ) => {
 
     const [searchValue, setSearchValue] = useState(defaultValue || "");
@@ -61,6 +64,7 @@ export const SearchInput = (
     return (
         <div className="flex items-center gap-4 w-full">
             <CategoriesSidebar
+                onCategoryColorChange={onCategoryColorChange}
                 isOpen={isSidebarOpen}
                 onOpenChange={setIsSidebarOpen}
                 data={categories}
@@ -90,6 +94,7 @@ export const SearchInput = (
                         setSearchValue(el.productName)
                         setIsClickedSearchSuggestions(true)
                         const parentCategory = el.category.parent as Category | null
+                        onCategoryColorChange(parentCategory?.color || DEFAULT_HEADER_COLOR)
                         router.push(`/${parentCategory ? parentCategory.slug + "/" : ""}${el.category.slug}?search=${el.productName}`)
                     }}
                 />

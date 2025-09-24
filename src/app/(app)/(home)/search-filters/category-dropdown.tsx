@@ -6,11 +6,13 @@ import {useRef, useState} from "react";
 import {SubcategoryMenu} from "./subcategory-menu";
 import {CategoryItem} from "@/modules/categories/types";
 import {useRouter} from "next/navigation";
+import {DEFAULT_HEADER_COLOR} from "@/modules/home/constants";
 
 interface Props {
     category: CategoryItem,
     isActive? : boolean,
     isNavigationHovered? : boolean,
+    onCategoryColorChange: (color: string) => void,
     isHidden: boolean
 }
 
@@ -19,6 +21,7 @@ export const CategoryDropdown = (
         category,
         isActive,
         isNavigationHovered,
+        onCategoryColorChange,
         isHidden,
     }: Props
 ) => {
@@ -50,7 +53,9 @@ export const CategoryDropdown = (
                         onClick={() => {
                             if(isActive){
                                 router.push("/")
+                                onCategoryColorChange(DEFAULT_HEADER_COLOR)
                             } else {
+                                onCategoryColorChange(category.color || DEFAULT_HEADER_COLOR)
                                 router.push(`/${category.slug}`)
                             }
                         }}
@@ -65,6 +70,7 @@ export const CategoryDropdown = (
                 )}
             </div>
             <SubcategoryMenu
+                onCategoryColorChange={onCategoryColorChange}
                 category={category}
                 isOpen={isOpen}
             />

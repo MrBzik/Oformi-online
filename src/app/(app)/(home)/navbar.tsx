@@ -6,7 +6,7 @@ import {useSuspenseQuery} from "@tanstack/react-query";
 import {SearchInput} from "@/app/(app)/(home)/search-filters/search-input";
 import {useProductFilters} from "@/modules/products/hooks/use-product-filters";
 import {MainHeader, MainHeaderTwoLines} from "@/modules/shared/ui/components/main-header";
-import {Suspense, useRef} from "react";
+import {Suspense, useEffect, useRef, useState} from "react";
 import {DEFAULT_HEADER_COLOR} from "@/modules/home/constants";
 import {Categories} from "@/app/(app)/(home)/search-filters/categories";
 import Image from "next/image";
@@ -23,11 +23,16 @@ export const Navbar = () => {
 
     const activeCategory = params.category as string | undefined;
     const activeCategoryData = data.find((category) => category.slug === activeCategory);
-    const activeCategoryColor = activeCategoryData?.color || DEFAULT_HEADER_COLOR;
 
     const navContainer = useRef<HTMLDivElement>(null)
 
     const showNavBar = useScrollThreshold(navContainer)
+
+    const [activeCategoryColor, setActiveCategoryColor] = useState(activeCategoryData?.color || DEFAULT_HEADER_COLOR)
+
+    useEffect(() => {
+        setActiveCategoryColor(activeCategoryData?.color || DEFAULT_HEADER_COLOR)
+    }, [activeCategoryData])
 
     return (
         <>
@@ -48,11 +53,19 @@ export const Navbar = () => {
                         onChange={(searchInput) => setFilters({
                             search: searchInput,
                         })}
+                        onCategoryColorChange={(color) => {
+                            setActiveCategoryColor(color)
+                        }}
                     />
                 </div>
                 <Suspense fallback={<SearchFiltersLoading/>}>
                     <div className="hidden lg:flex flex-col gap-4 w-full ">
-                        <Categories data={data}/>
+                        <Categories
+                            data={data}
+                            onCategoryColorChange={(color) => {
+                                setActiveCategoryColor(color)
+                            }}
+                        />
                     </div>
                 </Suspense>
             </nav>
@@ -72,6 +85,9 @@ export const Navbar = () => {
                                 onChange={(searchInput) => setFilters({
                                     search: searchInput,
                                 })}
+                                onCategoryColorChange={(color) => {
+                                    setActiveCategoryColor(color)
+                                }}
                             />
                         </div>
                     </nav>
