@@ -88,6 +88,7 @@ export const SearchInput = (
                     onSuggestionClick={(el) => {
                         setSearchDebounced("")
                         setSearchValue(el.productName)
+                        setIsClickedSearchSuggestions(true)
                         const parentCategory = el.category.parent as Category | null
                         router.push(`/${parentCategory ? parentCategory.slug + "/" : ""}${el.category.slug}?search=${el.productName}`)
                     }}
