@@ -65,6 +65,18 @@ export const Products : CollectionConfig = {
             label: "Изображение в карточк товара (до 1 мб)"
         },
         {
+            name: "deadlineMin",
+            type: "number",
+            required: false,
+            label: "Срок выполнения услуги минимум (дней)"
+        },
+        {
+            name: "deadlineMax",
+            type: "number",
+            required: false,
+            label: "Срок выполнения услуги максимум (дней)"
+        },
+        {
             name: "recommendProducts",
             type: "relationship",
             relationTo: "products",

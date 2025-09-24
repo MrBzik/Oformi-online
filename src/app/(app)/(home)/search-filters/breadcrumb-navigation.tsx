@@ -23,7 +23,7 @@ export const BreadcrumbNavigation = ({
         <Breadcrumb>
             <BreadcrumbList>
                 <BreadcrumbItem>
-                    <BreadcrumbPage className="text-xl font-medium">
+                    <BreadcrumbPage className="sm:text-xs md:text-base lg:text-xl font-medium">
                         Все категории
                     </BreadcrumbPage>
                 </BreadcrumbItem>
@@ -32,29 +32,29 @@ export const BreadcrumbNavigation = ({
     );
     return (
         <Breadcrumb>
-            <BreadcrumbList>
+            <BreadcrumbList className="sm:text-xs md:text-lg lg:text-xl">
                 {activeSubcategoryName ? (
                     <>
                         <BreadcrumbItem>
                             <BreadcrumbLink
                                 asChild
-                                className="text-xl font-medium underline text-primary cursor-pointer"
+                                className="font-medium underline text-primary cursor-pointer"
                                 onClick={() => onNavigate(activeCategory!)}>
                                 <span>{activeCategoryName}</span>
                             </BreadcrumbLink>
                         </BreadcrumbItem>
-                        <BreadcrumbSeparator className="text-primary font-medium text-lg">
+                        <BreadcrumbSeparator className="text-primary font-medium">
                             /
                         </BreadcrumbSeparator>
                         <BreadcrumbItem>
-                            <BreadcrumbPage className="text-xl font-medium">
+                            <BreadcrumbPage className="font-medium">
                                 {activeSubcategoryName}
                             </BreadcrumbPage>
                         </BreadcrumbItem>
                     </>
                 ) : (
                     <BreadcrumbItem>
-                        <BreadcrumbPage className="text-xl font-medium">
+                        <BreadcrumbPage className="font-medium">
                             {activeCategoryName}
                         </BreadcrumbPage>
                     </BreadcrumbItem>

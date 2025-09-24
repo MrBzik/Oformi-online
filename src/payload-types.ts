@@ -263,6 +263,8 @@ export interface Product {
   category: string | Category;
   tags?: (string | Tag)[] | null;
   image?: (string | null) | Media;
+  deadlineMin?: number | null;
+  deadlineMax?: number | null;
   /**
    * Список сопутствующих услуг на странице данной услуги (вы можете указать до 4-х единиц)
    */
@@ -516,6 +518,8 @@ export interface ProductsSelect<T extends boolean = true> {
   category?: T;
   tags?: T;
   image?: T;
+  deadlineMin?: T;
+  deadlineMax?: T;
   recommendProducts?: T;
   totalOrders?: T;
   ratingCount?: T;

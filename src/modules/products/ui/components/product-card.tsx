@@ -1,9 +1,9 @@
 import Link from "next/link";
 import Image from "next/image";
-import {StarIcon} from "lucide-react";
+import {AlarmClock, ClockIcon, StarIcon, TimerIcon} from "lucide-react";
 import "@/components/styles/brutal.css"
 import {useRouter} from "next/navigation";
-import {formatCurrency, generateTenantURL} from "@/lib/utils";
+import {formatCurrency, formatDeadline, generateTenantURL} from "@/lib/utils";
 import {reviewCountToText} from "@/modules/utils/reviewsUtils";
 import {Product} from "@/payload-types";
 import {productsPopulated} from "@/modules/products/types";
@@ -58,7 +58,11 @@ export const ProductCard = ({
                                     height={24}
                                     className="rounded-full border shrink-0 size-[24px]"/>
                             )}
-                            <h2 className="text-xs 2xl:text-sm font-medium line-clamp-1">{prod.name}</h2>
+                            <h2 className="text-xs 2xl:text-sm font-semibold line-clamp-1">{prod.name}</h2>
+                        </div>
+                        <div className="flex items-center gap-2">
+                            <TimerIcon className="size-3.5"/>
+                            <span className="text-sm">{formatDeadline(prod.deadlineMin, prod.deadlineMax)}</span>
                         </div>
                         <div className="flex items-center gap-1">
                             <StarIcon className="size-3.5 fill-input-primary stroke-input-primary"/>
