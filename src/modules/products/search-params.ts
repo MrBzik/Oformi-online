@@ -2,11 +2,6 @@ import {parseAsArrayOf, createLoader, parseAsString, parseAsStringLiteral} from 
 export const sortValues = ["популярные", "по рейтингу", "дешевле", "дороже"] as const;
 
 const params = {
-    category: parseAsString
-        .withOptions({
-            clearOnDefault: true,
-        })
-        .withDefault(""),
     search: parseAsString
         .withOptions({
             clearOnDefault: true

@@ -9,6 +9,7 @@ import {useMutation, useSuspenseQuery} from "@tanstack/react-query";
 import {BreadcrumbNavigation} from "@/app/(app)/(home)/search-filters/breadcrumb-navigation";
 import {useProductFilters} from "@/modules/products/hooks/use-product-filters";
 import {cn} from "@/lib/utils";
+import {useParams} from "next/navigation";
 
 interface Props {
     category?: string;
@@ -18,6 +19,7 @@ interface Props {
 }
 
 export const ProductListView = ({
+    category,
     tenantSlug,
     narrowView,
     refLink
@@ -26,25 +28,22 @@ export const ProductListView = ({
     const trpc = useTRPC();
     const { data } = useSuspenseQuery(trpc.categories.getMany.queryOptions());
 
+    const params = useParams();
+
     const handleRefLink = useMutation(trpc.referral.addReferralCookie.mutationOptions({}))
 
-    const [filters, setFilters] = useProductFilters();
+    const [filters] = useProductFilters();
 
-    const activeCategory = filters.category as string | undefined;
-    const activeCategoryData = data.find((category) => category.slug === activeCategory) || data.find(category => category.subcategories?.find(sub => sub.slug === activeCategory));
+    const activeCategory = params.category as string | undefined;
+    const activeCategoryData = data.find((category) => category.slug === activeCategory);
     const activeCategoryName = activeCategoryData?.name || null;
 
+    const activeSubcategory = params.subcategory as string | undefined;
     const activeSubcategoryName = activeCategoryData?.subcategories?.find(
-        (subcategory) => subcategory.slug === activeCategory
+        (subcategory) => subcategory.slug === activeSubcategory
     )?.name || null;
 
-    const isDisplayFilters = filters.category || filters.search;
-
-    useEffect(() => {
-        if(!filters.category && !filters.search){
-            setFilters({maxPrice: "", minPrice: "", tags: []})
-        }
-    }, [filters.search, filters.category])
+    const isDisplayFilters = category || filters.search;
 
     useEffect(() => {
         handleRefLink.mutate({refLink: refLink})
@@ -54,17 +53,16 @@ export const ProductListView = ({
         <div className="px-4 lg:px-12 py-8 flex flex-col gap-4">
             <div className="flex gap-y-2 lg:gap-y-0 justify-between items-center">
                 <BreadcrumbNavigation
-                    activeCategory={activeCategoryData?.slug}
+                    activeCategory={activeCategory}
                     activeCategoryName={activeCategoryName}
                     activeSubcategoryName={activeSubcategoryName}
-                    onNavigate={(category) => setFilters({category: category})}
                 />
                 <ProductSort/>
             </div>
             <div className="grid grid-cols-1 lg:grid-cols-6 xl:grid-cols-8 gap-y-6 gap-x-12">
                 {isDisplayFilters && (
                     <div className="lg:col-span-2 xl:col-span-2">
-                        <ProductFilters category={filters.category}/>
+                        <ProductFilters category={category}/>
                     </div>
                 )}
 
@@ -73,6 +71,7 @@ export const ProductListView = ({
                     )}>
                     <Suspense fallback={<ProductListLoading wideView={!isDisplayFilters}/>}>
                         <ProductList
+                            category={category}
                             tenantSlug={tenantSlug}
                             narrowView={narrowView}
                             wideView={!isDisplayFilters}

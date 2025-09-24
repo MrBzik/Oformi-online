@@ -8,12 +8,13 @@ import {useQuery} from "@tanstack/react-query";
 import Link from "next/link";
 import {SearchSuggestions} from "@/app/(app)/(home)/search-filters/search-suggestions";
 import {Icon} from "@iconify/react";
+import {useRouter} from "next/navigation";
+import {Category} from "@/payload-types";
 
 interface Props {
     disabled?: boolean;
     defaultValue?: string | undefined;
-    onSearchChange?: (searchInput: string) => void;
-    onCategoryChange?: (category: string) => void;
+    onChange?: (value: string) => void;
     categories: CategoriesList;
 }
 
@@ -21,18 +22,20 @@ export const SearchInput = (
     {
         disabled,
         defaultValue,
-        onSearchChange,
-        onCategoryChange,
+        onChange,
         categories
 }: Props ) => {
 
     const [searchValue, setSearchValue] = useState(defaultValue || "");
     const [searchDebounced, setSearchDebounced] = useState("");
+    const [isClickedSearchSuggestions, setIsClickedSearchSuggestions] = useState(false);
 
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
     const trpc = useTRPC()
     const session = useQuery(trpc.auth.session.queryOptions())
+
+    const router = useRouter()
 
     const {data : suggestions} = useQuery(trpc.products.getSuggestions.queryOptions({
         search: searchDebounced
@@ -41,7 +44,11 @@ export const SearchInput = (
     useEffect(() => {
         const handler = setTimeout(() => {
             if(searchValue != defaultValue){
-                setSearchDebounced(searchValue)
+                if(isClickedSearchSuggestions){
+                    setIsClickedSearchSuggestions(false);
+                } else {
+                    setSearchDebounced(searchValue)
+                }
             }
         }, 1000)
 
@@ -57,7 +64,6 @@ export const SearchInput = (
                 isOpen={isSidebarOpen}
                 onOpenChange={setIsSidebarOpen}
                 data={categories}
-                onCategoryPick={(categorySlug: string) => onCategoryChange?.(categorySlug)}
             />
             <div className="relative w-full rounded-xl bg-gradient-to-r from-sky-600 to-input-primary px-12 py-2">
                 <ListFilterIcon
@@ -72,7 +78,7 @@ export const SearchInput = (
                     onChange={(e) => setSearchValue(e.target.value)}
                     onKeyDown={(e) => {
                         if(e.key === "Enter") {
-                            onSearchChange?.(searchValue)
+                            onChange?.(searchValue)
                         }
                     }}
                 />
@@ -82,15 +88,15 @@ export const SearchInput = (
                     onSuggestionClick={(el) => {
                         setSearchDebounced("")
                         setSearchValue(el.productName)
-                        onSearchChange?.(el.productName)
-                        onCategoryChange?.(el.category.slug)
+                        const parentCategory = el.category.parent as Category | null
+                        router.push(`/${parentCategory ? parentCategory.slug + "/" : ""}${el.category.slug}?search=${el.productName}`)
                     }}
                 />
 
                 <SearchIcon
                     className="absolute right-5 top-1/2 -translate-y-1/2 size-4 text-neutral-500 cursor-pointer"
                     style={{color: "white"}}
-                    onClick={() => {onSearchChange?.(searchValue)}}
+                    onClick={() => {onChange?.(searchValue)}}
                 />
             </div>
             <div className="hidden lg:flex gap-3">

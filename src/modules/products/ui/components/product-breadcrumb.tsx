@@ -37,7 +37,7 @@ export const ProductBreadcrumb = ({
                 )}
                 <BreadcrumbItem>
                     <BreadcrumbPage className="text-xl font-medium underline">
-                        <Link href={`/${parentCategorySlug}/${categorySlug}`}>{categoryName}</Link>
+                        <Link href={`/${categorySlug}`}>{categoryName}</Link>
                     </BreadcrumbPage>
                 </BreadcrumbItem>
             </BreadcrumbList>

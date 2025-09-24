@@ -5,7 +5,7 @@ import {cn} from "@/lib/utils";
 import {useRef, useState} from "react";
 import {SubcategoryMenu} from "./subcategory-menu";
 import {CategoryItem} from "@/modules/categories/types";
-import {useCategoryFilters} from "@/modules/products/hooks/use-product-filters";
+import {useRouter} from "next/navigation";
 
 interface Props {
     category: CategoryItem,
@@ -24,7 +24,8 @@ export const CategoryDropdown = (
 ) => {
     const [isOpen, setIsOpen] = useState(false);
     const dropdownRef = useRef<HTMLDivElement>(null);
-    const [, setFilters] = useCategoryFilters()
+
+    const router = useRouter()
 
     const onMouseEnter = () => {
         if(category.subcategories){
@@ -48,9 +49,9 @@ export const CategoryDropdown = (
                     )}
                         onClick={() => {
                             if(isActive){
-                                setFilters({category: ""})
+                                router.push("/")
                             } else {
-                                setFilters({category: category.slug})
+                                router.push(`/${category.slug}`)
                             }
                         }}
                 >

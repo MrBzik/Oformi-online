@@ -3,7 +3,7 @@
 import {CategoryDropdown} from "@/app/(app)/(home)/search-filters/category-dropdown";
 import {useEffect, useRef, useState} from "react";
 import {CategoriesList} from "@/modules/categories/types";
-import {useCategoryFilters} from "@/modules/products/hooks/use-product-filters";
+import {useParams} from "next/navigation";
 
 interface Props {
     data: CategoriesList
@@ -11,13 +11,11 @@ interface Props {
 
 export const Categories = ({data} : Props) => {
 
-    const [filters] = useCategoryFilters()
+    const params = useParams();
 
     const [isAnyHovered, setIsAnyHovered] = useState(false);
 
-    const activeCategory = filters.category as string | undefined;
-
-    const activeCategoryData = data.find((category) => category.slug === activeCategory) || data.find(category => category.subcategories?.find(sub => sub.slug === activeCategory));
+    const activeCategory = params.category as string | undefined;
 
     const containerRef = useRef<HTMLDivElement>(null);
     const itemRefs = useRef<(HTMLDivElement | null)[]>([]);
@@ -72,7 +70,7 @@ export const Categories = ({data} : Props) => {
                     >
                         <CategoryDropdown
                             category={category}
-                            isActive={activeCategoryData?.slug === category.slug}
+                            isActive={activeCategory === category.slug}
                             isNavigationHovered={isAnyHovered}
                             isHidden={lastVisibleItem < i}
                         />

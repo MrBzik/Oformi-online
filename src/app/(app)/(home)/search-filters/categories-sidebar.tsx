@@ -5,20 +5,21 @@ import {ScrollArea} from "@/components/ui/scroll-area";
 import {useState} from "react";
 import {ChevronLeftIcon, ChevronRightIcon} from "lucide-react";
 import {CategoriesList, CategoryItem} from "@/modules/categories/types";
+import {useRouter} from "next/navigation";
 
 interface Props {
     isOpen: boolean;
     onOpenChange: (isOpen: boolean) => void;
     data: CategoriesList;
-    onCategoryPick : (categorySlug: string) => void;
 }
 
 export const CategoriesSidebar = ({
     isOpen,
     onOpenChange,
-    data,
-    onCategoryPick,
+    data
 } : Props) => {
+
+    const router = useRouter()
 
     const [parentCategories, setParentCategories] = useState<CategoriesList | null>(null);
     const [selectedCategory, setSelectedCategory] = useState<CategoryItem | null>(null);
@@ -36,7 +37,11 @@ export const CategoriesSidebar = ({
             setParentCategories(category.subcategories as CategoriesList);
             setSelectedCategory(category)
         } else {
-            onCategoryPick(category.slug)
+            if (parentCategories && selectedCategory) {
+                router.push(`/${selectedCategory.slug}/${category.slug}`);
+            } else {
+                router.push(`/${category.slug}`);
+            }
             handleOpenChange(false);
         }
     }

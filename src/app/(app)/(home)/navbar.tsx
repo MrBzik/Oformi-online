@@ -11,6 +11,7 @@ import {DEFAULT_HEADER_COLOR} from "@/modules/home/constants";
 import {Categories} from "@/app/(app)/(home)/search-filters/categories";
 import Image from "next/image";
 import useScrollThreshold from "@/modules/shared/hooks/use-scroll-trashhold";
+import {useParams} from "next/navigation";
 
 export const Navbar = () => {
 
@@ -18,11 +19,10 @@ export const Navbar = () => {
     const { data } = useSuspenseQuery(trpc.categories.getMany.queryOptions());
     const [filters, setFilters] = useProductFilters();
 
-    const activeCategory = filters.category as string | undefined;
-    const activeCategoryData = data.find(
-        (category) => category.slug === activeCategory
-    ) || data.flatMap((category) => category.subcategories || [])
-        .find((sub) => sub.slug === activeCategory);
+    const params = useParams();
+
+    const activeCategory = params.category as string | undefined;
+    const activeCategoryData = data.find((category) => category.slug === activeCategory);
     const activeCategoryColor = activeCategoryData?.color || DEFAULT_HEADER_COLOR;
 
     const navContainer = useRef<HTMLDivElement>(null)
@@ -45,11 +45,8 @@ export const Navbar = () => {
                     <SearchInput
                         categories={data}
                         defaultValue={filters.search}
-                        onSearchChange={(searchInput) => setFilters({
+                        onChange={(searchInput) => setFilters({
                             search: searchInput,
-                        })}
-                        onCategoryChange={(categorySlug) => setFilters({
-                            category: categorySlug,
                         })}
                     />
                 </div>
@@ -72,11 +69,8 @@ export const Navbar = () => {
                             <SearchInput
                                 categories={data}
                                 defaultValue={filters.search}
-                                onSearchChange={(searchInput) => setFilters({
+                                onChange={(searchInput) => setFilters({
                                     search: searchInput,
-                                })}
-                                onCategoryChange={(categorySlug) => setFilters({
-                                    category: categorySlug,
                                 })}
                             />
                         </div>

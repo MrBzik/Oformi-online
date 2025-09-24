@@ -11,12 +11,14 @@ import {cn} from "@/lib/utils";
 import {NoProductView} from "@/modules/products/ui/components/no-product";
 
 interface Props {
+    category?: string;
     tenantSlug?: string;
     narrowView? : boolean;
     wideView?: boolean
 }
 
 export const ProductList = ({
+    category,
     tenantSlug,
     narrowView,
     wideView
@@ -33,6 +35,7 @@ export const ProductList = ({
     } = useSuspenseInfiniteQuery(trpc.products.getMany.infiniteQueryOptions(
         {
             limit: DEFAULT_LIMIT_PRODUCTS,
+            category: category,
             tenantSlug: tenantSlug,
             ...filers
         },
