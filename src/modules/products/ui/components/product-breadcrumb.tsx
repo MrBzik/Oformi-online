@@ -15,14 +15,14 @@ interface Props {
 }
 
 export const ProductBreadcrumb = ({
-                                         parentCategorySlug,
-                                         parentCategoryName,
-                                         categorySlug,
-                                         categoryName
-                                     }: Props) => {
+                                      parentCategorySlug,
+                                      parentCategoryName,
+                                      categorySlug,
+                                      categoryName
+                                  }: Props) => {
     return (
         <Breadcrumb>
-
+            <BreadcrumbList>
                 {parentCategorySlug && (
                     <>
                         <BreadcrumbItem>
@@ -40,7 +40,7 @@ export const ProductBreadcrumb = ({
                         <Link href={`${parentCategorySlug ? "/" + parentCategorySlug : ""}/${categorySlug}`}>{categoryName}</Link>
                     </BreadcrumbPage>
                 </BreadcrumbItem>
-
+            </BreadcrumbList>
         </Breadcrumb>
     )
 }
