@@ -16,7 +16,7 @@ import {toast} from "sonner";
 import {reviewCountToText} from "@/modules/utils/reviewsUtils";
 import {ProductCard} from "@/modules/products/ui/components/product-card";
 import Link from "next/link";
-import {ProductAddToFavourite} from "@/modules/products/ui/components/product-favourite";
+import {ProductActiveButtons} from "@/modules/products/ui/components/product-favourite";
 import Image from "next/image";
 import {imageNameToSrc} from "@/modules/utils/s3_url";
 import {Tenant} from "@/payload-types";
@@ -76,8 +76,6 @@ export const ProductView = ({
     return (
         <div className="px-4 lg:px-12 py-10">
             <div className="p-6 flex flex-col gap-4">
-                <h1 className="text-4xl font-medium">{data.name}</h1>
-                <ProductBreadcrumb parentCategorySlug={data.category.parent?.slug} parentCategoryName={data.category.parent?.name} categorySlug={data.category.slug} categoryName={data.category.name} />
             </div>
             <div className="flex flex-col gap-6">
                 {data.isArchived && (
@@ -87,22 +85,39 @@ export const ProductView = ({
                 )}
 
                 <div className="grid grid-cols-1 lg:grid-cols-6 gap-y-4">
-                    <div className="col-span-4 border border-e-[3px] border-b-[3px] rounded-sm bg-card-primary">
-                        <div className="p-6 flex flex-col gap-y-4">
+                    <div className="col-span-1">
+                        <div className="relative aspect-square">
                             <Image
                                 src={src}
-                                width={data.image?.width || 0}
-                                height={data.image?.height || 0}
+                                fill
                                 alt={data.image?.alt || "product image"}
-                                className="object-contain w-full h-auto"
+                                className="object-cover w-full h-auto rounded-lg border border-muted-foreground"
                             />
-
-                            <RichText data={data.description} className="leading-8"/>
                         </div>
                     </div>
+                    <div className="col-span-3 p-6 flex flex-col gap-4">
+                        <ProductBreadcrumb parentCategorySlug={data.category.parent?.slug} parentCategoryName={data.category.parent?.name} categorySlug={data.category.slug} categoryName={data.category.name} />
+                        <h1 className="text-2xl font-medium">{data.name}</h1>
+                        {
+                            data.tags?.length > 0 && (
+                                <div className="flex flex-col gap-2">
+                                    <div className="flex flex-row flex-wrap gap-2 text-sm">
+                                        {data.tags?.map((tag) => (
+                                            <span
+                                                className="bg-card-primary p-2 rounded-lg"
+                                                key={tag.id}>
+                                                        {tag.name}
+                                                    </span>
+                                        ))}
+                                    </div>
+                                </div>
+                            )
+                        }
+                    </div>
                     <div className="col-span-2">
-                        <div className="border-t lg:border-t-0 h-full ">
+                        <div className="">
                             <div className="flex flex-col gap-4 p-6">
+                                <ProductActiveButtons productId={productId} isArchived={data.isArchived ?? false}/>
                                 <div className="flex flex-row gap-4 items-center px-2 py-1">
                                     <span className="text-2xl font-medium">{formatCurrency(data.price)}</span>
                                     {
@@ -121,7 +136,6 @@ export const ProductView = ({
                                     ) : (
                                         <div className="flex flex-col gap-4">
                                             <ProductOrder productId={productId} isArchived={data.isArchived ?? false}/>
-                                            <ProductAddToFavourite productId={productId} isArchived={data.isArchived ?? false}/>
                                             <p className="font-medium">
                                                 {`Зарабатывай с программой лояльности:`}
                                             </p>
@@ -142,53 +156,43 @@ export const ProductView = ({
                                         </div>
                                     )
                                 }
-
                             </div>
-                            <div className="p-6">
-                                {
-                                    data.tags?.length > 0 && (
-                                        <div className="flex flex-col gap-2">
-                                            <h4>Тэги:</h4>
-                                            <div className="flex flex-row flex-wrap gap-2 text-sm">
-                                                {data.tags?.map((tag) => (
-                                                    <span
-                                                        className="bg-card-primary p-2 rounded-lg"
-                                                        key={tag.id}>
-                                                        {tag.name}
-                                                    </span>
-                                                ))}
-                                            </div>
-                                        </div>
-                                    )
-                                }
-                            </div>
-                            <div className="p-6">
-                                <div className="flex items-center gap-1">
-                                    <StarIcon className="size-3.5 fill-black"/>
-                                    <span className="text-sm font-medium">
+                        </div>
+                    </div>
+                </div>
+                <div className="grid grid-cols-1 lg:grid-cols-6 gap-y-4">
+                    <div className="col-span-4 border border-e-[3px] border-b-[3px] rounded-sm bg-card-primary">
+                        <div className="p-6 flex flex-col gap-y-4">
+                            <RichText data={data.description} className="leading-8"/>
+                        </div>
+                    </div>
+                    <div className="col-span-2">
+                        <div className="p-6 ">
+                            <div className="flex items-center gap-1">
+                                <StarIcon className="size-3.5 fill-black"/>
+                                <span className="text-sm font-medium">
                                     {data.totalRating}
                                 </span>
-                                    <span className="text-sm text-muted-foreground">
+                                <span className="text-sm text-muted-foreground">
                                     · {data.ratingCount} {reviewCountToText(data.ratingCount)}
                                 </span>
-                                </div>
-                                <div className="grid grid-cols-[auto_1fr_auto] gap-3 mt-4">
-                                    {[5, 4, 3, 2, 1].map((stars) => (
-                                        <Fragment key={stars} >
-                                            <div className="font-medium">{stars}</div>
-                                            <Progress
-                                                value={data.ratingDistribution[stars]}
-                                                className="h-[0.8lh] border-muted-foreground"/>
-                                            <div className="font-medium">
-                                                {data.ratingDistribution[stars]}%
-                                            </div>
-                                        </Fragment>
-                                    ))}
-                                </div>
-                                <Link href={"#reviews"} className="underline mt-6 block text-xl font-medium">
-                                    Читать отзывы
-                                </Link>
                             </div>
+                            <div className="grid grid-cols-[auto_1fr_auto] gap-3 mt-4">
+                                {[5, 4, 3, 2, 1].map((stars) => (
+                                    <Fragment key={stars} >
+                                        <div className="font-medium">{stars}</div>
+                                        <Progress
+                                            value={data.ratingDistribution[stars]}
+                                            className="h-[0.8lh] border-muted-foreground"/>
+                                        <div className="font-medium">
+                                            {data.ratingDistribution[stars]}%
+                                        </div>
+                                    </Fragment>
+                                ))}
+                            </div>
+                            <Link href={"#reviews"} className="underline mt-6 block text-xl font-medium">
+                                Читать отзывы
+                            </Link>
                         </div>
                     </div>
                 </div>

@@ -59,15 +59,15 @@ export const ProductListView = ({
                 />
                 <ProductSort/>
             </div>
-            <div className="grid grid-cols-1 lg:grid-cols-6 xl:grid-cols-8 gap-y-6 gap-x-12">
+            <div className="grid grid-cols-1 lg:grid-cols-7 xl:grid-cols-9 gap-y-6 gap-x-12">
                 {isDisplayFilters && (
-                    <div className="lg:col-span-2 xl:col-span-2">
+                    <div className="col-span-2">
                         <ProductFilters category={category}/>
                     </div>
                 )}
 
-                <div className={cn("lg:col-span-4 xl:col-span-6",
-                    !isDisplayFilters && "lg:col-span-6 xl:col-span-8"
+                <div className={cn("lg:col-span-5 xl:col-span-7",
+                    !isDisplayFilters && "lg:col-span-7 xl:col-span-9"
                     )}>
                     <Suspense fallback={<ProductListLoading wideView={!isDisplayFilters}/>}>
                         <ProductList

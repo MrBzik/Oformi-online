@@ -4,13 +4,14 @@ import {useTRPC} from "@/trpc/client";
 import {useMutation, useSuspenseQuery} from "@tanstack/react-query";
 import {cn} from "@/lib/utils";
 import {toast} from "sonner";
+import {HeartIcon, Share2} from "lucide-react";
 
 interface Props {
     productId: string;
     isArchived: boolean
 }
 
-export const ProductAddToFavourite = ({
+export const ProductActiveButtons = ({
     productId,
     isArchived
 } : Props) => {
@@ -38,24 +39,22 @@ export const ProductAddToFavourite = ({
         }
     }))
 
-    let buttonText = "В избранное";
-    if (!session?.user) {
-        buttonText = "Требуется авторизация";
-    } else if (isArchived) {
-        buttonText = "Услуга архивирована";
-    } else if (isFavoured) {
-        buttonText = "Убрать";
-    }
-
     return (
-        <>
-            <p className="font-medium">
-                {isFavoured ? "Убрать из избранного" : "Добавить в избранное"}
-            </p>
-            <Button
-                className={cn("flex-1 bg-red-400")}
+        <div className="w-full flex items-center justify-end gap-4">
+            <Share2
+                className="size-6 hover:stroke-input-variant"
                 onClick={() => {
-                    if(isFavoured){
+                    navigator.clipboard.writeText(window.location.href)
+                    toast.success("Ссылка скопирована")
+            }}/>
+            <HeartIcon
+                className={cn("size-6 hover:stroke-input-variant", isFavoured && "stroke-input-primary fill-input-primary")}
+                onClick={() => {
+                    if(!session.user){
+                        toast.error("Требуется авторизация")
+                    } else if(isArchived) {
+                        toast.error("Услуга перенесена в архив")
+                    } else if(isFavoured){
                         removeFromFavourite.mutate({
                             productId: productId,
                         });
@@ -65,10 +64,7 @@ export const ProductAddToFavourite = ({
                         });
                     }
                 }}
-                disabled={!session?.user || isArchived}
-            >
-                {buttonText}
-            </Button>
-        </>
+            />
+        </div>
     )
 }

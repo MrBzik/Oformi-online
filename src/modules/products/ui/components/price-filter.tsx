@@ -1,4 +1,3 @@
-import {Label} from "@/components/ui/label";
 import {Input} from "@/components/ui/input";
 import {ChangeEvent} from "react";
 
@@ -39,7 +38,7 @@ export const PriceFilter = ({
 
     return (
         <div className="flex flex-col gap-2">
-            <span className="text-sm">Цена</span>
+            <span className="text-sm ">Цена</span>
             <div className="flex gap-2">
                 <Input
                     type="text"

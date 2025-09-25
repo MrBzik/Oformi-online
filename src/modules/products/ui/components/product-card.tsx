@@ -73,7 +73,7 @@ export const ProductCard = ({
                                     · {prod.ratingCount} {reviewCountToText(prod.ratingCount)}
                                 </span>
                         </div>
-                        <div className="flex flex-row gap-2 w-fit min-w-[60%] items-center justify-center border-[1px_4px_4px_1px] transition-shadow rounded-full bg-card-primary  px-2 text-input-variant hover:bg-green-200">
+                        <div className="flex flex-row w-fit min-w-[60%] items-center justify-center border-[1px_4px_4px_1px] transition-shadow rounded-full bg-card-primary  px-2 text-input-variant hover:bg-green-200">
                             <div className="relative px-2 py-1 w-fit">
                             <span className="text-sm font-medium ">
                                 {formatCurrency(prod.price)}

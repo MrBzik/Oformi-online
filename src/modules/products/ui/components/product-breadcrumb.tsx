@@ -22,7 +22,7 @@ export const ProductBreadcrumb = ({
                                      }: Props) => {
     return (
         <Breadcrumb>
-            <BreadcrumbList>
+
                 {parentCategorySlug && (
                     <>
                         <BreadcrumbItem>
@@ -40,7 +40,7 @@ export const ProductBreadcrumb = ({
                         <Link href={`${parentCategorySlug ? "/" + parentCategorySlug : ""}/${categorySlug}`}>{categoryName}</Link>
                     </BreadcrumbPage>
                 </BreadcrumbItem>
-            </BreadcrumbList>
+
         </Breadcrumb>
     )
 }
