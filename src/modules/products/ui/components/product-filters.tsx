@@ -1,39 +1,8 @@
 "use client"
 
-import {useState} from "react";
-import {ChevronDownIcon, ChevronRightIcon} from "lucide-react";
-import {cn} from "@/lib/utils";
 import {PriceFilter} from "@/modules/products/ui/components/price-filter";
 import {useProductSideFilters} from "@/modules/products/hooks/use-product-filters";
 import {TagsFilter} from "@/modules/products/ui/components/tags-filter";
-
-interface ProductFilterProps {
-    title: string;
-    className?: string;
-    children: React.ReactNode;
-}
-
-const ProductFilter = ({
-    title, className, children
-} : ProductFilterProps) => {
-    const [isOpen, setIsOpen] = useState(false);
-
-    const Icon = isOpen ? ChevronDownIcon : ChevronRightIcon;
-
-    return (
-        <div className={cn(
-            "p-4 border-b flex flex-col gap-2",
-            className
-        )}>
-            <div onClick={() => setIsOpen(!isOpen)}
-            className="flex items-center justify-between cursor-pointer">
-                <p className="font-medium">{title}</p>
-                <Icon className="size-5"/>
-            </div>
-            {isOpen && children}
-        </div>
-    )
-}
 
 interface Props {
     category?: string
@@ -64,28 +33,25 @@ export const ProductFilters = ({category} : Props) => {
     }
 
     return(
-        <div className="border rounded-md bg-card-primary">
-            <div className="p-4 border-b flex items-center justify-between">
-                <p className="font-medium">Фильтры</p>
-                {hasFilters && <button className="underline cursor-pointer" onClick={onClear} type="button">
+        <div className="flex flex-col gap-2">
+
+            <div className="p-4 border flex items-center justify-between rounded-md bg-card-primary">
+                <p className="font-medium text-sm">Фильтры</p>
+                {hasFilters ? <button className="text-sm underline cursor-pointer" onClick={onClear} type="button">
                     Очистить
-                </button>}
+                </button> : <span className="text-muted-foreground text-sm">Очищено</span>}
             </div>
-            <ProductFilter title="Цена" className="border-b-0">
-                <PriceFilter
+            <PriceFilter
                 minPrice={filters.minPrice}
                 maxPrice={filters.maxPrice}
                 onMinPriceChange={(value) => onChange("minPrice", value)}
                 onMaxPriceChange={(value) => onChange("maxPrice", value)}
-                />
-            </ProductFilter>
-            <ProductFilter title="Тэги">
-                <TagsFilter
+            />
+            <TagsFilter
                 value={filters.tags}
                 onChange={(value) => onChange("tags", value)}
                 category={category}
-                />
-            </ProductFilter>
+            />
         </div>
     )
 }

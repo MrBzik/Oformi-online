@@ -77,6 +77,7 @@ export interface Config {
     orders: Order;
     favourite: Favourite;
     refIncome: RefIncome;
+    filterGroups: FilterGroup;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
@@ -97,6 +98,7 @@ export interface Config {
     orders: OrdersSelect<false> | OrdersSelect<true>;
     favourite: FavouriteSelect<false> | FavouriteSelect<true>;
     refIncome: RefIncomeSelect<false> | RefIncomeSelect<true>;
+    filterGroups: FilterGroupsSelect<false> | FilterGroupsSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
@@ -289,8 +291,7 @@ export interface Product {
 export interface Tag {
   id: string;
   name: string;
-  products?: (string | Product)[] | null;
-  category?: (string | Category)[] | null;
+  category?: (string | null) | Category;
   updatedAt: string;
   createdAt: string;
 }
@@ -351,6 +352,18 @@ export interface RefIncome {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "filterGroups".
+ */
+export interface FilterGroup {
+  id: string;
+  name: string;
+  category?: (string | Category)[] | null;
+  tags?: (string | Tag)[] | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-locked-documents".
  */
 export interface PayloadLockedDocument {
@@ -395,6 +408,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'refIncome';
         value: string | RefIncome;
+      } | null)
+    | ({
+        relationTo: 'filterGroups';
+        value: string | FilterGroup;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -540,7 +557,6 @@ export interface ProductsSelect<T extends boolean = true> {
  */
 export interface TagsSelect<T extends boolean = true> {
   name?: T;
-  products?: T;
   category?: T;
   updatedAt?: T;
   createdAt?: T;
@@ -606,6 +622,17 @@ export interface RefIncomeSelect<T extends boolean = true> {
   user?: T;
   income?: T;
   date?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "filterGroups_select".
+ */
+export interface FilterGroupsSelect<T extends boolean = true> {
+  name?: T;
+  category?: T;
+  tags?: T;
   updatedAt?: T;
   createdAt?: T;
 }

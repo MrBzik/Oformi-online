@@ -38,7 +38,7 @@ export const ProductCard = ({
 
     return (
             <Link href={`${generateTenantURL(prod.tenant?.slug)}/products/${prod.id}`}>
-                <div className="h-full flex flex-col">
+                <div className="h-full flex flex-col select-none">
                     <div className="relative aspect-square">
                         <Image
                             alt={prod?.name}

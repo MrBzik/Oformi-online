@@ -39,23 +39,25 @@ export const PriceFilter = ({
 
     return (
         <div className="flex flex-col gap-2">
-            <div className="flex flex-col gap-2">
-                <Label className="font-medium text-base">
-                    От
-                </Label>
-                <Input type="text" placeholder="0"
-                value={minPrice ? formatAsCurrency(minPrice) : ""}
-                onChange={handleMinPriceChange}
+            <span className="text-sm">Цена</span>
+            <div className="flex gap-2">
+                <Input
+                    type="text"
+                    placeholder="От 0"
+                    className="md:text-sm sm:text-xs lg:text-xs h-10 border-muted-foreground"
+                    value={minPrice ? formatAsCurrency(minPrice) : ""}
+                    onChange={handleMinPriceChange}
+                />
+                <Input
+                    type="text"
+                    placeholder="До ∞"
+                    className="md:text-sm sm:text-xs lg:text-xs h-10 border-muted-foreground"
+                    value={maxPrice ? formatAsCurrency(maxPrice) : ""}
+                    onChange={handleMaxPriceChange}
                 />
             </div>
             <div className="flex flex-col gap-2">
-                <Label className="font-medium text-base">
-                    До
-                </Label>
-                <Input type="text" placeholder="∞"
-                       value={maxPrice ? formatAsCurrency(maxPrice) : ""}
-                       onChange={handleMaxPriceChange}
-                />
+
             </div>
         </div>
     )

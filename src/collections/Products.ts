@@ -1,5 +1,6 @@
 import {CollectionConfig} from "payload";
 import {isSuperAdmin} from "@/lib/access";
+import {Category, Tag} from "@/payload-types";
 
 export const Products : CollectionConfig = {
     slug: "products",
@@ -49,14 +50,52 @@ export const Products : CollectionConfig = {
             relationTo: "categories",
             hasMany: false,
             required: true,
-            label: "Категория"
+            label: "Категория",
+            hooks: {
+                beforeValidate: [
+                    async ({data, req, originalDoc}) => {
+                        if(originalDoc.category === data?.category) {
+                            return data?.category;
+                        }
+
+                        const tagIds = data?.tags as string[] || []
+                        const tags = await Promise.all(
+                            tagIds.map((tagId) => {
+                                return req.payload.findByID({
+                                    collection: "tags",
+                                    id: tagId,
+                                });
+                            })
+                        );
+
+
+                        if(data?.tags){
+                            data.tags = tags.filter((tag) => {
+                                const tagPopulated = tag as Tag & {category: Category}
+                                return tagPopulated.category.id === data.category
+                            }).map((tag) => {
+                                return tag.id
+                            })
+                        }
+
+                        return data?.category
+                    }
+                ]
+            }
         },
         {
             name: "tags",
             type: "relationship",
             relationTo: "tags",
             hasMany: true,
-            label: "Тэги"
+            label: "Тэги",
+            filterOptions: ({data}) => {
+                return {
+                    category: {
+                        equals: data.category
+                    },
+                }
+            }
         },
         {
             name: "image",

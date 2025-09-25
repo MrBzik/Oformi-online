@@ -23,18 +23,18 @@ export const Tags : CollectionConfig = {
             label: "Название",
             unique: true
         },
-        {
-            name: "products",
-            type: "relationship",
-            relationTo: "products",
-            hasMany: true,
-            label: "Услуги"
-        },
+        // {
+        //     name: "products",
+        //     type: "relationship",
+        //     relationTo: "products",
+        //     hasMany: true,
+        //     label: "Услуги"
+        // },
         {
             name: "category",
             type: "relationship",
             relationTo: "categories",
-            hasMany: true,
+            hasMany: false,
             label: "Категория"
         }
     ],

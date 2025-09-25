@@ -1,8 +1,9 @@
 import {useTRPC} from "@/trpc/client";
-import {useInfiniteQuery} from "@tanstack/react-query";
+import {useInfiniteQuery, useQuery} from "@tanstack/react-query";
 import {DEFAULT_LIMIT_TAGS} from "@/constants";
 import {LoaderIcon} from "lucide-react";
 import {Checkbox} from "@/components/ui/checkbox";
+import {FiltersGroup} from "@/modules/products/ui/components/filters-group";
 
 interface TagsFilterProps {
     value: string[] | null;
@@ -12,27 +13,18 @@ interface TagsFilterProps {
 
 
 export const TagsFilter = ({
-    value, onChange, category
+    value,
+    onChange,
+    category
 } : TagsFilterProps) => {
 
     const trpc = useTRPC();
     const {
         data,
         isLoading,
-        fetchNextPage,
-        hasNextPage,
-        isFetchingNextPage
-    } = useInfiniteQuery(trpc.tags.getMany.infiniteQueryOptions(
-        {
-            category: category,
-            limit: DEFAULT_LIMIT_TAGS
-        },
-        {
-            getNextPageParam : (lastPage) => {
-                return lastPage.docs.length > 0 ? lastPage.nextPage : undefined;
-            }
-        }
-    ))
+    } = useQuery(trpc.tags.getMany.queryOptions({
+        category: category
+    }))
 
     const onClick = (tag: string) => {
         if(value?.includes(tag)) {
@@ -43,33 +35,21 @@ export const TagsFilter = ({
     }
 
     return (
-        <div className="flex flex-col gap-y-2">
+        <div className="flex flex-col gap-4">
             {isLoading ? (
                 <div className="flex items-center justify-center p-4">
                     <LoaderIcon className="size-4 animate-spin"/>
                 </div>
             ) : (
-                data?.pages.map((page) =>
-                    page.docs.map((tag) => (
-                            <div key={tag.id}
-                                 onClick={() => onClick(tag.name)}
-                                 className="flex items-center justify-between cursor-pointer">
-                                <p className="font-medium">{tag.name}</p>
-                                <Checkbox
-                                checked={value?.includes(tag.name)}
-                                onCheckedChange={() => onClick(tag.name)}
-                                />
-                            </div>
-                        )
+                data?.docs.map((filter) => (
+                    <FiltersGroup
+                        value={value}
+                        title={filter.name}
+                        filters={filter.tags}
+                        onClick={onClick}
+                        key={filter.id}/>
                     )
                 )
-            )}
-            {hasNextPage && (
-                <button disabled={isFetchingNextPage}
-                onClick={()=> fetchNextPage()}
-                className="underline font-medium justify-start text-start disabled:opacity-50 cursor-pointer">
-                    Больше тегов
-                </button>
             )}
         </div>
     )
