@@ -25,7 +25,7 @@ interface Props {
     isArchived: boolean
 }
 
-export const ProductOrder = ({productId, isArchived} : Props) => {
+export const ProductOrderBtn = ({productId, isArchived} : Props) => {
     const trpc = useTRPC()
     const {data : ordered} = useSuspenseQuery(trpc.orders.getOne.queryOptions({
         productId: productId,
@@ -66,14 +66,14 @@ export const ProductOrder = ({productId, isArchived} : Props) => {
     return (
         <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
-                <Button className={cn("flex-1", isOrdered ? "bg-green-400" : "bg-blue-400")}
+                <Button className={cn("w-60 rounded-lg border-4", isOrdered ? "border-green-600" : "border-input-primary")}
                         disabled={isOrdered || isArchived}
                         onClick={() => {
                             {setOpen(true)}
                         }
 
                         }>
-                    {isOrdered ? ("Заявка принята") : ("Оставить заявку")}
+                    {isOrdered ? ("Заявка принята") : ("Оформить сейчас")}
                 </Button>
             </DialogTrigger>
 

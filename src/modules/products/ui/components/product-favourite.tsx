@@ -40,7 +40,7 @@ export const ProductActiveButtons = ({
     }))
 
     return (
-        <div className="w-full flex items-center justify-end gap-4">
+        <div className="flex items-center gap-4">
             <Share2
                 className="size-6 hover:stroke-input-variant"
                 onClick={() => {

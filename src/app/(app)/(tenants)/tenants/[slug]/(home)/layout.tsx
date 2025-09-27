@@ -3,7 +3,6 @@ import {Footer} from "@/modules/shared/ui/components/footer";
 import {getQueryClient, trpc} from "@/trpc/server";
 import {dehydrate, HydrationBoundary} from "@tanstack/react-query";
 import {Suspense} from "react";
-import {MainContainer} from "@/modules/shared/ui/components/main-container";
 import {TenantLink} from "@/modules/tenants/ui/components/TenantLink";
 
 interface LayoutProps {
@@ -21,7 +20,7 @@ const Layout = async ({children, params} : LayoutProps) => {
     }))
 
     return (
-        <div className="min-h-screen flex flex-col bg-bg-secondary">
+        <div className="min-h-screen flex flex-col bg-bg-primary">
             <div className="max-w-(--breakpoint-2xl) mx-auto flex flex-col min-h-screen w-full">
                 <HydrationBoundary state={dehydrate(queryClient)}>
                     <Suspense fallback={<NavbarLoading/>}>
@@ -30,9 +29,9 @@ const Layout = async ({children, params} : LayoutProps) => {
                         </Navbar>
                     </Suspense>
                 </HydrationBoundary>
-                <MainContainer>
+                <div className="flex-1">
                     {children}
-                </MainContainer>
+                </div>
                 <Footer/>
             </div>
         </div>
