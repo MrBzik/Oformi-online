@@ -66,8 +66,8 @@ export const ProductOrderBtn = ({productId, isArchived} : Props) => {
     return (
         <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
-                <Button className={cn("w-60 rounded-lg border-4", isOrdered ? "border-green-600" : "border-input-primary")}
-                        disabled={isOrdered || isArchived}
+                <Button className={cn("w-60 rounded-lg", isOrdered ? "border-0 bg-green-500" : "border-4 border-green-500")}
+                        disabled={isOrdered || isArchived || createOrder.isPending}
                         onClick={() => {
                             {setOpen(true)}
                         }

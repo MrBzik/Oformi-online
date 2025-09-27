@@ -56,6 +56,16 @@ export const Tenants: CollectionConfig = {
                 create : ({req}) => isSuperAdmin(req.user),
                 update : ({req}) => isSuperAdmin(req.user),
             },
+        },
+        {
+            name: "isTrusted",
+            type: "checkbox",
+            defaultValue: false,
+            label: "Проверенный продавец",
+            access: {
+                create : ({req}) => isSuperAdmin(req.user),
+                update : ({req}) => isSuperAdmin(req.user),
+            },
         }
         // {
         //     name: "ukassaAccountId",

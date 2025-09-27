@@ -6,6 +6,7 @@ import {TgNotificationsSetup} from "@/modules/auth/ui/views/tg-notifications-set
 import {Tenant} from "@/payload-types";
 import {isSuperAdmin} from "@/lib/access";
 import {redirect} from "next/navigation";
+import { BadgeCheck } from "lucide-react";
 
 export const dynamic = "force-dynamic";
 
@@ -28,9 +29,29 @@ const Page = async () => {
                 {
                     (tenant) ? (
                         (tenant.isVerified || isSuperAdmin(session.user)) ?
-                            <Link href="/admin" className="underline cursor-pointer text-lg">
-                                Перейти в настройки магазина
-                            </Link> : <div className="text-muted-foreground">Ваш магазин на модерации</div>
+                            <div className="flex flex-col gap-4">
+                                <Link href="/admin" className="underline cursor-pointer text-lg text-input-variant">
+                                    В настройки магазина
+                                </Link>
+                                {
+                                    tenant.isTrusted ? (
+                                        <div className="flex gap-1">
+                                            <span>Статус вашего магазина -</span>
+                                            <span className="font-semibold text-green-600">проверенный</span>
+                                            <BadgeCheck className="stroke-green-600"/>
+                                        </div>
+
+                                    ) : (
+                                        <div className="flex gap-1 ">
+                                            <span>Для получения статуса</span>
+                                            <span className="font-semibold text-green-600">проверенного</span>
+                                            <BadgeCheck className="stroke-green-600"/>
+                                            <span>магазина</span>
+                                            <Link href="https://t.me/sup_oo" className="underline text-input-primary">обращайтесь сюда</Link>
+                                        </div>
+                                    )
+                                }
+                            </div> : <div className="text-muted-foreground">Ваш магазин на модерации</div>
 
                     ) : <TenantRegistration />
                 }

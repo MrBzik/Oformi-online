@@ -190,6 +190,7 @@ export interface Tenant {
   description?: string | null;
   image?: (string | null) | Media;
   isVerified?: boolean | null;
+  isTrusted?: boolean | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -264,6 +265,9 @@ export interface Product {
   oldPrice?: number | null;
   category: string | Category;
   tags?: (string | Tag)[] | null;
+  /**
+   * Соотношение сторон должно быть 1:1 (вы можете редактировать изображение после его загрузке)
+   */
   image?: (string | null) | Media;
   deadlineMin?: number | null;
   deadlineMax?: number | null;
@@ -280,14 +284,14 @@ export interface Product {
    * Список сопутствующих услуг на странице данной услуги (вы можете указать до 4-х единиц)
    */
   recommendProducts?: (string | Product)[] | null;
-  totalOrders: number;
-  ratingCount: number;
-  totalRating: number;
-  fiveStarsRatings: number;
-  fourStarsRatings: number;
-  threeStarsRatings: number;
-  twoStarsRatings: number;
-  oneStarsRatings: number;
+  totalOrders?: number | null;
+  ratingCount?: number | null;
+  totalRating?: number | null;
+  fiveStarsRatings?: number | null;
+  fourStarsRatings?: number | null;
+  threeStarsRatings?: number | null;
+  twoStarsRatings?: number | null;
+  oneStarsRatings?: number | null;
   isArchived?: boolean | null;
   isVerified?: boolean | null;
   updatedAt: string;
@@ -586,6 +590,7 @@ export interface TenantsSelect<T extends boolean = true> {
   description?: T;
   image?: T;
   isVerified?: T;
+  isTrusted?: T;
   updatedAt?: T;
   createdAt?: T;
 }

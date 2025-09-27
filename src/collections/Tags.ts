@@ -9,7 +9,8 @@ export const Tags : CollectionConfig = {
         delete : ({req}) => isSuperAdmin(req.user),
     },
     admin: {
-        useAsTitle: "name"
+        useAsTitle: "name",
+        hidden: ({ user }) => !isSuperAdmin(user),
     },
     labels: {
         singular: "Тэг",

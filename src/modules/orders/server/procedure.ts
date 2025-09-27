@@ -15,10 +15,17 @@ export const ordersRouter  = createTRPCRouter({
 
             const cookies = await getCookies();
 
-            const hasOrderCookie = cookies.has(`order-${input.productId}`)
+            const orderTimeCookie = cookies.get(`order-${input.productId}`)?.value
 
-            if(hasOrderCookie){
-                return true
+            const now = Date.now();
+            const hours24 = 24 * 60 * 60 * 1000;
+
+            if(orderTimeCookie){
+                const orderDate = new Date(orderTimeCookie);
+                const hasExpired = now - orderDate.getTime() >= hours24;
+                if(!hasExpired){
+                    return true
+                }
             }
 
             if(ctx.session?.user){
@@ -38,7 +45,14 @@ export const ordersRouter  = createTRPCRouter({
                     }
                 })
 
-                return !!orderData.docs[0];
+                const order = orderData.docs[0]
+                if(order){
+                    const orderDate = new Date(order.createdAt)
+                    const hasExpired = now - orderDate.getTime() >= hours24;
+                    if(!hasExpired){
+                        return true
+                    }
+                }
             }
 
             return false;
@@ -148,10 +162,6 @@ export const ordersRouter  = createTRPCRouter({
 
             const cookies = await getCookies();
 
-            if(cookies.has(`order-${input.productId}`)){
-                return
-            }
-
             const referral = ctx.session.user?.ref || cookies.get(refCookieName)?.value
 
             let refUser : string | null = null
@@ -191,7 +201,7 @@ export const ordersRouter  = createTRPCRouter({
 
             cookies.set({
                 name: `order-${input.productId}`,
-                value: 'ordered',
+                value: new Date().toISOString(),
                 httpOnly: true,
                 path: '/',
             })

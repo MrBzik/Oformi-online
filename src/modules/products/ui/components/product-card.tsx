@@ -1,13 +1,14 @@
 import Link from "next/link";
 import Image from "next/image";
-import {AlarmClock, ClockIcon, StarIcon, TimerIcon} from "lucide-react";
+import {AlarmClock, BadgeCheck, ClockIcon, InfoIcon, StarIcon, TimerIcon} from "lucide-react";
 import "@/components/styles/brutal.css"
 import {useRouter} from "next/navigation";
-import {formatCurrency, formatDeadline, generateTenantURL} from "@/lib/utils";
+import {cn, formatCurrency, formatDeadline, generateTenantURL} from "@/lib/utils";
 import {reviewCountToText} from "@/modules/utils/reviewsUtils";
 import {Product} from "@/payload-types";
 import {productsPopulated} from "@/modules/products/types";
 import {imageNameToSrc} from "@/modules/utils/s3_url";
+import {Tooltip, TooltipContent, TooltipTrigger} from "@/components/ui/tooltip";
 
 
 interface ProductCardProps {
@@ -49,16 +50,21 @@ export const ProductCard = ({
                     <div className="flex flex-col gap-2 pt-4 flex-1"
                     >
 
-                        <div className="flex items-center gap-2 min-h-6" onClick={handleUserClick}>
-                            {tenantImgSrc && (
-                                <Image
-                                    src={tenantImgSrc}
-                                    alt={prod.tenant?.slug}
-                                    width={24}
-                                    height={24}
-                                    className="rounded-full border shrink-0 size-[24px]"/>
-                            )}
-                            <h2 className="text-xs 2xl:text-sm font-semibold line-clamp-1">{prod.name}</h2>
+                        <div className="flex items-center gap-2 h-10" onClick={handleUserClick}>
+                            <Tooltip>
+                                <TooltipTrigger asChild>
+                                    <Image
+                                        src={tenantImgSrc || "/tenant.svg"}
+                                        alt={prod.tenant?.slug}
+                                        width={24}
+                                        height={24}
+                                        className={cn("rounded-full shrink-0 size-[24px]", tenantImgSrc && "border")}/>
+                                </TooltipTrigger>
+                                <TooltipContent>
+                                    {prod.tenant.name}
+                                </TooltipContent>
+                            </Tooltip>
+                            <h2 className="text-xs 2xl:text-sm font-semibold line-clamp-2">{prod.name}</h2>
                         </div>
                         <div className="flex items-center gap-2">
                             <TimerIcon className="size-3.5"/>
@@ -72,6 +78,18 @@ export const ProductCard = ({
                             <span className="text-sm text-muted-foreground">
                                     · {prod.ratingCount} {reviewCountToText(prod.ratingCount)}
                                 </span>
+                            {
+                                prod.tenant.isTrusted && (
+                                    <Tooltip>
+                                        <TooltipTrigger asChild>
+                                            <BadgeCheck className="size-5 shrink-0 stroke-green-500"/>
+                                        </TooltipTrigger>
+                                        <TooltipContent>
+                                            Проверенный продавец
+                                        </TooltipContent>
+                                    </Tooltip>
+                                )
+                            }
                         </div>
                         <div className="flex flex-row w-fit min-w-[60%] items-center justify-center border-[1px_4px_4px_1px] transition-shadow rounded-full bg-card-primary  px-2 text-input-variant hover:bg-green-200">
                             <div className="relative px-2 py-1 w-fit">

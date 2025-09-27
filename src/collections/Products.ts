@@ -101,7 +101,10 @@ export const Products : CollectionConfig = {
             name: "image",
             type: "upload",
             relationTo: "media",
-            label: "Изображение в карточк товара (до 1 мб)"
+            label: "Изображение в карточк товара (до 1 мб)",
+            admin: {
+                description: "Соотношение сторон должно быть 1:1 (вы можете редактировать изображение после его загрузке)"
+            }
         },
         {
             name: "deadlineMin",
@@ -157,10 +160,11 @@ export const Products : CollectionConfig = {
             label: "Количество заявок",
             defaultValue: 0,
             required: true,
-            access: {
-                create : ({req}) => isSuperAdmin(req.user),
-                update : ({req}) => isSuperAdmin(req.user),
-            },
+            admin: {
+              condition: (data, siblingData, { user, }) => {
+                  return isSuperAdmin(user);
+              }
+            }
         },
         {
             name: "ratingCount",
@@ -168,9 +172,10 @@ export const Products : CollectionConfig = {
             label: "Количество оценок",
             defaultValue: 0,
             required: true,
-            access: {
-                create : ({req}) => isSuperAdmin(req.user),
-                update : ({req}) => isSuperAdmin(req.user),
+            admin: {
+                condition: (data, siblingData, { user, }) => {
+                    return isSuperAdmin(user);
+                }
             },
         },
         {
@@ -179,9 +184,10 @@ export const Products : CollectionConfig = {
             label: "Общий рейтинг",
             defaultValue: 0,
             required: true,
-            access: {
-                create : ({req}) => isSuperAdmin(req.user),
-                update : ({req}) => isSuperAdmin(req.user),
+            admin: {
+                condition: (data, siblingData, { user, }) => {
+                    return isSuperAdmin(user);
+                }
             },
         },
         {
@@ -190,9 +196,10 @@ export const Products : CollectionConfig = {
             label: "Оценки 5 звезд",
             defaultValue: 0,
             required: true,
-            access: {
-                create : ({req}) => isSuperAdmin(req.user),
-                update : ({req}) => isSuperAdmin(req.user),
+            admin: {
+                condition: (data, siblingData, { user, }) => {
+                    return isSuperAdmin(user);
+                }
             },
         },
         {
@@ -201,9 +208,10 @@ export const Products : CollectionConfig = {
             label: "Оценки 4 звезды",
             defaultValue: 0,
             required: true,
-            access: {
-                create : ({req}) => isSuperAdmin(req.user),
-                update : ({req}) => isSuperAdmin(req.user),
+            admin: {
+                condition: (data, siblingData, { user, }) => {
+                    return isSuperAdmin(user);
+                }
             },
         },
         {
@@ -212,9 +220,10 @@ export const Products : CollectionConfig = {
             label: "Оценки 3 звезды",
             defaultValue: 0,
             required: true,
-            access: {
-                create : ({req}) => isSuperAdmin(req.user),
-                update : ({req}) => isSuperAdmin(req.user),
+            admin: {
+                condition: (data, siblingData, { user, }) => {
+                    return isSuperAdmin(user);
+                }
             },
         },
         {
@@ -223,9 +232,10 @@ export const Products : CollectionConfig = {
             label: "Оценки 2 звезды",
             defaultValue: 0,
             required: true,
-            access: {
-                create : ({req}) => isSuperAdmin(req.user),
-                update : ({req}) => isSuperAdmin(req.user),
+            admin: {
+                condition: (data, siblingData, { user, }) => {
+                    return isSuperAdmin(user);
+                }
             },
         },
         {
@@ -234,9 +244,10 @@ export const Products : CollectionConfig = {
             label: "Оценки 1 звезда",
             defaultValue: 0,
             required: true,
-            access: {
-                create : ({req}) => isSuperAdmin(req.user),
-                update : ({req}) => isSuperAdmin(req.user),
+            admin: {
+                condition: (data, siblingData, { user, }) => {
+                    return isSuperAdmin(user);
+                }
             },
         },
         {
