@@ -116,6 +116,26 @@ export const Products : CollectionConfig = {
             label: "Срок выполнения услуги максимум (дней)"
         },
         {
+            name: "keyWords",
+            type: "array",
+            maxRows: 2,
+            label: "Поисковые ключи",
+            labels : {
+                singular: "Поисковый ключ",
+                plural: "Поисковые ключи"
+            },
+            fields: [
+                {
+                    name: "word",
+                    type: "text",
+                    label: "ключ",
+                }
+            ],
+            admin: {
+                description: "Укажите до 10 слов или фраз, по которым услуга должна показываться в поисковой выдаче"
+            }
+        },
+        {
             name: "recommendProducts",
             type: "relationship",
             relationTo: "products",

@@ -268,6 +268,15 @@ export interface Product {
   deadlineMin?: number | null;
   deadlineMax?: number | null;
   /**
+   * Укажите до 10 слов или фраз, по которым услуга должна показываться в поисковой выдаче
+   */
+  keyWords?:
+    | {
+        word?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
    * Список сопутствующих услуг на странице данной услуги (вы можете указать до 4-х единиц)
    */
   recommendProducts?: (string | Product)[] | null;
@@ -537,6 +546,12 @@ export interface ProductsSelect<T extends boolean = true> {
   image?: T;
   deadlineMin?: T;
   deadlineMax?: T;
+  keyWords?:
+    | T
+    | {
+        word?: T;
+        id?: T;
+      };
   recommendProducts?: T;
   totalOrders?: T;
   ratingCount?: T;

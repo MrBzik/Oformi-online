@@ -119,9 +119,18 @@ export const productsRouter = createTRPCRouter({
             }
 
             if(input.search){
-                where["name"] = {
-                    like: input.search,
-                }
+                where.or = [
+                    {
+                      name: {
+                          like: input.search
+                      }
+                    },
+                    {
+                        "keyWords.word" : {
+                            like: input.search
+                        }
+                    }
+                ]
             }
 
             const data = await ctx.payload.find({
@@ -163,13 +172,32 @@ export const productsRouter = createTRPCRouter({
                     where: {
                         and: [
                             {
-                                name: {
-                                    like: input.search
-                                },
+                                or: [
+                                    {
+                                        name: {
+                                            like: input.search,
+                                        },
+                                    },
+                                    {
+                                        "keyWords.word": {
+                                            like: input.search,
+                                        },
+                                    },
+                                ],
                             },
                             {
                                 isArchived: {
                                     not_equals: true
+                                }
+                            },
+                            {
+                                isVerified: {
+                                    equals: true
+                                }
+                            },
+                            {
+                                "tenant.isVerified": {
+                                    equals: true
                                 }
                             }
                         ]
