@@ -38,12 +38,36 @@ export const Users: CollectionConfig = {
     tokenExpiration: 2419200,
     verify: {
       generateEmailHTML: ({token}) => {
-        return `<a href="${process.env.NEXT_PUBLIC_APP_URL}/verify-email?token=${token}">Подтвердить аккаунт</a>`
+        return ` <div style="font-family: Arial, sans-serif; line-height: 1.5; color: #333;">
+        <h2 style="color:#111;">Здравствуйте!</h2>
+        <p>Спасибо, что зарегистрировались в <strong>«Оформи онлайн»</strong>.</p>
+        <p>Чтобы подтвердить адрес вашей электронной почты и активировать аккаунт, нажмите на кнопку ниже:</p>
+        <p>
+          <a href="${process.env.NEXT_PUBLIC_APP_URL}/verify-email?token=${token}" 
+             style="display:inline-block; padding:12px 20px; background-color:#007bff; color:#fff; text-decoration:none; border-radius:6px; font-weight:bold;">
+            Подтвердить аккаунт
+          </a>
+        </p>
+        <p>Если вы не регистрировались в «Оформи онлайн», просто проигнорируйте это письмо.</p>
+        <p>С уважением,<br>Команда «Оформи онлайн»</p>
+      </div>`
       }
     },
     forgotPassword: {
       generateEmailHTML: (req) => {
-        return `<a href="${process.env.NEXT_PUBLIC_APP_URL}/reset-password?token=${req?.token}">Сменить пароль</a>`
+        return `<div style="font-family: Arial, sans-serif; line-height: 1.5; color: #333;">
+        <h2 style="color:#111;">Здравствуйте!</h2>
+        <p>Мы получили запрос на смену пароля для вашей учетной записи в <strong>«Оформи онлайн»</strong>.</p>
+        <p>Чтобы задать новый пароль, нажмите на кнопку ниже:</p>
+        <p>
+          <a href="${process.env.NEXT_PUBLIC_APP_URL}/reset-password?token=${req?.token}" 
+             style="display:inline-block; padding:12px 20px; background-color:#28a745; color:#fff; text-decoration:none; border-radius:6px; font-weight:bold;">
+            Сменить пароль
+          </a>
+        </p>
+        <p>Если вы не запрашивали смену пароля, просто проигнорируйте это письмо.</p>
+        <p>С уважением,<br>Команда «Оформи онлайн»</p>
+      </div>`
       }
     }
   },

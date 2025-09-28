@@ -283,15 +283,20 @@ export interface Product {
   /**
    * Список сопутствующих услуг на странице данной услуги (вы можете указать до 4-х единиц)
    */
-  recommendProducts?: (string | Product)[] | null;
-  totalOrders?: number | null;
-  ratingCount?: number | null;
-  totalRating?: number | null;
-  fiveStarsRatings?: number | null;
-  fourStarsRatings?: number | null;
-  threeStarsRatings?: number | null;
-  twoStarsRatings?: number | null;
-  oneStarsRatings?: number | null;
+  recommendations?:
+    | {
+        product?: (string | null) | Product;
+        id?: string | null;
+      }[]
+    | null;
+  totalOrders: number;
+  ratingCount: number;
+  totalRating: number;
+  fiveStarsRatings: number;
+  fourStarsRatings: number;
+  threeStarsRatings: number;
+  twoStarsRatings: number;
+  oneStarsRatings: number;
   isArchived?: boolean | null;
   isVerified?: boolean | null;
   updatedAt: string;
@@ -556,7 +561,12 @@ export interface ProductsSelect<T extends boolean = true> {
         word?: T;
         id?: T;
       };
-  recommendProducts?: T;
+  recommendations?:
+    | T
+    | {
+        product?: T;
+        id?: T;
+      };
   totalOrders?: T;
   ratingCount?: T;
   totalRating?: T;

@@ -121,7 +121,7 @@ export const Products : CollectionConfig = {
         {
             name: "keyWords",
             type: "array",
-            maxRows: 2,
+            maxRows: 10,
             label: "Поисковые ключи",
             labels : {
                 singular: "Поисковый ключ",
@@ -139,20 +139,33 @@ export const Products : CollectionConfig = {
             }
         },
         {
-            name: "recommendProducts",
-            type: "relationship",
-            relationTo: "products",
-            hasMany: true,
-            label: "Рекомандации",
+            name: "recommendations",
+            type: "array",
+            maxRows: 4,
+            label: "Рекомендации",
+            labels: {
+                singular: "Услуги",
+                plural: "Рекомендации"
+            },
             admin: {
                 description: "Список сопутствующих услуг на странице данной услуги (вы можете указать до 4-х единиц)"
             },
-            validate: (value) => {
-                if (value && value.length > 4) {
-                    return "Вы можете добавить до 4-х услуг"
-                }
-                return true
-            }
+            fields: [
+                {
+                    name: "product",
+                    type: "relationship",
+                    relationTo: "products",
+                    hasMany: false,
+                    label: "Услуга",
+                    filterOptions: ({data}) => {
+                        return {
+                            id: {
+                                not_equals: data.id
+                            },
+                        }
+                    }
+                },
+            ]
         },
         {
             name: "totalOrders",
@@ -161,10 +174,8 @@ export const Products : CollectionConfig = {
             defaultValue: 0,
             required: true,
             admin: {
-              condition: (data, siblingData, { user, }) => {
-                  return isSuperAdmin(user);
-              }
-            }
+                hidden: true
+            },
         },
         {
             name: "ratingCount",
@@ -173,9 +184,7 @@ export const Products : CollectionConfig = {
             defaultValue: 0,
             required: true,
             admin: {
-                condition: (data, siblingData, { user, }) => {
-                    return isSuperAdmin(user);
-                }
+                hidden: true
             },
         },
         {
@@ -185,9 +194,7 @@ export const Products : CollectionConfig = {
             defaultValue: 0,
             required: true,
             admin: {
-                condition: (data, siblingData, { user, }) => {
-                    return isSuperAdmin(user);
-                }
+                hidden: true
             },
         },
         {
@@ -197,9 +204,7 @@ export const Products : CollectionConfig = {
             defaultValue: 0,
             required: true,
             admin: {
-                condition: (data, siblingData, { user, }) => {
-                    return isSuperAdmin(user);
-                }
+                hidden: true
             },
         },
         {
@@ -209,9 +214,7 @@ export const Products : CollectionConfig = {
             defaultValue: 0,
             required: true,
             admin: {
-                condition: (data, siblingData, { user, }) => {
-                    return isSuperAdmin(user);
-                }
+                hidden: true
             },
         },
         {
@@ -221,9 +224,7 @@ export const Products : CollectionConfig = {
             defaultValue: 0,
             required: true,
             admin: {
-                condition: (data, siblingData, { user, }) => {
-                    return isSuperAdmin(user);
-                }
+                hidden: true
             },
         },
         {
@@ -233,9 +234,7 @@ export const Products : CollectionConfig = {
             defaultValue: 0,
             required: true,
             admin: {
-                condition: (data, siblingData, { user, }) => {
-                    return isSuperAdmin(user);
-                }
+                hidden: true
             },
         },
         {
@@ -245,9 +244,7 @@ export const Products : CollectionConfig = {
             defaultValue: 0,
             required: true,
             admin: {
-                condition: (data, siblingData, { user, }) => {
-                    return isSuperAdmin(user);
-                }
+                hidden: true
             },
         },
         {

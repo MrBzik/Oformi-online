@@ -33,8 +33,9 @@ export const productsRouter = createTRPCRouter({
                 image: product.image as Media | null,
                 tenant: product.tenant as Tenant & { image: Media | null },
                 tags: product.tags as Tag[],
-                recommendProducts: (product.recommendProducts as (Product & {image: Media | null})[])
-                    ?.filter((p) => p.isVerified === true),
+                recommendProducts: product.recommendations?.map(el => {
+                    return el.product as (Product & {image: Media | null})
+                })?.filter((p) => p.isVerified === true) || [],
                 ratingDistribution,
             };
         }),

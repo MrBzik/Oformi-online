@@ -46,14 +46,6 @@ export const authRouter = createTRPCRouter({
                 });
             }
 
-            const tenant = await ctx.payload.create({
-                collection: "tenants",
-                data: {
-                    name: input.username,
-                    slug: input.username
-                }
-            })
-
             const cookies = await getCookies();
             const refLink = cookies.get(refCookieName)?.value
 
@@ -64,12 +56,7 @@ export const authRouter = createTRPCRouter({
                     username: input.username,
                     password: input.password,
                     potentialRefIncome: 0,
-                    ref: refLink,
-                    tenants: [
-                        {
-                            tenant: tenant.id
-                        }
-                    ]
+                    ref: refLink
                 }
             });
 

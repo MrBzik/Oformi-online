@@ -94,8 +94,8 @@ export const ProductView = ({
                                         className="object-cover w-full h-auto rounded-lg border border-muted-foreground brutal-hover-shadow transition-shadow"
                                     />
                                 </div>
-                                <div className="col-span-4 flex flex-col gap-y-4 px-8">
-                                    <div className="flex justify-between ">
+                                <div className="col-span-4 flex flex-col gap-y-4 ps-8">
+                                    <div className="flex justify-between">
                                         <h1 className="text-2xl flex-1 font-medium">{data.name}</h1>
                                         <ProductActiveButtons productId={productId} isArchived={data.isArchived ?? false}/>
                                     </div>
@@ -148,10 +148,10 @@ export const ProductView = ({
                 {
                     data.recommendProducts?.length > 0 && (
                         <>
-                            <div className="pt-6">
+                            <div className="py-6">
                                 <h2>Продавец рекомендует</h2>
                             </div>
-                            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4">
+                            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
                                 {data.recommendProducts?.map(product => (
                                     <ProductCard
                                         key={product.id}

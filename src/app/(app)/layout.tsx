@@ -5,6 +5,7 @@ import {TRPCReactProvider} from "@/trpc/client";
 import {Toaster} from "@/components/ui/sonner";
 import {NuqsAdapter} from "nuqs/adapters/next/app";
 import BottomNav from "@/modules/shared/ui/components/bottom-nav";
+import Script from "next/script";
 
 const dmSans = DM_Sans({
     subsets: ["latin"],
