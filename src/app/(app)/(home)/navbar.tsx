@@ -72,7 +72,7 @@ export const Navbar = () => {
             {
                 showNavBar && (
                     <nav
-                        className="z-20 hidden lg:block fixed w-full border-0 border-b-[2px] lg:border-l-[2px] lg:border-r-[2px] lg:rounded-bl-4xl lg:rounded-br-4xl"
+                        className="z-20 hidden lg:block fixed w-full border-0 border-b-[2px] lg:border-l-[2px] lg:border-r-[2px] lg:rounded-bl-4xl lg:rounded-br-4xl max-w-(--breakpoint-2xl) mx-auto"
                         style={{ background: `linear-gradient(to top, ${activeCategoryColor}, ${DEFAULT_HEADER_COLOR})` }}
                     >
                         <div className="flex font-medium items-center gap-x-4 m-4">

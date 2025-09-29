@@ -10,6 +10,8 @@ import {BreadcrumbNavigation} from "@/app/(app)/(home)/search-filters/breadcrumb
 import {useProductFilters} from "@/modules/products/hooks/use-product-filters";
 import {cn} from "@/lib/utils";
 import {useParams} from "next/navigation";
+import {Breadcrumb, BreadcrumbItem, BreadcrumbList, BreadcrumbPage} from "@/components/ui/breadcrumb";
+import {TenantBreadcrumb} from "@/modules/tenants/ui/components/TenantBreadcrumb";
 
 interface Props {
     category?: string;
@@ -52,11 +54,17 @@ export const ProductListView = ({
     return (
         <div className="px-4 lg:px-12 py-2 lg:py-8 flex flex-col gap-2 lg:gap-4">
             <div className="flex gap-y-2 lg:gap-y-0 justify-between items-center">
-                <BreadcrumbNavigation
-                    activeCategory={activeCategory}
-                    activeCategoryName={activeCategoryName}
-                    activeSubcategoryName={activeSubcategoryName}
-                />
+                {
+                    tenantSlug ? (
+                       <TenantBreadcrumb tenantSlug={tenantSlug}/>
+                    ) : (
+                        <BreadcrumbNavigation
+                            activeCategory={activeCategory}
+                            activeCategoryName={activeCategoryName}
+                            activeSubcategoryName={activeSubcategoryName}
+                        />
+                    )
+                }
                 <ProductSort/>
             </div>
             <div className="grid grid-cols-1 lg:grid-cols-7 xl:grid-cols-9 gap-y-6 gap-x-12 ">

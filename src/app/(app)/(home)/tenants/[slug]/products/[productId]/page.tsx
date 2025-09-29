@@ -17,9 +17,13 @@ const Page = async ({
     const { productId, slug} = await params;
     const refParams = await loadRefLink(searchParams)
 
+
     const queryClient = getQueryClient();
     void queryClient.prefetchQuery(trpc.products.getOne.queryOptions({
         id: productId,
+    }))
+    void queryClient.prefetchQuery(trpc.tenants.getOne.queryOptions({
+        slug: slug
     }))
 
     void queryClient.prefetchQuery(trpc.orders.getOne.queryOptions({

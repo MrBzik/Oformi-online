@@ -18,6 +18,9 @@ const Page = async ({
     const filters = await loadProductFilters(searchParams)
 
     const queryClient = getQueryClient()
+    void queryClient.prefetchQuery(trpc.tenants.getOne.queryOptions({
+        slug: slug
+    }))
     void queryClient.prefetchInfiniteQuery(trpc.products.getMany.infiniteQueryOptions({
         tenantSlug: slug,
         ...filters,

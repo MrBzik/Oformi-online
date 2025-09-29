@@ -8,7 +8,7 @@ import {useQuery} from "@tanstack/react-query";
 import Link from "next/link";
 import {SearchSuggestions} from "@/app/(app)/(home)/search-filters/search-suggestions";
 import {Icon} from "@iconify/react";
-import {useRouter} from "next/navigation";
+import {usePathname, useRouter} from "next/navigation";
 import {Category} from "@/payload-types";
 import {DEFAULT_HEADER_COLOR} from "@/modules/home/constants";
 
@@ -60,6 +60,8 @@ export const SearchInput = (
         }
 
     }, [searchValue])
+
+    const pathname = usePathname();
 
     return (
         <div className="flex items-center gap-4 w-full">
@@ -123,7 +125,13 @@ export const SearchInput = (
                         href="/favourite"
                         className="flex flex-col items-center"
                     >
-                        <Icon icon="mingcute:heart-line" width="32" height="32" style={{color: 'black'} } />
+                        <Icon
+                            icon={
+                                pathname === '/favourite'
+                                    ? 'mingcute:heart-fill' // filled version
+                                    : 'mingcute:heart-line' // outline version
+                            }
+                            width="32" height="32" style={{color: 'black'} } />
                         <span className="text-md underline">
                         Избранное
                     </span>
@@ -134,7 +142,12 @@ export const SearchInput = (
                     href="/referral"
                     className="flex flex-col items-center"
                 >
-                    <Icon icon="mingcute:link-line" width="32" height="32" style={{color: 'black'}}  />
+                    <Icon icon={
+                        pathname === '/referral'
+                            ? "mingcute:link-fill"
+                            : 'mingcute:link-line'
+                    }
+                          width="32" height="32" style={{color: 'black'}}  />
                     <span className="text-md underline">
                         Доход
                     </span>

@@ -9,7 +9,7 @@ interface Props {
     tenantSlug: string;
 }
 
-export const TenantLink = ({
+export const TenantBreadcrumb = ({
     tenantSlug
 } : Props) => {
 
@@ -32,13 +32,6 @@ export const TenantLink = ({
                 />
             )}
             <p className="text-xl shrink-0">{data.name}</p>
-            {
-                data.description && (
-                    <p className="hidden lg:block rounded-md text-xl text-muted-foreground">
-                        · {data.description}
-                    </p>
-                )
-            }
         </div>
     )
 }

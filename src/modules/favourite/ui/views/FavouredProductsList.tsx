@@ -34,7 +34,7 @@ export const FavouredProductsList = () => {
     if((data.pages?.[0]?.docs.length ?? 0) ===0){
         return (
             <NoProductView>
-                В Избранном пока нет услуг либо вы неавторизованы
+                В Избранном пока нет услуг либо вы не авторизованы
             </NoProductView>
         )
     }
