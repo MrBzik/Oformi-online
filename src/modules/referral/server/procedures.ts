@@ -31,7 +31,7 @@ export const refRouter  = createTRPCRouter({
 
     getReferralPercentage : baseProcedure.query(async ({ctx}) => {
         const refSetting = await ctx.payload.findGlobal({
-            slug: "refSetting"
+            slug: "refSetting",
         })
         return refSetting.refPercent
     })

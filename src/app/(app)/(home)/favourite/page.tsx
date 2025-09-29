@@ -6,8 +6,13 @@ import {Suspense} from "react";
 import {ProductListLoading} from "@/modules/products/ui/components/product-list";
 import {FavouredProductsList} from "@/modules/favourite/ui/views/FavouredProductsList";
 import {Breadcrumb, BreadcrumbItem, BreadcrumbList, BreadcrumbPage} from "@/components/ui/breadcrumb";
+import {Metadata} from "next";
 
 export const dynamic = "force-dynamic";
+
+export const metadata: Metadata = {
+    title: "Избранные услуги",
+}
 
 const Page = async () => {
 

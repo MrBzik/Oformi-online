@@ -11,8 +11,19 @@ const dmSans = DM_Sans({
 });
 
 export const metadata: Metadata = {
+    metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL!),
     title: "Оформляй услуги онлайн",
-    description: "",
+    keywords: "онлайн услуги, оформить онлайн",
+    description: "Все услуги в одном месте. Просто. Удобно. Онлайн",
+    openGraph: {
+        title: "Оформляй услуги онлайн",
+        description: "Все услуги в одном месте. Просто. Удобно. Онлайн",
+        type: "website",
+        locale: "ru-RU",
+        url: process.env.NEXT_PUBLIC_APP_URL,
+        siteName: "Оформи Онлайн"
+    }
+
 };
 
 export default function RootLayout({

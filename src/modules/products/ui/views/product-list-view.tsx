@@ -10,7 +10,6 @@ import {BreadcrumbNavigation} from "@/app/(app)/(home)/search-filters/breadcrumb
 import {useProductFilters} from "@/modules/products/hooks/use-product-filters";
 import {cn} from "@/lib/utils";
 import {useParams} from "next/navigation";
-import {Breadcrumb, BreadcrumbItem, BreadcrumbList, BreadcrumbPage} from "@/components/ui/breadcrumb";
 import {TenantBreadcrumb} from "@/modules/tenants/ui/components/TenantBreadcrumb";
 
 interface Props {

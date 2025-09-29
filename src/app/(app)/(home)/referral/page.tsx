@@ -2,8 +2,17 @@ import {caller, getQueryClient, trpc} from "@/trpc/server";
 import {dehydrate, HydrationBoundary} from "@tanstack/react-query";
 import {IncomeChart} from "@/modules/referral/ui/views/income-chart";
 import {ReferralHeader} from "@/modules/referral/ui/components/referral-header";
+import {Metadata} from "next";
 
 export const dynamic = "force-dynamic";
+
+export async function generateMetadata(): Promise<Metadata> {
+    const percentage = await caller.referral.getReferralPercentage()
+    return {
+        title: `Заработай ${percentage}% с продаж`,
+        description: "Участвуй в реферальной программе Оформи Онлайн"
+    }
+}
 
 const Page = async () => {
 
