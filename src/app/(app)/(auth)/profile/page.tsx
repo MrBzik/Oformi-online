@@ -1,12 +1,12 @@
 import {caller} from "@/trpc/server";
 import Link from "next/link";
 import {TenantRegistration} from "@/modules/tenants/ui/views/TenantRegistration";
-import {PlainFooter} from "@/modules/shared/ui/components/plain-footer";
 import {TgNotificationsSetup} from "@/modules/auth/ui/views/tg-notifications-setup";
 import {Tenant} from "@/payload-types";
 import {isSuperAdmin} from "@/lib/access";
 import {redirect} from "next/navigation";
 import { BadgeCheck } from "lucide-react";
+import {Footer} from "@/app/(app)/(home)/footer";
 
 export const dynamic = "force-dynamic";
 
@@ -47,7 +47,7 @@ const Page = async () => {
                                             <span className="font-semibold text-green-600">проверенного</span>
                                             <BadgeCheck className="stroke-green-600"/>
                                             <span>магазина</span>
-                                            <Link href="https://t.me/sup_oo" className="underline text-input-primary">обращайтесь сюда</Link>
+                                            <Link href="https://t.me/MessageOoBot?start=verif" className="underline text-input-primary">обращайтесь сюда</Link>
                                         </div>
                                     )
                                 }
@@ -57,7 +57,7 @@ const Page = async () => {
                 }
                 <TgNotificationsSetup/>
             </div>
-            <PlainFooter/>
+            <Footer/>
         </div>
     )
 }

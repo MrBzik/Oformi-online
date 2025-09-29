@@ -45,7 +45,7 @@ export const TgNotificationsSetup = () => {
                 <span className="">Получайте уведомления о продажах и реферальной программе через Telegram бота</span>
                 <div className="flex gap-x-1">
                     <span>Перейдите в бота</span>
-                    <Link href="https://t.me/messageOobot" className="font-bold undeline text-input-variant">Новая заявка - Оформи.онлайн</Link>
+                    <Link href="https://t.me/MessageOoBot?start=id" className="font-bold undeline text-input-variant">Новая заявка - Оформи.онлайн</Link>
                 </div>
                 <span>
                             Далее нажмите кнопку START и скопируйте полученный ключ

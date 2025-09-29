@@ -96,7 +96,7 @@ export const ProductView = ({
                                 </div>
                                 <div className="col-span-4 flex flex-col gap-y-4 ps-8">
                                     <div className="flex justify-between">
-                                        <h1 className="text-2xl flex-1 font-medium">{data.name}</h1>
+                                        <h2 className="text-2xl flex-1 font-medium">{data.name}</h2>
                                         <ProductActiveButtons productId={productId} isArchived={data.isArchived ?? false}/>
                                     </div>
 
