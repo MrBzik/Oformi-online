@@ -52,7 +52,8 @@ export const tenantsRouter = createTRPCRouter({
                 data: {
                     name: input.tenantName,
                     slug: input.tenantSlug,
-                    description: input.description
+                    description: input.description,
+                    category: input.category
                 }
             })
 

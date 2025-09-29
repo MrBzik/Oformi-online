@@ -188,6 +188,7 @@ export interface Tenant {
    */
   slug: string;
   description?: string | null;
+  category: string;
   image?: (string | null) | Media;
   isVerified?: boolean | null;
   isTrusted?: boolean | null;
@@ -598,6 +599,7 @@ export interface TenantsSelect<T extends boolean = true> {
   name?: T;
   slug?: T;
   description?: T;
+  category?: T;
   image?: T;
   isVerified?: T;
   isTrusted?: T;

@@ -41,7 +41,13 @@ export const Tenants: CollectionConfig = {
             required: false,
             label: "Описание магазина"
         },
-
+        {
+            name: "category",
+            type: "text",
+            required: true,
+            label: "Категория услуг",
+            defaultValue: ""
+        },
         {
             name: "image",
             type: "upload",
