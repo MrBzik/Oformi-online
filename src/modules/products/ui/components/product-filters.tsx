@@ -3,6 +3,7 @@
 import {PriceFilter} from "@/modules/products/ui/components/price-filter";
 import {useProductSideFilters} from "@/modules/products/hooks/use-product-filters";
 import {TagsFilter} from "@/modules/products/ui/components/tags-filter";
+import {Suspense} from "react";
 
 interface Props {
     category?: string
@@ -47,11 +48,13 @@ export const ProductFilters = ({category} : Props) => {
                 onMinPriceChange={(value) => onChange("minPrice", value)}
                 onMaxPriceChange={(value) => onChange("maxPrice", value)}
             />
-            <TagsFilter
-                value={filters.tags}
-                onChange={(value) => onChange("tags", value)}
-                category={category}
-            />
+            <Suspense>
+                <TagsFilter
+                    value={filters.tags}
+                    onChange={(value) => onChange("tags", value)}
+                    category={category}
+                />
+            </Suspense>
         </div>
     )
 }

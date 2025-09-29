@@ -24,6 +24,10 @@ const Page = async ( {params, searchParams} : Props) => {
         limit: DEFAULT_LIMIT_PRODUCTS,
     }))
 
+    void queryClient.prefetchQuery(trpc.tags.getMany.queryOptions({
+        category: subcategory
+    }))
+
     return (
         <HydrationBoundary state={dehydrate(queryClient)}>
             <ProductListView category={subcategory}/>

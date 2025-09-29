@@ -1,7 +1,7 @@
 "use client"
 
 import {useTRPC} from "@/trpc/client";
-import {useMutation, useQuery, useSuspenseInfiniteQuery, useSuspenseQuery} from "@tanstack/react-query";
+import {useMutation, useSuspenseInfiniteQuery, useSuspenseQuery} from "@tanstack/react-query";
 import {formatCurrency} from "@/lib/utils";
 import {LoaderIcon} from "lucide-react";
 import {useEffect} from "react";
@@ -37,7 +37,7 @@ export const ProductView = ({
     const {data} = useSuspenseQuery(trpc.products.getOne.queryOptions({
         id: productId,
     }))
-    const {data: session} = useQuery(trpc.auth.session.queryOptions())
+    const {data: session} = useSuspenseQuery(trpc.auth.session.queryOptions())
 
     const {
         data: reviews,

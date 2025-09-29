@@ -1,8 +1,6 @@
 import {useTRPC} from "@/trpc/client";
-import {useInfiniteQuery, useQuery} from "@tanstack/react-query";
-import {DEFAULT_LIMIT_TAGS} from "@/constants";
+import {useSuspenseQuery} from "@tanstack/react-query";
 import {LoaderIcon} from "lucide-react";
-import {Checkbox} from "@/components/ui/checkbox";
 import {FiltersGroup} from "@/modules/products/ui/components/filters-group";
 
 interface TagsFilterProps {
@@ -22,7 +20,7 @@ export const TagsFilter = ({
     const {
         data,
         isLoading,
-    } = useQuery(trpc.tags.getMany.queryOptions({
+    } = useSuspenseQuery(trpc.tags.getMany.queryOptions({
         category: category
     }))
 

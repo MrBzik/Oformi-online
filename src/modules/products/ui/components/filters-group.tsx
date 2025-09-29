@@ -1,6 +1,5 @@
 import {useState} from "react";
 import {ChevronDownIcon, ChevronRightIcon} from "lucide-react";
-import {cn} from "@/lib/utils";
 import {Tag} from "@/payload-types";
 import {Checkbox} from "@/components/ui/checkbox";
 
