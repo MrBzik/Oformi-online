@@ -10,7 +10,7 @@ export const Footer = () => {
                         Оформи онлайн
                     </span>
             </Link>
-            <Link href="https://t.me/MessageOoBot?start=sup" className="cursor-pointer text-input-primary">Написать в поддержку</Link>
+me            <Link href="https://t.me/MessageOoBot?start=sup" className="cursor-pointer text-input-variant">Написать в поддержку</Link>
         </footer>
     )
 }
