@@ -32,7 +32,7 @@ export const ReferralHeader = ({
                     className={cn(userId && "underline text-input-primary cursor-pointer")}
                     onClick={() => {
                         if(userId){
-                            navigator.clipboard.writeText(`https:/oformi.online/?${refCookieName}=${userId}`)
+                            navigator.clipboard.writeText(`https:/oformi.online/?ref=${userId}`)
                             toast.success("Реферальная ссылка скопирована")
                         }
                     }}
@@ -45,7 +45,7 @@ export const ReferralHeader = ({
                     className={cn(userId && "underline text-input-primary cursor-pointer")}
                     onClick={() => {
                         if(userId){
-                            navigator.clipboard.writeText(`https:/oformi.online/sing-up/?${refSellerCookieName}=${userId}`)
+                            navigator.clipboard.writeText(`https:/oformi.online/sing-up/?refSeller=${userId}`)
                             toast.success("Реферальная ссылка скопирована")
                         }
                     }}
