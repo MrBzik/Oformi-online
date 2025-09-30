@@ -1,5 +1,6 @@
 import type { CollectionConfig } from 'payload'
 import {isSuperAdmin} from "@/lib/access";
+import {generateTgReqUrl, sendTgMessage} from "@/modules/utils/generateTgReqUrl";
 
 export const Tenants: CollectionConfig = {
     slug: 'tenants',
@@ -62,6 +63,7 @@ export const Tenants: CollectionConfig = {
                 create : ({req}) => isSuperAdmin(req.user),
                 update : ({req}) => isSuperAdmin(req.user),
             },
+
         },
         {
             name: "isTrusted",
@@ -96,6 +98,30 @@ export const Tenants: CollectionConfig = {
         //     }
         // }
     ],
+
+    hooks: {
+        beforeChange: [
+            async ({ data, originalDoc, req }) => {
+                if (data?.isVerified && !originalDoc?.isVerified) {
+
+                    const chatId = req.user?.tgNotificationsChatId
+
+                    if(!chatId){
+                        return data;
+                    }
+
+                    const refSetting = await req.payload.findGlobal({
+                        slug: "refSetting"
+                    })
+                    const tgRequestLink = generateTgReqUrl(refSetting.alertsTgBotToken)
+
+                    const msg = `Ваш магазин прошел модерацию и вы можете добавлять услуги. Подробности на https://oformi.online/profile`
+                    await sendTgMessage(tgRequestLink, chatId, msg)
+                }
+                return data;
+            },
+        ],
+    },
 
     labels: {
         singular:'Настройки магазина',

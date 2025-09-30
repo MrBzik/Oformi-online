@@ -51,7 +51,7 @@ const Page = async () => {
                                         </div>
                                     )
                                 }
-                            </div> : <div className="text-muted-foreground">Ваш магазин на модерации</div>
+                            </div> : <div className="text-muted-foreground">Ваш магазин на модерации. Подпишитесь на Telegram уведомления ниже, чтобы получить сообщение об изменении статуса модерации.</div>
 
                     ) : <TenantRegistration />
                 }
