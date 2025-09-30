@@ -3,7 +3,6 @@
 import {toast} from "sonner";
 import Link from "next/link";
 import {cn} from "@/lib/utils";
-import {refCookieName, refSellerCookieName} from "@/modules/referral/server/procedures";
 
 interface Props {
     userId?: string,
@@ -32,7 +31,7 @@ export const ReferralHeader = ({
                     className={cn(userId && "underline text-input-primary cursor-pointer")}
                     onClick={() => {
                         if(userId){
-                            navigator.clipboard.writeText(`https:/oformi.online/?${refCookieName}=${userId}`)
+                            navigator.clipboard.writeText(`https:/oformi.online/?ref=${userId}`)
                             toast.success("Реферальная ссылка скопирована")
                         }
                     }}
@@ -45,7 +44,7 @@ export const ReferralHeader = ({
                     className={cn(userId && "underline text-input-primary cursor-pointer")}
                     onClick={() => {
                         if(userId){
-                            navigator.clipboard.writeText(`https:/oformi.online/sing-up/?${refSellerCookieName}=${userId}`)
+                            navigator.clipboard.writeText(`https:/oformi.online/sing-up/?refSeller=${userId}`)
                             toast.success("Реферальная ссылка скопирована")
                         }
                     }}
@@ -55,7 +54,7 @@ export const ReferralHeader = ({
             {
                 userId && (
                     <div className="flex gap-x-1">
-                        <span>Не забудь подключить Telegram уведомления</span>
+                        <span>Не забудь подключить Telegram-уведомления</span>
                         <Link className="underline cursor-pointer text-input-variant" href="/profile">
                             здесь
                         </Link>

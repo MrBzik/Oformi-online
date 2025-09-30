@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { DM_Sans } from "next/font/google";
-import "./globals.css";
+import "./(app)/globals.css";
 import {TRPCReactProvider} from "@/trpc/client";
 import {Toaster} from "@/components/ui/sonner";
 import {NuqsAdapter} from "nuqs/adapters/next/app";
@@ -23,7 +23,6 @@ export const metadata: Metadata = {
         url: "https://oformi.online",
         siteName: "Оформи Онлайн"
     }
-
 };
 
 export default function RootLayout({
