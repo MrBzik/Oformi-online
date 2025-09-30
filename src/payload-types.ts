@@ -190,6 +190,7 @@ export interface Tenant {
   description?: string | null;
   category: string;
   image?: (string | null) | Media;
+  referral?: string | null;
   isVerified?: boolean | null;
   isTrusted?: boolean | null;
   updatedAt: string;
@@ -601,6 +602,7 @@ export interface TenantsSelect<T extends boolean = true> {
   description?: T;
   category?: T;
   image?: T;
+  referral?: T;
   isVerified?: T;
   isTrusted?: T;
   updatedAt?: T;
@@ -707,6 +709,7 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
 export interface RefSetting {
   id: string;
   refPercent: number;
+  refSellersPercent: number;
   alertsTgBotToken?: string | null;
   adminTgAccounts?:
     | {
@@ -723,6 +726,7 @@ export interface RefSetting {
  */
 export interface RefSettingSelect<T extends boolean = true> {
   refPercent?: T;
+  refSellersPercent?: T;
   alertsTgBotToken?: T;
   adminTgAccounts?:
     | T

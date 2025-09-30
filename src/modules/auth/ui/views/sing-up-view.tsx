@@ -14,13 +14,25 @@ import {toast} from "sonner";
 import {useRouter} from "next/navigation";
 import {AuthNavigation} from "@/modules/auth/ui/components/auth-navigation";
 import {PasswordWithToggle} from "@/modules/auth/ui/components/password-with-toggle";
+import Link from "next/link";
+import {useEffect} from "react";
 
-export const SingUpView = () => {
+interface Props {
+    refLink?: string
+}
+
+export const SingUpView = ({refLink} : Props) => {
 
     const router = useRouter()
 
     const trpc = useTRPC();
     const queryClient = useQueryClient()
+
+    const handleRefLink = useMutation(trpc.referral.addReferralSellerCookie.mutationOptions({}))
+    useEffect(() => {
+        handleRefLink.mutate({refLink: refLink})
+    }, []);
+
     const register = useMutation(trpc.auth.register.mutationOptions({
         onError: (error) => {
             if(error.data?.code === "INTERNAL_SERVER_ERROR"){
@@ -108,6 +120,9 @@ export const SingUpView = () => {
                     className="bg-black text-white hover:bg-pink-400 hover:text-primary">
                     Создать аккаунт
                 </Button>
+                <Link prefetch href="/sign-in" className="text-base border-none underline flex lg:hidden text-input-primary mb-20">
+                    Войти
+                </Link>
             </form>
         </Form>
     )

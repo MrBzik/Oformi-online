@@ -162,7 +162,24 @@ export const ordersRouter  = createTRPCRouter({
 
             const cookies = await getCookies();
 
-            const referral = ctx.session.user?.ref || cookies.get(refCookieName)?.value
+            let referral = ctx.session.user?.ref || cookies.get(refCookieName)?.value
+            let isSellerReferral = false
+
+            if(!referral) {
+                const tenant = product.tenant as Tenant
+                const sellerReferral = tenant.referral
+                if(sellerReferral){
+                    const created = new Date(tenant.createdAt)
+                    const now = new Date()
+                    const threeMonthsAgo = new Date();
+                    threeMonthsAgo.setMonth(now.getMonth() - 3);
+                    const isLessThan3Months = created > threeMonthsAgo;
+                    if(isLessThan3Months){
+                        referral = sellerReferral
+                        isSellerReferral = true
+                    }
+                }
+            }
 
             let refUser : string | null = null
             let refPercentage: number | null | undefined = null
@@ -177,7 +194,7 @@ export const ordersRouter  = createTRPCRouter({
 
                 refUser = referral
 
-                refPercentage = refSetting.refPercent!
+                refPercentage = isSellerReferral ? refSetting.refSellersPercent : refSetting.refPercent
 
                 const user = await ctx.payload.findByID({
                     collection: "users",

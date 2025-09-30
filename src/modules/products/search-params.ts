@@ -36,3 +36,13 @@ const refParam = {
 }
 
 export const loadRefLink = createLoader(refParam)
+
+const refSellerParam = {
+    refSeller: parseAsString
+        .withOptions({
+            clearOnDefault: true,
+        })
+        .withDefault(""),
+}
+
+export const loadSellerRefLink = createLoader(refSellerParam)

@@ -3,15 +3,18 @@
 import {toast} from "sonner";
 import Link from "next/link";
 import {cn} from "@/lib/utils";
+import {refCookieName, refSellerCookieName} from "@/modules/referral/server/procedures";
 
 interface Props {
     userId?: string,
-    refPercentage: number
+    refPercentage: number,
+    refSellarPercentage: number,
 }
 
 export const ReferralHeader = ({
     userId,
     refPercentage,
+    refSellarPercentage,
 } : Props) => {
     return (
         <div className="flex flex-col gap-y-4">
@@ -29,12 +32,25 @@ export const ReferralHeader = ({
                     className={cn(userId && "underline text-input-primary cursor-pointer")}
                     onClick={() => {
                         if(userId){
-                            navigator.clipboard.writeText(`https:/oformi.online/?ref=${userId}`)
+                            navigator.clipboard.writeText(`https:/oformi.online/?${refCookieName}=${userId}`)
                             toast.success("Реферальная ссылка скопирована")
                         }
                     }}
                 >реферальной ссылке!</span>
                 <span>Зарабатывай {refPercentage}% с каждой продажи!</span>
+            </div>
+            <div className="flex gap-x-1">
+                <span>Получай {refSellarPercentage}% с продаж</span>
+                <span
+                    className={cn(userId && "underline text-input-primary cursor-pointer")}
+                    onClick={() => {
+                        if(userId){
+                            navigator.clipboard.writeText(`https:/oformi.online/sing-up/?${refSellerCookieName}=${userId}`)
+                            toast.success("Реферальная ссылка скопирована")
+                        }
+                    }}
+                >приглашенных</span>
+                <span>продавцов в течении 3-х месяцев!</span>
             </div>
             {
                 userId && (

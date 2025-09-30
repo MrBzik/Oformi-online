@@ -110,13 +110,13 @@ export const Products : CollectionConfig = {
             name: "deadlineMin",
             type: "number",
             required: false,
-            label: "Срок выполнения услуги минимум (дней)"
+            label: "Срок выполнения услуги минимум (рабочих дней)"
         },
         {
             name: "deadlineMax",
             type: "number",
             required: false,
-            label: "Срок выполнения услуги максимум (дней)"
+            label: "Срок выполнения услуги максимум (рабочих дней)"
         },
         {
             name: "keyWords",

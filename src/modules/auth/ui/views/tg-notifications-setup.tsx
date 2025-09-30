@@ -40,9 +40,9 @@ export const TgNotificationsSetup = () => {
 
     return (
         <div className="flex flex-col gap-4">
-            <h2 className="text-lg">Telegram уведомления</h2>
+            <h2 className="text-lg">Telegram-уведомления</h2>
             <div className="flex flex-col gap-y-2 pl-6 text-muted-foreground">
-                <span className="">Получайте уведомления о продажах и реферальной программе через Telegram бота</span>
+                <span className="">Получайте уведомления о продажах и реферальной программе через Telegram-бота</span>
                 <div className="flex gap-x-1">
                     <span>Перейдите в бота</span>
                     <Link href="https://t.me/MessageOoBot?start=id" className="font-bold undeline text-input-variant">Новая заявка - Оформи.онлайн</Link>
@@ -58,7 +58,7 @@ export const TgNotificationsSetup = () => {
                     <FormField name="chatId" render={({field}) => (
                         <FormItem>
                             <FormLabel>
-                                Ключ, полученный из Telegram бота*
+                                Ключ, полученный из Telegram-бота*
                             </FormLabel>
                             <FormControl>
                                 <Input {...field}/>

@@ -84,7 +84,10 @@ export const SignInView = () => {
                     className="bg-black text-white hover:bg-pink-400 hover:text-primary">
                     Войти
                 </Button>
-                <Link href="/forgot-password" className="text-blue-700">
+                <Link prefetch href="/sign-up" className="text-base border-none underline flex lg:hidden text-input-primary">
+                    Зарегистрироваться
+                </Link>
+                <Link href="/forgot-password" className="text-input-variant mb-20">
                     Забыли пароль?
                 </Link>
             </form>

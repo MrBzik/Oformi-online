@@ -16,6 +16,13 @@ export const RefSetting: GlobalConfig = {
             label: "Процент выплат по реферальной программе"
         },
         {
+            name: "refSellersPercent",
+            type: "number",
+            defaultValue: 3,
+            required: true,
+            label: "Процент выплат за приглашенных продавцов"
+        },
+        {
             name: "alertsTgBotToken",
             type: "text",
             defaultValue: "",

@@ -27,7 +27,7 @@ export const AuthNavigation = ({
                                 </span>
             </Link>
             <Button asChild variant="ghost" size="sm"
-                    className="text-base border-none underline">
+                    className="text-base border-none underline hidden lg:flex">
                 <Link prefetch href={navDestination}>
                     {label}
                 </Link>

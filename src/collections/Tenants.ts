@@ -55,6 +55,14 @@ export const Tenants: CollectionConfig = {
             relationTo: "media"
         },
         {
+            name: "referral",
+            type: "text",
+            required: false,
+            admin: {
+                hidden: true
+            }
+        },
+        {
             name: "isVerified",
             type: "checkbox",
             defaultValue: false,

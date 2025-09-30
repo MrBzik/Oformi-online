@@ -24,7 +24,7 @@ const Page = async () => {
     return (
         <HydrationBoundary state={dehydrate(queryClient)}>
             <div className="px-4 lg:px-12 py-8 flex flex-col gap-6">
-                <ReferralHeader refPercentage={percentage} userId={user?.id}/>
+                <ReferralHeader refPercentage={percentage.refPercent} refSellarPercentage={percentage.refSellersPercent} userId={user?.id}/>
                 <IncomeChart/>
             </div>
         </HydrationBoundary>

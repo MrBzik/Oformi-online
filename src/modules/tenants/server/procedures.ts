@@ -4,6 +4,8 @@ import {TRPCError} from "@trpc/server";
 import {Media, Tenant} from "@/payload-types";
 import {tenantCreateSchema} from "@/modules/tenants/schemas";
 import {generateTgReqUrl, sendTgMessage} from "@/modules/utils/generateTgReqUrl";
+import {cookies as getCookies} from "next/dist/server/request/cookies";
+import {refSellerCookieName} from "@/modules/referral/server/procedures";
 
 export const tenantsRouter = createTRPCRouter({
     getOne: baseProcedure
@@ -46,6 +48,10 @@ export const tenantsRouter = createTRPCRouter({
                 throw new TRPCError({code: "INTERNAL_SERVER_ERROR"})
             }
 
+            const cookies = await getCookies();
+
+            const referral = cookies.get(refSellerCookieName)?.value
+
             const tenant = await ctx.payload.create({
                 collection: "tenants",
                 req: {transactionID},
@@ -53,7 +59,8 @@ export const tenantsRouter = createTRPCRouter({
                     name: input.tenantName,
                     slug: input.tenantSlug,
                     description: input.description,
-                    category: input.category
+                    category: input.category,
+                    referral: referral
                 }
             })
 
