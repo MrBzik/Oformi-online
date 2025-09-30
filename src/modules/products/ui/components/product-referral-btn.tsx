@@ -33,7 +33,7 @@ export const ProductReferralBtn = () => {
                 </Tooltip>
             </div>
             <Button
-                className={cn("w-60 rounded-lg border-yellow-500 border-4")}
+                className={cn("w-full lg:w-60 rounded-lg border-yellow-500 border-4")}
                 onClick={async () => {
                     setIsCopied(true)
                     navigator.clipboard.writeText(window.location.href + `/?ref=${session?.user?.id}`)

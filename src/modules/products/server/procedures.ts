@@ -27,15 +27,20 @@ export const productsRouter = createTRPCRouter({
               1: ratingToPercentage(product.oneStarsRatings, product.ratingCount),
             };
 
+            console.log(product.recommendations)
+
             return {
                 ...product,
                 category: product.category as Category & { parent: Category | null },
                 image: product.image as Media | null,
                 tenant: product.tenant as Tenant & { image: Media | null },
                 tags: product.tags as Tag[],
-                recommendProducts: product.recommendations?.map(el => {
-                    return el.product as (Product & {image: Media | null})
-                })?.filter((p) => p.isVerified === true) || [],
+                recommendProducts: product.recommendations?.flatMap(el => {
+                    if(el.product){
+                        return el.product as (Product & {image: Media | null})
+                    }
+                    return []
+                })?.filter((p) => p?.isVerified === true) || [],
                 ratingDistribution,
             };
         }),

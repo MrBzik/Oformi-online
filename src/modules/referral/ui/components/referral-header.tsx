@@ -3,7 +3,6 @@
 import {toast} from "sonner";
 import Link from "next/link";
 import {cn} from "@/lib/utils";
-import {refCookieName, refSellerCookieName} from "@/modules/referral/server/procedures";
 
 interface Props {
     userId?: string,
