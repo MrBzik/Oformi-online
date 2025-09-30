@@ -39,7 +39,7 @@ export const ProductCard = ({
 
     return (
             <Link href={`${generateTenantURL(prod.tenant?.slug)}/products/${prod.id}`}>
-                <div className="h-full flex flex-col select-none">
+                <div className="h-full w-full flex flex-col select-none">
                     <div className="relative aspect-square">
                         <Image
                             alt={prod?.name}
@@ -91,7 +91,7 @@ export const ProductCard = ({
                                 )
                             }
                         </div>
-                        <div className="flex flex-row w-fit min-w-[60%] items-center justify-center border-[1px_4px_4px_1px] transition-shadow rounded-full bg-card-primary  px-2 text-input-variant hover:bg-green-200">
+                        <div className="flex flex-row w-full lg:w-fit min-w-[60%] max-w-[100%] items-center justify-center border-[1px_4px_4px_1px] transition-shadow rounded-full bg-card-primary  px-2 text-input-variant hover:bg-green-200">
                             <div className="relative px-2 py-1 w-fit">
                             <span className="text-sm font-medium ">
                                 {formatCurrency(prod.price)}
