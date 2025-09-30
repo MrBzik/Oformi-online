@@ -177,7 +177,7 @@ export const ProductView = ({
                             <h2 className="p-6">Отзывы</h2>
                             { reviews.pages?.[0]?.docs.length ===0 ? (
                                 <p className="p-6 text-muted-foreground">
-                                    У этой улсуги пока нет отзывов
+                                    У этой услуги пока нет отзывов
                                 </p>) : (
                                 <>
                                     <div className="space-y-4">
