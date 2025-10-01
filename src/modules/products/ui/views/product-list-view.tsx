@@ -66,7 +66,7 @@ export const ProductListView = ({
                 }
                 <ProductSort/>
             </div>
-            <div className="grid grid-cols-1 lg:grid-cols-7 xl:grid-cols-9 gap-y-6 gap-x-12 ">
+            <div className="grid grid-cols-1 lg:grid-cols-7 xl:grid-cols-9 gap-y-6 lg:gap-x-12 ">
                 {isDisplayFilters && (
                     <div className="col-span-2">
                         <ProductFilters category={category}/>
