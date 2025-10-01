@@ -1,6 +1,7 @@
 import type { CollectionConfig } from 'payload'
 import {isSuperAdmin} from "@/lib/access";
 import {generateTgReqUrl, sendTgMessage} from "@/modules/utils/generateTgReqUrl";
+import {Tenant} from "@/payload-types";
 
 export const Tenants: CollectionConfig = {
     slug: 'tenants',
@@ -112,7 +113,31 @@ export const Tenants: CollectionConfig = {
             async ({ data, originalDoc, req }) => {
                 if (data?.isVerified && !originalDoc?.isVerified) {
 
-                    const chatId = req.user?.tgNotificationsChatId
+                    const tenant = await req.payload.find({
+                        collection: "tenants",
+                        limit: 1,
+                        pagination: false,
+                        where : {
+                            slug: {
+                                equals: data.slug
+                            }
+                        }
+                    })
+
+                    const t = tenant.docs[0] as Tenant
+
+                    const user = await req.payload.find({
+                        collection: "users",
+                        limit: 1,
+                        pagination: false,
+                        where: {
+                            "tenants.tenant": {
+                                equals: t.id
+                            }
+                        }
+                    })
+
+                    const chatId = user.docs[0]?.tgNotificationsChatId
 
                     if(!chatId){
                         return data;
@@ -126,6 +151,7 @@ export const Tenants: CollectionConfig = {
                     const msg = `Ваш магазин прошел модерацию и вы можете добавлять услуги. Подробности на https://oformi.online/profile`
                     await sendTgMessage(tgRequestLink, chatId, msg)
                 }
+
                 return data;
             },
         ],
