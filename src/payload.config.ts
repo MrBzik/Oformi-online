@@ -24,6 +24,7 @@ import {s3Storage} from "@payloadcms/storage-s3";
 import {RefSetting} from "@/collections/RefSetting";
 import {RefIncome} from "@/collections/RefIncome";
 import {FilterGroups} from "@/collections/FilterGroups";
+import {Questions} from "@/collections/Questions";
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -51,7 +52,7 @@ export default buildConfig({
       beforeDashboard: [`/components/payload/dashboard-header.tsx`],
     }
   },
-  collections: [Users, Media, Categories, Products, Tags, Tenants, Reviews, Orders, Favourite, RefIncome, FilterGroups],
+  collections: [Users, Media, Categories, Products, Tags, Tenants, Reviews, Questions, Orders, Favourite, RefIncome, FilterGroups],
   globals: [RefSetting],
   upload: {
     limits: {

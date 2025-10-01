@@ -74,6 +74,7 @@ export interface Config {
     tags: Tag;
     tenants: Tenant;
     reviews: Review;
+    questions: Question;
     orders: Order;
     favourite: Favourite;
     refIncome: RefIncome;
@@ -95,6 +96,7 @@ export interface Config {
     tags: TagsSelect<false> | TagsSelect<true>;
     tenants: TenantsSelect<false> | TenantsSelect<true>;
     reviews: ReviewsSelect<false> | ReviewsSelect<true>;
+    questions: QuestionsSelect<false> | QuestionsSelect<true>;
     orders: OrdersSelect<false> | OrdersSelect<true>;
     favourite: FavouriteSelect<false> | FavouriteSelect<true>;
     refIncome: RefIncomeSelect<false> | RefIncomeSelect<true>;
@@ -331,6 +333,19 @@ export interface Review {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "questions".
+ */
+export interface Question {
+  id: string;
+  question: string;
+  product: string | Product;
+  user: string | User;
+  response?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "orders".
  */
 export interface Order {
@@ -416,6 +431,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'reviews';
         value: string | Review;
+      } | null)
+    | ({
+        relationTo: 'questions';
+        value: string | Question;
       } | null)
     | ({
         relationTo: 'orders';
@@ -615,6 +634,18 @@ export interface TenantsSelect<T extends boolean = true> {
 export interface ReviewsSelect<T extends boolean = true> {
   description?: T;
   rating?: T;
+  product?: T;
+  user?: T;
+  response?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "questions_select".
+ */
+export interface QuestionsSelect<T extends boolean = true> {
+  question?: T;
   product?: T;
   user?: T;
   response?: T;

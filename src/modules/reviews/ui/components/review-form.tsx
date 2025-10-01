@@ -20,7 +20,7 @@ export const ReviewForm = ({
 
     const trpc = useTRPC();
     const queryClient = useQueryClient()
-    const {data: session} = useQuery(trpc.auth.session.queryOptions())
+    const {data: session} = useSuspenseQuery(trpc.auth.session.queryOptions())
 
     const {data: initialData} = useSuspenseQuery(trpc.reviews.getOne.queryOptions({
         productId: productId,

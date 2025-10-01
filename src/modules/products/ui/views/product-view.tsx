@@ -2,9 +2,9 @@
 
 import {useTRPC} from "@/trpc/client";
 import {useMutation, useSuspenseInfiniteQuery, useSuspenseQuery} from "@tanstack/react-query";
-import {formatCurrency} from "@/lib/utils";
+import {cn, formatCurrency} from "@/lib/utils";
 import {LoaderIcon} from "lucide-react";
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
 import {RichText} from "@payloadcms/richtext-lexical/react"
 import {ProductOrderBtn} from "@/modules/products/ui/components/product-order-btn";
 import {NoProductView} from "@/modules/products/ui/components/no-product";
@@ -21,6 +21,8 @@ import {ProductActiveButtons} from "@/modules/products/ui/components/product-fav
 import {ProductReferralBtn} from "@/modules/products/ui/components/product-referral-btn";
 import {ProductTags} from "@/modules/products/ui/components/product-tags";
 import {ProductRatings} from "@/modules/products/ui/components/product-ratings";
+import {QuestionForm} from "@/modules/questions/ui/components/question-form";
+import {QuestionItem} from "@/modules/questions/ui/components/question-item";
 
 interface Props {
     productId: string;
@@ -54,6 +56,21 @@ export const ProductView = ({
         }
     ))
 
+    const {
+        data: questions,
+        hasNextPage : qHasNextPage,
+        isFetchingNextPage : qIsFetchingNextPage,
+        fetchNextPage: qFetchNextPage,
+    } = useSuspenseInfiniteQuery(trpc.questions.getMany.infiniteQueryOptions({
+            productId: data.id,
+        },
+        {
+            getNextPageParam : (lastPage) => {
+                return lastPage.docs.length > 0 ? lastPage.nextPage : undefined;
+            },
+        }
+    ))
+
     const handleRefLink = useMutation(trpc.referral.addReferralCookie.mutationOptions({}))
     useEffect(() => {
         handleRefLink.mutate({refLink: refLink})
@@ -70,12 +87,14 @@ export const ProductView = ({
         }
     }
 
+    const [isReviewsTable, setIsReviewsTable] = useState(true)
+
     return (
         <div className="px-4">
             <div className="p-6 flex flex-col gap-4">
                 <ProductBreadcrumb parentCategorySlug={data.category.parent?.slug} parentCategoryName={data.category.parent?.name} categorySlug={data.category.slug} categoryName={data.category.name} />
             </div>
-            <div className="flex flex-col gap-6">
+            <div className="flex flex-col gap-6 gap-y-8 lg:gap-y-12">
                 {data.isArchived && (
                     <NoProductView>
                         Услуга была убрана в архив
@@ -147,10 +166,8 @@ export const ProductView = ({
                 </div>
                 {
                     data.recommendProducts?.length > 0 && (
-                        <>
-                            <div className="py-6">
-                                <h2>Продавец рекомендует</h2>
-                            </div>
+                        <div className="flex flex-col gap-y-8">
+                            <h2>Продавец рекомендует</h2>
                             <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
                                 {data.recommendProducts?.map(product => (
                                     <ProductCard
@@ -159,44 +176,79 @@ export const ProductView = ({
                                     />
                                 ))}
                             </div>
-                        </>
+                        </div>
                     )
                 }
-                <div className="grid grid-cols-1 lg:grid-cols-6 gap-x-4">
-                    <div className="col-span-4">
+                <div className="grid grid-cols-1 lg:grid-cols-6 ">
+                    <div id="reviews" className="col-span-4 flex flex-col gap-y-8">
+                        <div className="flex gap-6">
+                            <h2
+                                onClick={() => setIsReviewsTable(true)}
+                                className={cn(isReviewsTable ? "" : "text-muted-foreground underline cursor-pointer")}>Отзывы</h2>
+                            <h2
+                                onClick={() => setIsReviewsTable(false)}
+                                className={cn(!isReviewsTable ? "" :"text-muted-foreground underline cursor-pointer")}>Вопросы</h2>
+                        </div>
                         {
                             !isProductOwner && (
                                 <div className="col-span-4 w-full">
-                                    <div className="p-6">
-                                        <ReviewForm productId={productId}/>
-                                    </div>
+                                    {
+                                        isReviewsTable ? (
+                                            <ReviewForm productId={productId}/>
+                                        ) : (
+                                            <QuestionForm productId={productId}/>
+                                        )
+                                    }
                                 </div>
                             )
                         }
-                        <div id="reviews">
-                            <h2 className="p-6">Отзывы</h2>
-                            { reviews.pages?.[0]?.docs.length ===0 ? (
-                                <p className="p-6 text-muted-foreground">
-                                    У этой услуги пока нет отзывов
-                                </p>) : (
-                                <>
-                                    <div className="space-y-4">
-                                        {reviews.pages.flatMap((page) => page.docs).map((review) => (
-                                            <ReviewItem
-                                                key={review.id}
-                                                review={review}
-                                                canResponse={isProductOwner}
-                                            />
-                                        ))}
-                                    </div>
-                                    <div className="flex w-full justify-center">
-                                        <InfiniteScroll isLoading={isFetchingNextPage} hasMore={hasNextPage} next={fetchNextPage}>
-                                            {hasNextPage && <LoaderIcon className="my-14 h-8 w-8 animate-spin" />}
-                                        </InfiniteScroll>
-                                    </div>
-                                </>
-                            )}
-                        </div>
+                        {
+                            isReviewsTable ? (
+                                reviews.pages?.[0]?.docs.length ===0 ? (
+                                    <p className="text-muted-foreground">
+                                        У этой услуги пока нет отзывов
+                                    </p>) : (
+                                    <>
+                                        <div className="space-y-4">
+                                            {reviews.pages.flatMap((page) => page.docs).map((review) => (
+                                                <ReviewItem
+                                                    key={review.id}
+                                                    review={review}
+                                                    canResponse={isProductOwner}
+                                                />
+                                            ))}
+                                        </div>
+                                        <div className="flex w-full justify-center">
+                                            <InfiniteScroll isLoading={isFetchingNextPage} hasMore={hasNextPage} next={fetchNextPage}>
+                                                {hasNextPage && <LoaderIcon className="my-14 h-8 w-8 animate-spin" />}
+                                            </InfiniteScroll>
+                                        </div>
+                                    </>
+                                )
+                            ) : (
+                                questions.pages?.[0]?.docs.length ===0 ? (
+                                    <p className="text-muted-foreground">
+                                        У этой услуги пока нет вопросов
+                                    </p>) : (
+                                    <>
+                                        <div className="space-y-4">
+                                            {questions.pages.flatMap((page) => page.docs).map((question) => (
+                                                <QuestionItem
+                                                    key={question.id}
+                                                    question={question}
+                                                    canResponse={isProductOwner}
+                                                />
+                                            ))}
+                                        </div>
+                                        <div className="flex w-full justify-center">
+                                            <InfiniteScroll isLoading={qIsFetchingNextPage} hasMore={qHasNextPage} next={qFetchNextPage}>
+                                                {qHasNextPage && <LoaderIcon className="my-14 h-8 w-8 animate-spin" />}
+                                            </InfiniteScroll>
+                                        </div>
+                                    </>
+                                )
+                            )
+                        }
                     </div>
                 </div>
             </div>

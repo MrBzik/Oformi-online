@@ -16,8 +16,6 @@ export const IncomeChart = () => {
     const trpc = useTRPC();
     const {data} = useSuspenseQuery(trpc.orders.getForReferral.queryOptions())
 
-    console.log(data)
-
     const chartConfig = {
         potential: {
             label: "Потенциальный доход",

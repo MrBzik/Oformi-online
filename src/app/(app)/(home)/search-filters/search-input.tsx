@@ -61,7 +61,17 @@ export const SearchInput = (
 
     }, [searchValue])
 
+    const [isMobile, setIsMobile] = useState(false);
+
+    useEffect(() => {
+        const checkScreen = () => setIsMobile(window.innerWidth < 1024);
+        checkScreen();
+        window.addEventListener("resize", checkScreen);
+        return () => window.removeEventListener("resize", checkScreen);
+    }, []);
+
     const pathname = usePathname();
+
 
     return (
         <div className="flex items-center gap-4 w-full">
@@ -78,7 +88,7 @@ export const SearchInput = (
                 />
                 <Input
                     className="bg-card-primary rounded-xl border-0"
-                    placeholder="Найти услугу"
+                    placeholder={isMobile ? "Оформи онлайн" : "Найти услугу"}
                     disabled={disabled}
                     value={searchValue}
                     onChange={(e) => setSearchValue(e.target.value)}

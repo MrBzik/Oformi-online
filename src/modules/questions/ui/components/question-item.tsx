@@ -1,5 +1,5 @@
 import {StarRating} from "@/components/star-rating";
-import {Review, User} from "@/payload-types";
+import {Question, Review, User} from "@/payload-types";
 import {Card} from "@/components/ui/card";
 import {Form, FormControl, FormField, FormItem, FormMessage} from "@/components/ui/form";
 import {Textarea} from "@/components/ui/textarea";
@@ -11,9 +11,10 @@ import {reviewResponseSchema} from "@/modules/reviews/schemas";
 import {useTRPC} from "@/trpc/client";
 import {useMutation, useQueryClient} from "@tanstack/react-query";
 import {toast} from "sonner";
+import {questionResponseSchema} from "@/modules/questions/schemas";
 
 interface Props {
-    review: Review & { user: User };
+    question: Question & { user: User };
     canResponse: boolean;
 }
 
@@ -23,33 +24,33 @@ const formatter = new Intl.DateTimeFormat("ru-RU", {
     day: "numeric",
 });
 
-export const ReviewItem = ({
-    review,
+export const QuestionItem = ({
+    question,
     canResponse,
 } : Props) => {
 
     const trpc = useTRPC();
     const queryClient = useQueryClient()
 
-    const upsertResponse = useMutation(trpc.reviews.submitResponse.mutationOptions({
+    const upsertResponse = useMutation(trpc.questions.submitResponse.mutationOptions({
         onSuccess: async () => {
             await queryClient.invalidateQueries({
-                queryKey: [trpc.reviews.getMany.queryKey().entries()]
+                queryKey: [trpc.questions.getMany.queryKey().entries()]
             });
             toast.success("Ваш ответ успешно опубликован")
         }
     }))
 
-    const form = useForm<z.infer<typeof reviewResponseSchema>>({
-        resolver: zodResolver(reviewResponseSchema),
+    const form = useForm<z.infer<typeof questionResponseSchema>>({
+        resolver: zodResolver(questionResponseSchema),
         defaultValues: {
-            response: review.response || ""
+            response: question.response || ""
         }
     })
 
-    const onSubmit = (data: z.infer<typeof reviewResponseSchema>) => {
+    const onSubmit = (data: z.infer<typeof questionResponseSchema>) => {
         upsertResponse.mutate({
-            reviewId: review.id,
+            reviewId: question.id,
             response: data.response
         })
     };
@@ -57,19 +58,13 @@ export const ReviewItem = ({
     return (
         <Card
             className="p-6 flex flex-col gap-3 w-full">
-            <span className="text-sm text-muted-foreground w-full text-right">{formatter.format(new Date(review.createdAt))}</span>
-            <div className="flex flex-row justify-between">
-                <p className="font-semibold">{review.user.username}</p>
-                <StarRating
-                    rating={review.rating}
-                    iconClassName="size-3"
-                />
-            </div>
-            <p className="font-medium italic">{review.description}</p>
+            <span className="text-sm text-muted-foreground w-full text-right">{formatter.format(new Date(question.createdAt))}</span>
+            <p className="font-semibold">{question.user.username}</p>
+            <p className="font-medium italic">{question.question}</p>
             {
-                review.response && (
+                question.response && (
                     <div className="py-4 border-t border-muted-foreground text-end border-dashed">
-                        <span className="italic">{review.response}</span>
+                        <span className="italic">{question.response}</span>
                     </div>
                 )
             }
@@ -87,7 +82,7 @@ export const ReviewItem = ({
                                     render={({ field }) => (
                                         <FormItem>
                                             <FormControl>
-                                                <Textarea {...field} placeholder="Оставить ответ на отзыв"/>
+                                                <Textarea {...field} placeholder="Ответить на вопрос"/>
                                             </FormControl>
                                             <FormMessage/>
                                         </FormItem>

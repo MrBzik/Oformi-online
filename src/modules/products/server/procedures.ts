@@ -27,8 +27,6 @@ export const productsRouter = createTRPCRouter({
               1: ratingToPercentage(product.oneStarsRatings, product.ratingCount),
             };
 
-            console.log(product.recommendations)
-
             return {
                 ...product,
                 category: product.category as Category & { parent: Category | null },

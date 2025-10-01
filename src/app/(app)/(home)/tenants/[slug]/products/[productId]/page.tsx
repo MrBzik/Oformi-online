@@ -1,5 +1,5 @@
 import {getQueryClient, trpc} from "@/trpc/server";
-import {dehydrate, HydrationBoundary} from "@tanstack/react-query";
+import {dehydrate, HydrationBoundary, useQuery} from "@tanstack/react-query";
 import {ProductView, ProductViewLoading} from "@/modules/products/ui/views/product-view";
 import {Suspense} from "react";
 import {loadRefLink} from "@/modules/products/search-params";
@@ -42,6 +42,14 @@ const Page = async ({
 
     void queryClient.prefetchInfiniteQuery(trpc.reviews.getMany.infiniteQueryOptions({
         productId: productId
+    }))
+
+    void queryClient.prefetchInfiniteQuery(trpc.questions.getMany.infiniteQueryOptions({
+        productId: productId
+    }))
+
+    void queryClient.prefetchQuery(trpc.questions.getWaitTime.queryOptions({
+        productId: productId,
     }))
 
     return (
