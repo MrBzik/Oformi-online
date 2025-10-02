@@ -43,8 +43,8 @@ export const Navbar = () => {
                  style={{ background: `linear-gradient(to top, ${activeCategoryColor}, ${DEFAULT_HEADER_COLOR})` }}
             >
                 <div className="flex font-medium items-center gap-y-4 lg:gap-x-4">
-                    <div className="hidden lg:block shrink-0">
-                        <Image src="/big_logo.png" alt="main logo" priority={true} width={120} height={120} className="absolute -translate-y-1/4 -translate-x-1/6"/>
+                    <div className="hidden lg:flex shrink-0 gap-x-2">
+                        <Image src="/logo.png" alt="main logo" priority={true} width={70} height={70}/>
                         <MainHeaderTwoLines/>
                     </div>
                     <SearchInput

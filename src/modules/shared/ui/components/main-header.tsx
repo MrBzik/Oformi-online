@@ -1,8 +1,8 @@
 import {cn} from "@/lib/utils";
 import Link from "next/link";
-import {Poppins} from "next/font/google";
+import {EB_Garamond, Exo_2, Inter_Tight, Lora, Poppins, Roboto, Vollkorn} from "next/font/google";
 
-const poppins = Poppins({
+const poppins = EB_Garamond({
     subsets:["latin"],
     weight: ["700"]
 })
@@ -22,13 +22,13 @@ export const MainHeader = () => {
 
 export const MainHeaderTwoLines = () => {
     return (
-        <Link href="/" className="pl-28 flex items-center">
-            <h1 className={cn("text-lg font-semibold leading-tight", poppins.className)}>
+        <Link href="/" className="flex items-center">
+            <h1 className={cn("text-base font-semibold leading-tight", poppins.className)}>
                 <span className="text-sky-600">О</span>
-                <span>форми </span>
+                <span className="uppercase">форми </span>
                 <br/>
                 <span className="text-input-primary">О</span>
-                <span className="tracking-widest">нлайн</span>
+                <span className=" uppercase">нлайн</span>
             </h1>
         </Link>
     )
