@@ -122,8 +122,8 @@ export const SearchInput = (
                     href={session.data?.user ? "/profile" : "/sign-in"}
                     className="flex flex-col items-center"
                 >
-                    <Icon icon="mingcute:user-2-line" width="32" height="32" style={{color: 'black'} } />
-                    <span className="text-md underline">
+                    <Icon icon="mingcute:user-2-line" width="24" height="24" style={{color: 'black'} } />
+                    <span className="text-xs">
                         {
                             session.data?.user ? "Профиль" : "Войти"
                         }
@@ -141,10 +141,10 @@ export const SearchInput = (
                                     ? 'mingcute:heart-fill' // filled version
                                     : 'mingcute:heart-line' // outline version
                             }
-                            width="32" height="32" style={{color: 'black'} } />
-                        <span className="text-md underline">
+                            width="24" height="24" style={{color: 'black'} } />
+                        <span className="text-xs">
                         Избранное
-                    </span>
+                        </span>
                     </Link>
                 )}
 
@@ -154,11 +154,11 @@ export const SearchInput = (
                 >
                     <Icon icon={
                         pathname === '/referral'
-                            ? "mingcute:link-fill"
-                            : 'mingcute:link-line'
+                            ? "f7:money-rubl-circle-fill"
+                            : 'f7:money-rubl-circle'
                     }
-                          width="32" height="32" style={{color: 'black'}}  />
-                    <span className="text-md underline">
+                          width="24" height="24" style={{color: 'black'}}  />
+                    <span className="text-xs">
                         Доход
                     </span>
                 </Link>
