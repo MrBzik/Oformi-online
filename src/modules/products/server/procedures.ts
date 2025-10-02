@@ -83,6 +83,8 @@ export const productsRouter = createTRPCRouter({
                 sort = "-price"
             } else if (input.sort === "по рейтингу"){
                 sort = "-totalRating"
+            } else if (input.sort === "проверенные") {
+                sort = "-isTrusted"
             } else if (input.sort === "популярные"){
                 sort = "-totalOrders"
             }

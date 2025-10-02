@@ -262,8 +262,30 @@ export const Products : CollectionConfig = {
                 create : ({req}) => isSuperAdmin(req.user),
                 update : ({req}) => isSuperAdmin(req.user),
             },
+        },
+        {
+            name: "isTrusted",
+            type: "checkbox",
+            defaultValue: false,
+            admin: {
+                hidden: true
+            }
         }
-    ]
+    ],
+    hooks: {
+        beforeChange : [
+            async ({ data, req }) => {
+                if (data.tenant) {
+                    const tenant = await req.payload.findByID({
+                        collection: "tenants",
+                        id: data.tenant,
+                    });
+                    data.isTrusted = tenant.isTrusted;
+                }
+                return data;
+            }
+        ]
+    }
 
 
 }

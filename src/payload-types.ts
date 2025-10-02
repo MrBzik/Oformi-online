@@ -303,6 +303,7 @@ export interface Product {
   oneStarsRatings: number;
   isArchived?: boolean | null;
   isVerified?: boolean | null;
+  isTrusted?: boolean | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -598,6 +599,7 @@ export interface ProductsSelect<T extends boolean = true> {
   oneStarsRatings?: T;
   isArchived?: T;
   isVerified?: T;
+  isTrusted?: T;
   updatedAt?: T;
   createdAt?: T;
 }

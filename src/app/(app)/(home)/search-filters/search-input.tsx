@@ -81,7 +81,7 @@ export const SearchInput = (
                 onOpenChange={setIsSidebarOpen}
                 data={categories}
             />
-            <div className="relative w-full rounded-xl bg-gradient-to-r from-sky-600 to-input-primary px-12 py-2">
+            <div className="relative w-full lg:rounded-xl bg-gradient-to-r from-sky-600 to-input-primary px-12 py-2">
                 <ListFilterIcon
                     className="absolute left-5 top-1/2 -translate-y-1/2 size-4 text-white cursor-pointer"
                     onClick={() => setIsSidebarOpen(true)}

@@ -1,5 +1,5 @@
 import {parseAsArrayOf, createLoader, parseAsString, parseAsStringLiteral} from "nuqs/server";
-export const sortValues = ["популярные", "по рейтингу", "дешевле", "дороже"] as const;
+export const sortValues = ["популярные", "по рейтингу", "проверенные", "дешевле", "дороже"] as const;
 
 const params = {
     search: parseAsString

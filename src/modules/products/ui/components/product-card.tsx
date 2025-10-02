@@ -44,6 +44,7 @@ export const ProductCard = ({
                         <Image
                             alt={prod?.name}
                             fill
+                            sizes="(max-width: 768px) 50vw, (max-width: 1024px) 25vw, 20vw"
                             src={imgSrc}
                             className="object-cover brutal-hover-shadow transition-shadow border rounded-lg border-muted-foreground"/>
                     </div>
@@ -60,8 +61,13 @@ export const ProductCard = ({
                                         height={24}
                                         className={cn("rounded-full shrink-0 size-[24px]", tenantImgSrc && "border")}/>
                                 </TooltipTrigger>
-                                <TooltipContent>
-                                    {prod.tenant.name}
+                                <TooltipContent className="max-w-60">
+                                    <p className="text-lg">
+                                        {prod.tenant.name}
+                                    </p>
+                                    <p>
+                                        {prod.tenant.description}
+                                    </p>
                                 </TooltipContent>
                             </Tooltip>
                             <h2 className="text-xs 2xl:text-sm font-semibold line-clamp-2">{prod.name}</h2>
@@ -85,7 +91,7 @@ export const ProductCard = ({
                                             <BadgeCheck className="size-5 shrink-0 stroke-green-500"/>
                                         </TooltipTrigger>
                                         <TooltipContent>
-                                            Проверенный продавец
+                                            Проверенный исполнитель
                                         </TooltipContent>
                                     </Tooltip>
                                 )

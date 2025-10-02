@@ -38,13 +38,13 @@ export const Navbar = () => {
         <>
             <nav
                 ref={navContainer}
-                className="sticky top-0 z-20 lg:static lg:p-6 border-0 border-b-[2px] lg:border-l-[2px] lg:border-r-[2px] lg:rounded-bl-4xl lg:rounded-br-4xl flex flex-col gap-y-4"
+                className="sticky top-0 z-20 lg:static lg:p-6 border-0 lg:border-b-[2px] lg:border-l-[2px] lg:border-r-[2px] lg:rounded-bl-4xl lg:rounded-br-4xl flex flex-col gap-y-4"
                 // style={{ backgroundColor: activeCategoryColor}}
                  style={{ background: `linear-gradient(to top, ${activeCategoryColor}, ${DEFAULT_HEADER_COLOR})` }}
             >
-                <div className="flex font-medium items-center gap-y-4 lg:gap-x-4 m-4 lg:m-0">
+                <div className="flex font-medium items-center gap-y-4 lg:gap-x-4">
                     <div className="hidden lg:block shrink-0">
-                        <Image src="/big_logo.png" alt="logo" width={120} height={120} className="absolute -translate-y-1/4 -translate-x-1/6"/>
+                        <Image src="/big_logo.png" alt="main logo" priority={true} width={120} height={120} className="absolute -translate-y-1/4 -translate-x-1/6"/>
                         <MainHeaderTwoLines/>
                     </div>
                     <SearchInput
