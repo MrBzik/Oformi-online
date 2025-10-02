@@ -120,7 +120,7 @@ export const SearchInput = (
             <div className="hidden lg:flex gap-3">
                 <Link
                     href={session.data?.user ? "/profile" : "/sign-in"}
-                    className="flex flex-col items-center"
+                    className="flex flex-col items-center hover:text-input-primary"
                 >
                     <Icon icon="mingcute:user-2-line" width="24" height="24" style={{color: 'black'} } />
                     <span className="text-xs">
@@ -133,7 +133,7 @@ export const SearchInput = (
                 {session.data?.user && (
                     <Link
                         href="/favourite"
-                        className="flex flex-col items-center"
+                        className="flex flex-col items-center hover:text-input-primary"
                     >
                         <Icon
                             icon={
@@ -150,7 +150,7 @@ export const SearchInput = (
 
                 <Link
                     href="/referral"
-                    className="flex flex-col items-center"
+                    className="flex flex-col items-center hover:text-input-primary"
                 >
                     <Icon icon={
                         pathname === '/referral'
@@ -158,7 +158,7 @@ export const SearchInput = (
                             : 'f7:money-rubl-circle'
                     }
                           width="24" height="24" style={{color: 'black'}}  />
-                    <span className="text-xs">
+                    <span className="text-xs ">
                         Доход
                     </span>
                 </Link>

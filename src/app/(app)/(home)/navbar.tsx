@@ -12,6 +12,7 @@ import {Categories} from "@/app/(app)/(home)/search-filters/categories";
 import Image from "next/image";
 import useScrollThreshold from "@/modules/shared/hooks/use-scroll-trashhold";
 import {useParams} from "next/navigation";
+import Link from "next/link";
 
 export const Navbar = () => {
 
@@ -44,7 +45,9 @@ export const Navbar = () => {
             >
                 <div className="flex font-medium items-center gap-y-4 lg:gap-x-4">
                     <div className="hidden lg:flex shrink-0 gap-x-2">
-                        <Image src="/logo.png" alt="main logo" priority={true} width={70} height={70}/>
+                        <Link href="/">
+                            <Image src="/logo-shadow.png" alt="main logo" priority={true} width={65} height={65}/>
+                        </Link>
                         <MainHeaderTwoLines/>
                     </div>
                     <SearchInput

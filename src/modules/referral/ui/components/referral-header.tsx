@@ -25,21 +25,23 @@ export const ReferralHeader = ({
                     </div>
                 )
             }
-            <div className="flex gap-x-1">
-                <span>Приглашай новых покупателей по</span>
+            <p>
+                Приглашай новых покупателей по{" "}
                 <span
                     className={cn(userId && "underline text-input-primary cursor-pointer")}
                     onClick={() => {
-                        if(userId){
+                        if (userId) {
                             navigator.clipboard.writeText(`https:/oformi.online/?ref=${userId}`)
                             toast.success("Реферальная ссылка скопирована")
                         }
                     }}
-                >реферальной ссылке!</span>
-                <span>Зарабатывай {refPercentage}% с каждой продажи!</span>
-            </div>
-            <div className="flex gap-x-1">
-                <span>Получай {refSellarPercentage}% с продаж</span>
+                >
+                    реферальной ссылке!
+                </span>{" "}
+                Зарабатывай {refPercentage}% с каждой продажи!
+            </p>
+            <p>
+                Получай {refSellarPercentage}% с продаж{" "}
                 <span
                     className={cn(userId && "underline text-input-primary cursor-pointer")}
                     onClick={() => {
@@ -48,17 +50,17 @@ export const ReferralHeader = ({
                             toast.success("Реферальная ссылка скопирована")
                         }
                     }}
-                >приглашенных</span>
-                <span>продавцов в течении 3-х месяцев!</span>
-            </div>
+                >приглашенных</span>{" "}
+                продавцов в течении 3-х месяцев!
+            </p>
             {
                 userId && (
-                    <div className="flex gap-x-1">
-                        <span>Не забудь подключить Telegram уведомления</span>
+                    <p>
+                        Не забудь подключить Telegram уведомления{" "}
                         <Link className="underline cursor-pointer text-input-variant" href="/profile">
                             здесь
                         </Link>
-                    </div>
+                    </p>
                 )
             }
         </div>

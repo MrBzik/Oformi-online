@@ -35,23 +35,26 @@ const Page = async () => {
                                 </Link>
                                 {
                                     tenant.isTrusted ? (
-                                        <div className="flex gap-1">
-                                            <span>Статус вашего магазина -</span>
+                                        <p>
+                                            Статус вашего магазина -{" "}
                                             <span className="font-semibold text-green-600">проверенный</span>
-                                            <BadgeCheck className="stroke-green-600"/>
-                                        </div>
+                                            <BadgeCheck className="stroke-green-600 inline-block align-middle"/>
+                                        </p>
 
                                     ) : (
-                                        <div className="flex gap-1 ">
-                                            <span>Для получения статуса</span>
-                                            <span className="font-semibold text-green-600">проверенного</span>
-                                            <BadgeCheck className="stroke-green-600"/>
-                                            <span>магазина</span>
+                                        <p>
+                                            Для получения статуса{" "}
+                                            <span
+                                                className="font-semibold text-green-600">
+                                                проверенного{" "}
+                                                <BadgeCheck className="stroke-green-600 inline-block align-middle"/>
+                                            </span>{" "}
+                                            магазина{" "}
                                             <Link href="https://t.me/MessageOoBot?start=verif" className="underline text-input-primary">обращайтесь сюда</Link>
-                                        </div>
+                                        </p>
                                     )
                                 }
-                            </div> : <div className="text-muted-foreground">Ваш магазин на модерации. Подпишитесь на Telegram-уведомления ниже, чтобы получить сообщение об изменении статуса модерации.</div>
+                            </div> : <p className="text-muted-foreground">Ваш магазин на модерации. Подпишитесь на Telegram-уведомления ниже, чтобы получить сообщение об изменении статуса модерации.</p>
 
                     ) : <TenantRegistration />
                 }

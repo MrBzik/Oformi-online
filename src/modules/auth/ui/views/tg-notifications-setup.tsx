@@ -41,12 +41,12 @@ export const TgNotificationsSetup = () => {
     return (
         <div className="flex flex-col gap-4">
             <h2 className="text-lg">Telegram-уведомления</h2>
-            <div className="flex flex-col gap-y-2 pl-6 text-muted-foreground">
+            <div className="flex flex-col gap-y-2 lg:pl-6 text-muted-foreground">
                 <span className="">Получайте уведомления о продажах и реферальной программе через Telegram-бота</span>
-                <div className="flex gap-x-1">
-                    <span>Перейдите в бота</span>
+                <p>
+                    <span>Перейдите в бота</span>{" "}
                     <Link href="https://t.me/MessageOoBot?start=id" className="font-bold undeline text-input-variant">Новая заявка - Оформи.онлайн</Link>
-                </div>
+                </p>
                 <span>
                             Далее нажмите кнопку START и скопируйте полученный ключ
                         </span>
