@@ -3,7 +3,7 @@
 import {useTRPC} from "@/trpc/client";
 import {useMutation, useSuspenseInfiniteQuery, useSuspenseQuery} from "@tanstack/react-query";
 import {cn, formatCurrency} from "@/lib/utils";
-import {LoaderIcon} from "lucide-react";
+import {BadgeCheck, LoaderIcon} from "lucide-react";
 import {useEffect, useState} from "react";
 import {RichText} from "@payloadcms/richtext-lexical/react"
 import {ProductOrderBtn} from "@/modules/products/ui/components/product-order-btn";
@@ -149,31 +149,33 @@ export const ProductView = ({
                             <RichText data={data.description} className="leading-8"/>
                         </div>
                     </div>
-                    <div className="col-span-2">
-                        <div className="h-full">
-                            {
-                                data.tags && (
-                                    <div className="p-6">
-                                        <ProductTags tags={data.tags}/>
-                                    </div>
-                                )
-                            }
-                            <div className="p-6">
-                                <ProductRatings
-                                    totalRating={data.totalRating}
-                                    ratingCount={data.ratingCount}
-                                    ratingDistribution={data.ratingDistribution}/>
-                            </div>
-                            <div className="p-6 flex flex-col gap-y-4">
-                                <h4>
-                                    О магазине
-                                </h4>
-                                <p
-                                    className="text-sm"
-                                    style={{ whiteSpace: "pre-line" }}>
-                                    {data.tenant.description}
+                    <div className="col-span-2 h-full flex flex-col p-6 gap-y-6">
+                        {
+                            data.tags && (
+                                <ProductTags tags={data.tags}/>
+                            )
+                        }
+                        {
+                            data.tenant.isTrusted && (
+                                <p>
+                                    <span className="font-semibold text-green-600">Проверенный исполнитель{" "}</span>
+                                    <BadgeCheck className="stroke-green-600 inline-block align-middle"/>
                                 </p>
-                            </div>
+                            )
+                        }
+                        <ProductRatings
+                            totalRating={data.totalRating}
+                            ratingCount={data.ratingCount}
+                            ratingDistribution={data.ratingDistribution}/>
+                        <div className="flex flex-col gap-y-4">
+                            <h4>
+                                О магазине
+                            </h4>
+                            <p
+                                className="text-sm"
+                                style={{ whiteSpace: "pre-line" }}>
+                                {data.tenant.description}
+                            </p>
                         </div>
                     </div>
                 </div>

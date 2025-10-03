@@ -16,7 +16,7 @@ export const ProductRatings = ({
     ratingDistribution
 } : Props) => {
     return (
-        <>
+        <div className="flex flex-col">
             <div className="flex items-center gap-1">
                 <StarIcon className="size-3.5 fill-input-primary stroke-input-primary"/>
                 <span className="text-sm font-medium">
@@ -44,6 +44,6 @@ export const ProductRatings = ({
                     Читать отзывы
                 </h4>
             </Link>
-        </>
+        </div>
     )
 }

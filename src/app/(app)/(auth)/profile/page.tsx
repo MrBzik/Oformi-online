@@ -37,7 +37,7 @@ const Page = async () => {
                                     tenant.isTrusted ? (
                                         <p>
                                             Статус вашего магазина -{" "}
-                                            <span className="font-semibold text-green-600">проверенный</span>
+                                            <span className="font-semibold text-green-600">проверенный{" "}</span>
                                             <BadgeCheck className="stroke-green-600 inline-block align-middle"/>
                                         </p>
 
