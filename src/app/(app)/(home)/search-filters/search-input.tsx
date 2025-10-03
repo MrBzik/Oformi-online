@@ -15,7 +15,6 @@ import {DEFAULT_HEADER_COLOR} from "@/modules/home/constants";
 interface Props {
     disabled?: boolean;
     defaultValue?: string | undefined;
-    onChange?: (value: string) => void;
     categories: CategoriesList;
     onCategoryColorChange: (color: string) => void
 }
@@ -24,7 +23,6 @@ export const SearchInput = (
     {
         disabled,
         defaultValue,
-        onChange,
         categories,
         onCategoryColorChange
 }: Props ) => {
@@ -94,7 +92,7 @@ export const SearchInput = (
                     onChange={(e) => setSearchValue(e.target.value)}
                     onKeyDown={(e) => {
                         if(e.key === "Enter") {
-                            onChange?.(searchValue)
+                            router.push(`/?search=${searchValue}`)
                         }
                     }}
                 />
@@ -114,7 +112,9 @@ export const SearchInput = (
                 <SearchIcon
                     className="absolute right-5 top-1/2 -translate-y-1/2 size-4 text-neutral-500 cursor-pointer"
                     style={{color: "white"}}
-                    onClick={() => {onChange?.(searchValue)}}
+                    onClick={() => {
+                        router.push(`/?search=${searchValue}`)
+                    }}
                 />
             </div>
             <div className="hidden lg:flex gap-3">

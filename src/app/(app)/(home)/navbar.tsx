@@ -53,9 +53,6 @@ export const Navbar = () => {
                     <SearchInput
                         categories={data}
                         defaultValue={filters.search}
-                        onChange={(searchInput) => setFilters({
-                            search: searchInput,
-                        })}
                         onCategoryColorChange={(color) => {
                             setActiveCategoryColor(color)
                         }}
@@ -88,9 +85,6 @@ export const Navbar = () => {
                             <SearchInput
                                 categories={data}
                                 defaultValue={filters.search}
-                                onChange={(searchInput) => setFilters({
-                                    search: searchInput,
-                                })}
                                 onCategoryColorChange={(color) => {
                                     setActiveCategoryColor(color)
                                 }}
