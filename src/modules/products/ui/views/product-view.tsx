@@ -151,15 +151,28 @@ export const ProductView = ({
                     </div>
                     <div className="col-span-2">
                         <div className="h-full">
-                            <div className="p-6">
-
-                             <ProductTags tags={data.tags}/>
-                            </div>
+                            {
+                                data.tags && (
+                                    <div className="p-6">
+                                        <ProductTags tags={data.tags}/>
+                                    </div>
+                                )
+                            }
                             <div className="p-6">
                                 <ProductRatings
                                     totalRating={data.totalRating}
                                     ratingCount={data.ratingCount}
                                     ratingDistribution={data.ratingDistribution}/>
+                            </div>
+                            <div className="p-6 flex flex-col gap-y-4">
+                                <h4>
+                                    О магазине
+                                </h4>
+                                <p
+                                    className="text-sm"
+                                    style={{ whiteSpace: "pre-line" }}>
+                                    {data.tenant.description}
+                                </p>
                             </div>
                         </div>
                     </div>

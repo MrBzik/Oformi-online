@@ -245,7 +245,7 @@ export interface Product {
   tenant?: (string | null) | Tenant;
   name: string;
   /**
-   * Добавте описание услуги (включая изображения до 1 мб)
+   * Добавте описание услуги
    */
   description: {
     root: {

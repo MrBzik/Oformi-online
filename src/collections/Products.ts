@@ -27,7 +27,7 @@ export const Products : CollectionConfig = {
             required: true,
             label: "Описание",
             admin: {
-                description: "Добавте описание услуги (включая изображения до 1 мб)"
+                description: "Добавте описание услуги"
             }
         },
         {

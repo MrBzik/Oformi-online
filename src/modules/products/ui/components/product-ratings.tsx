@@ -26,7 +26,7 @@ export const ProductRatings = ({
                     · {ratingCount} {reviewCountToText(ratingCount)}
                 </span>
             </div>
-            <div className="grid grid-cols-[auto_1fr_auto] gap-3 mt-4 2xl:pr-[20%]">
+            <div className="grid grid-cols-[auto_1fr_auto] gap-3 mt-4 2xl:pr-[30%]">
                 {[5, 4, 3, 2, 1].map((stars) => (
                     <Fragment key={stars} >
                         <div className="font-medium">{stars}</div>
@@ -39,8 +39,10 @@ export const ProductRatings = ({
                     </Fragment>
                 ))}
             </div>
-            <Link href={"#reviews"} className="underline mt-6 block text-xl font-medium">
-                Читать отзывы
+            <Link href={"#reviews"} className="underline mt-6 block font-medium">
+                <h4>
+                    Читать отзывы
+                </h4>
             </Link>
         </>
     )

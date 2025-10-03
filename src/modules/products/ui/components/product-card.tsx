@@ -61,11 +61,11 @@ export const ProductCard = ({
                                         height={24}
                                         className={cn("rounded-full shrink-0 size-[24px]", tenantImgSrc && "border")}/>
                                 </TooltipTrigger>
-                                <TooltipContent className="max-w-60">
+                                <TooltipContent className="max-w-70">
                                     <p className="text-lg">
                                         {prod.tenant.name}
                                     </p>
-                                    <p>
+                                    <p style={{ whiteSpace: "pre-line" }}>
                                         {prod.tenant.description}
                                     </p>
                                 </TooltipContent>
