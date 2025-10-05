@@ -5,6 +5,7 @@ import {TRPCReactProvider} from "@/trpc/client";
 import {Toaster} from "@/components/ui/sonner";
 import {NuqsAdapter} from "nuqs/adapters/next/app";
 import BottomNav from "@/modules/shared/ui/components/bottom-nav";
+import {YandexMetricaProvider} from "next-yandex-metrica";
 
 const dmSans = DM_Sans({
     subsets: ["latin"],
@@ -38,7 +39,13 @@ export default function RootLayout({
         >
         <NuqsAdapter>
             <TRPCReactProvider>
-                {children}
+                <YandexMetricaProvider
+                    router="app"
+                    tagID={104387626}
+                    initParameters={{ clickmap: true, trackLinks: true, accurateTrackBounce: true }}
+                >
+                    {children}
+                </YandexMetricaProvider>
                 <Toaster/>
                 <BottomNav/>
             </TRPCReactProvider>
