@@ -152,6 +152,31 @@ export const Tenants: CollectionConfig = {
                     await sendTgMessage(tgRequestLink, chatId, msg)
                 }
 
+                if(data?.isTrusted !== originalDoc?.isTrusted){
+
+                    const products = await req.payload.find({
+                        collection: "products",
+                        pagination: false,
+                        where: {
+                            "tenant.slug": {
+                                equals: data.slug
+                            }
+                        }
+                    })
+
+                    await Promise.all(
+                        products.docs.map(product => {
+                            return req.payload.update({
+                                collection: "products",
+                                id: product.id,
+                                data: {
+                                    isTrusted: data?.isTrusted
+                                }
+                            })
+                        })
+                    )
+                }
+
                 return data;
             },
         ],

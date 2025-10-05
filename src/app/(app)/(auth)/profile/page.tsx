@@ -28,8 +28,13 @@ const Page = async () => {
                 </h1>
                 {
                     (tenant) ? (
-                        (tenant.isVerified || isSuperAdmin(session.user)) ?
                             <div className="flex flex-col gap-4">
+                                {
+                                    !tenant.isVerified && (
+                                        <p className="text-muted-foreground">Ваш магазин на модерации. Вы уже можете{" "}
+                                            <span className="font-semibold text-black">добавлять услуги</span>, они будут отображены после прохождения модерации. Подпишитесь на Telegram-уведомления ниже, чтобы получить сообщение об изменении статуса проверки.</p>
+                                    )
+                                }
                                 <Link href="/admin" className="underline cursor-pointer text-lg text-input-variant">
                                     В настройки магазина
                                 </Link>
@@ -54,7 +59,7 @@ const Page = async () => {
                                         </p>
                                     )
                                 }
-                            </div> : <p className="text-muted-foreground">Ваш магазин на модерации. Подпишитесь на Telegram-уведомления ниже, чтобы получить сообщение об изменении статуса модерации.</p>
+                            </div>
 
                     ) : <TenantRegistration />
                 }

@@ -273,9 +273,9 @@ export const Products : CollectionConfig = {
         }
     ],
     hooks: {
-        beforeChange : [
-            async ({ data, req }) => {
-                if (data.tenant) {
+        beforeValidate : [
+            async ({ data, originalDoc, req }) => {
+                if (!originalDoc.tenant && data?.tenant) {
                     const tenant = await req.payload.findByID({
                         collection: "tenants",
                         id: data.tenant,
@@ -286,6 +286,4 @@ export const Products : CollectionConfig = {
             }
         ]
     }
-
-
 }
