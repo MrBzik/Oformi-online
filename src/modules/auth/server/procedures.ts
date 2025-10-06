@@ -27,25 +27,6 @@ export const authRouter = createTRPCRouter({
         )
         .mutation(async ({ input, ctx }) => {
 
-            const userData = await ctx.payload.find({
-                collection: "users",
-                limit: 1,
-                where : {
-                    username: {
-                        equals: input.username
-                    }
-                }
-            });
-
-            const existingUser = userData.docs[0]
-
-            if(existingUser) {
-                throw new TRPCError({
-                    code: "BAD_REQUEST",
-                    message: "Пользователь с таким именем уже существует"
-                });
-            }
-
             const cookies = await getCookies();
             const refLink = cookies.get(refCookieName)?.value
 
@@ -80,6 +61,7 @@ export const authRouter = createTRPCRouter({
             });
 
         }),
+
     login: baseProcedure
         .input(loginSchema)
         .mutation(async ({ input, ctx }) => {

@@ -75,7 +75,7 @@ export const Users: CollectionConfig = {
     {
       name: "username",
       required: true,
-      unique: true,
+      unique: false,
       type: "text"
     },
     {

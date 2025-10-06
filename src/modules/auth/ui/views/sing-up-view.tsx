@@ -60,9 +60,6 @@ export const SingUpView = ({refLink} : Props) => {
         register.mutate(values)
     }
 
-    const username = form.watch("username")
-    const usernameErrors = form.formState.errors.username;
-
     return (
         <Form {...form}>
             <form
@@ -70,12 +67,12 @@ export const SingUpView = ({refLink} : Props) => {
                 className="flex flex-col gap-8 p-4 lg:p-16">
                 <AuthNavigation label="Войти" navDestination="/sign-in"/>
                 <h1 className="text-4xl font-medium">
-                    Успей стать участником команды Оформи Онлайн
+                    Регистрация пользователя
                 </h1>
                 <FormField name="username" render={({field}) => (
                     <FormItem>
                         <FormLabel>
-                            Имя пользователя
+                            Ваше имя
                         </FormLabel>
                         <FormControl>
                             <Input {...field}/>
@@ -91,6 +88,9 @@ export const SingUpView = ({refLink} : Props) => {
                         <FormControl>
                             <Input {...field}/>
                         </FormControl>
+                        <FormDescription>
+                            Ваша почта будет скрыта от остальных пользователей
+                        </FormDescription>
                         <FormMessage/>
                     </FormItem>
                 ) }/>
