@@ -40,6 +40,18 @@ export const productsRouter = createTRPCRouter({
             };
         }),
 
+    getOneMeta: baseProcedure
+        .input(z.object({
+            id: z.string(),
+        }))
+        .query(async ({ctx, input}) => {
+            return await ctx.payload.findByID({
+                collection: "products",
+                id: input.id,
+                depth: 3
+            })
+        }),
+
     getMany: baseProcedure
         .input(z.object({
             cursor: z.number().default(1),

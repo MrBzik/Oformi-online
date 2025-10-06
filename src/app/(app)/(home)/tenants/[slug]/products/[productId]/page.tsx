@@ -1,13 +1,30 @@
-import {getQueryClient, trpc} from "@/trpc/server";
-import {dehydrate, HydrationBoundary, useQuery} from "@tanstack/react-query";
+import {caller, getQueryClient, trpc} from "@/trpc/server";
+import {dehydrate, HydrationBoundary} from "@tanstack/react-query";
 import {ProductView, ProductViewLoading} from "@/modules/products/ui/views/product-view";
 import {Suspense} from "react";
 import {loadRefLink} from "@/modules/products/search-params";
 import type {SearchParams} from "nuqs/server";
+import {Metadata} from "next";
+import {formatCurrency} from "@/lib/utils";
+import {reviewCountToText} from "@/modules/utils/reviewsUtils";
 
 interface Props {
     params: Promise<{ productId: string; slug: string}>,
     searchParams: Promise<SearchParams>
+}
+
+export async function generateMetadata({
+    params
+}: Props): Promise<Metadata> {
+
+    const { productId} = await params;
+
+    const product = await caller.products.getOneMeta({id: productId})
+
+    return {
+        title: product.name,
+        description: `Оформи услугу онлайн | ${formatCurrency(product.price)} | ${reviewCountToText(product.ratingCount)}`
+    }
 }
 
 const Page = async ({

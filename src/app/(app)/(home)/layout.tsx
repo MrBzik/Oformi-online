@@ -2,11 +2,25 @@ import { dehydrate, HydrationBoundary } from '@tanstack/react-query';
 import {Navbar} from "@/app/(app)/(home)/navbar";
 import {Footer} from "@/app/(app)/(home)/footer";
 import {getQueryClient, trpc} from "@/trpc/server";
+import type {Metadata} from "next";
 
 
 interface Props {
     children: React.ReactNode;
 }
+
+export const metadata: Metadata = {
+    title: "Оформляй услуги онлайн",
+    description: "Все услуги в одном месте. Просто. Удобно. Онлайн",
+    openGraph: {
+        title: "Оформляй услуги онлайн",
+        description: "Все услуги в одном месте. Просто. Удобно. Онлайн",
+        type: "website",
+        locale: "ru-RU",
+        url: "https://oformi.online",
+        siteName: "Оформи Онлайн"
+    }
+};
 
 const Layout = async ({ children }: Props) => {
 
