@@ -163,11 +163,11 @@ export const productsRouter = createTRPCRouter({
             search: z.string().nullable().optional(),
         })).query(async ( { ctx, input }) => {
 
-                if(!input.search || input.search.length < 1){
-                    return null
-                }
+            if(!input.search || input.search.length < 1){
+                return null
+            }
 
-                const data = await ctx.payload.find({
+            const data = await ctx.payload.find({
                     collection: "products",
                     depth: 2,
                     limit: 5,

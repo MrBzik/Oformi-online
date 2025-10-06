@@ -53,6 +53,10 @@ export const SearchInput = (
             }
         }, 1000)
 
+        if (searchValue.length === 0){
+            setSearchDebounced("")
+        }
+
         return () => {
             clearTimeout(handler)
         }
@@ -92,6 +96,7 @@ export const SearchInput = (
                     onChange={(e) => setSearchValue(e.target.value)}
                     onKeyDown={(e) => {
                         if(e.key === "Enter") {
+                            setSearchDebounced("")
                             router.push(`/?search=${searchValue}`)
                         }
                     }}
@@ -113,6 +118,7 @@ export const SearchInput = (
                     className="absolute right-5 top-1/2 -translate-y-1/2 size-4 text-neutral-500 cursor-pointer"
                     style={{color: "white"}}
                     onClick={() => {
+                        setSearchDebounced("")
                         router.push(`/?search=${searchValue}`)
                     }}
                 />
