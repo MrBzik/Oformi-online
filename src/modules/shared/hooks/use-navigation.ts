@@ -23,10 +23,17 @@ const useNavigation = () => {
             case '/referral':
                 setReferralActive(true);
                 break;
-            case '/account':
+            case '/profile':
+                setProfileActive(true);
+                break;
+            case '/sign-in':
+                setProfileActive(true);
+                break;
+            case '/sign-up':
                 setProfileActive(true);
                 break;
             default:
+                setHomeActive(true);
                 break;
         }
     }, [pathname]);

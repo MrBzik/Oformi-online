@@ -102,8 +102,8 @@ export const ProductView = ({
                 )}
 
                 <div className="grid grid-cols-1 lg:grid-cols-6 gap-y-4">
-                    <div className="col-span-4 border border-e-[3px] border-b-[3px] rounded-sm bg-card-primary">
-                        <div className="p-8 flex flex-col gap-y-8">
+                    <div className="col-span-4 lg:border lg:border-e-[3px] lg:border-b-[3px] lg:rounded-sm lg:bg-card-primary">
+                        <div className="lg:p-8 flex flex-col gap-y-8">
                             <div className="grid grid-cols-1 lg:grid-cols-6">
                                 <div className="relative aspect-square col-span-2 p-6">
                                     <Image
@@ -149,7 +149,7 @@ export const ProductView = ({
                             <RichText data={data.description} className="leading-8"/>
                         </div>
                     </div>
-                    <div className="col-span-2 h-full flex flex-col p-6 gap-y-6">
+                    <div className="col-span-2 h-full flex flex-col lg:p-6 gap-y-6">
                         {
                             data.tags && (
                                 <ProductTags tags={data.tags}/>
