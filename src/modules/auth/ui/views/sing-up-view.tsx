@@ -63,8 +63,6 @@ export const SingUpView = ({refLink} : Props) => {
     const username = form.watch("username")
     const usernameErrors = form.formState.errors.username;
 
-    const showPreview = username && !usernameErrors;
-
     return (
         <Form {...form}>
             <form
@@ -82,10 +80,6 @@ export const SingUpView = ({refLink} : Props) => {
                         <FormControl>
                             <Input {...field}/>
                         </FormControl>
-                        <FormDescription className={cn("hidden", showPreview && "block")}>
-                            Ваш магазин будет доступен по ссылке&nbsp;
-                            <strong>{username}</strong>
-                        </FormDescription>
                         <FormMessage/>
                     </FormItem>
                 ) }/>
