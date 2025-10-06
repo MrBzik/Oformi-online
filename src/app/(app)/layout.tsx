@@ -39,13 +39,13 @@ export default function RootLayout({
         >
         <NuqsAdapter>
             <TRPCReactProvider>
-                {/*<YandexMetricaProvider*/}
-                {/*    tagID={104387626}*/}
-                {/*    initParameters={{ clickmap: true, trackLinks: true, accurateTrackBounce: true }}*/}
-                {/*    router="app"*/}
-                {/*>*/}
+                <YandexMetricaProvider
+                    tagID={104387626}
+                    initParameters={{ clickmap: true, trackLinks: true, accurateTrackBounce: true }}
+                    router="app"
+                >
                     {children}
-                {/*</YandexMetricaProvider>*/}
+                </YandexMetricaProvider>
                 <Toaster/>
                 <BottomNav/>
             </TRPCReactProvider>
