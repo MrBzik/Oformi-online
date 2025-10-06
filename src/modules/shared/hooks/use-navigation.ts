@@ -33,7 +33,6 @@ const useNavigation = () => {
                 setProfileActive(true);
                 break;
             default:
-                setHomeActive(true);
                 break;
         }
     }, [pathname]);
