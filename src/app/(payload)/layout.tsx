@@ -32,7 +32,7 @@ const Layout = async ({ children }: Args) => {
 
   const tenant = session.user?.tenants?.[0]?.tenant as Tenant | undefined;
 
-  const shouldRedirect = !tenant || !tenant.isVerified;
+  const shouldRedirect = !tenant;
 
   if (shouldRedirect && !isSuperAdmin(session.user)) {
     redirect("/");
