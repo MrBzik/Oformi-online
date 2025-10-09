@@ -13,14 +13,12 @@ import {NoProductView} from "@/modules/products/ui/components/no-product";
 interface Props {
     category?: string;
     tenantSlug?: string;
-    narrowView? : boolean;
     wideView?: boolean
 }
 
 export const ProductList = ({
     category,
     tenantSlug,
-    narrowView,
     wideView
 } : Props) => {
 
@@ -56,8 +54,7 @@ export const ProductList = ({
 
     return(
         <>
-            <div className={cn("grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4",
-                narrowView && "lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-4",
+            <div className={cn("grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4",
                 wideView && "xl:grid-cols-5"
                 )}>
                 {data?.pages.flatMap((page) => page.docs).map(product => (
@@ -77,10 +74,9 @@ export const ProductList = ({
     )
 }
 
-export const ProductListLoading = ({narrowView, wideView}: Props) => {
+export const ProductListLoading = ({wideView}: Props) => {
     return (
-        <div className={cn("grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4",
-            narrowView && "lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-3",
+        <div className={cn("grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4",
             wideView && "xl:grid-cols-5")}
         >
             {Array.from({length: wideView ? 5 : 4}).map((_, index) => (

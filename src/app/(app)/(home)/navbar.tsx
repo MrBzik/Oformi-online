@@ -39,7 +39,7 @@ export const Navbar = () => {
         <>
             <nav
                 ref={navContainer}
-                className="sticky top-0 z-20 lg:static lg:p-6 border-0 lg:border-b-[2px] lg:border-l-[2px] lg:border-r-[2px] lg:rounded-bl-4xl lg:rounded-br-4xl flex flex-col gap-y-4"
+                className="sticky top-0 z-20 lg:static lg:px-6 lg:pt-4 lg:pb-2 border-0 lg:border-b-[2px] lg:border-l-[2px] lg:border-r-[2px] lg:rounded-bl-4xl lg:rounded-br-4xl flex flex-col gap-y-2"
                 // style={{ backgroundColor: activeCategoryColor}}
                  style={{ background: `linear-gradient(to top, ${activeCategoryColor}, ${DEFAULT_HEADER_COLOR})` }}
             >
@@ -75,7 +75,7 @@ export const Navbar = () => {
                         className="z-20 hidden lg:block fixed w-full border-0 border-b-[2px] lg:border-l-[2px] lg:border-r-[2px] lg:rounded-bl-4xl lg:rounded-br-4xl max-w-(--breakpoint-2xl) mx-auto"
                         style={{ background: `linear-gradient(to top, ${activeCategoryColor}, ${DEFAULT_HEADER_COLOR})` }}
                     >
-                        <div className="flex font-medium items-center gap-x-4 m-4">
+                        <div className="flex font-medium items-center gap-x-4 px-6 py-4">
                             <div className="hidden lg:flex shrink-0 gap-x-2">
                                 <Link href="/">
                                     <Image src="/logo-shadow.png" alt="main logo" priority={true} width={65} height={65}/>

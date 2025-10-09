@@ -29,7 +29,7 @@ const Page = async ({
 
     return (
         <HydrationBoundary state={dehydrate(queryClient)}>
-            <ProductListView tenantSlug={slug} narrowView/>
+            <ProductListView tenantSlug={slug}/>
         </HydrationBoundary>
     );
 }

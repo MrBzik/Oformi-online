@@ -15,14 +15,12 @@ import {TenantBreadcrumb} from "@/modules/tenants/ui/components/TenantBreadcrumb
 interface Props {
     category?: string;
     tenantSlug?: string;
-    narrowView?: boolean;
     refLink?: string;
 }
 
 export const ProductListView = ({
     category,
     tenantSlug,
-    narrowView,
     refLink
 } : Props) => {
 
@@ -80,7 +78,6 @@ export const ProductListView = ({
                         <ProductList
                             category={category}
                             tenantSlug={tenantSlug}
-                            narrowView={narrowView}
                             wideView={!isDisplayFilters}
                         />
                     </Suspense>
