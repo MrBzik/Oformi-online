@@ -1,3 +1,3 @@
-export const DEFAULT_LIMIT_PRODUCTS = 8
+export const DEFAULT_LIMIT_PRODUCTS = 10
 export const DEFAULT_LIMIT_REVIEWS = 5
 export const DEFAULT_LIMIT_TAGS = 10
