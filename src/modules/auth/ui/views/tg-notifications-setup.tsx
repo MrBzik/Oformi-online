@@ -5,24 +5,29 @@ import {z} from "zod";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {tgNotificationsConnectSchema} from "@/modules/auth/schemas";
 import {useTRPC} from "@/trpc/client";
-import {useMutation} from "@tanstack/react-query";
+import {useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
 import {toast} from "sonner";
 import {Form, FormControl, FormField, FormItem, FormLabel, FormMessage} from "@/components/ui/form";
 import {Input} from "@/components/ui/input";
 import {Button} from "@/components/ui/button";
-import {useState} from "react";
 import Link from "next/link";
-import Image from "next/image";
 
 export const TgNotificationsSetup = () => {
 
     const trpc = useTRPC();
+    
+    const {data: session} = useQuery(trpc.auth.session.queryOptions())
+    const queryClient = useQueryClient()
+    
     const connectChatId = useMutation(trpc.auth.tgNotificationsConnect.mutationOptions({
         onError: (error) => {
             toast.error(error.message);
         },
         onSuccess : async () => {
             toast.success("Ключ успешно добавлен")
+            await queryClient.invalidateQueries({
+                queryKey: [trpc.auth.session.queryKey().entries()]
+            })
         }
     }))
 
@@ -75,6 +80,18 @@ export const TgNotificationsSetup = () => {
                     </Button>
                 </form>
             </Form>
+            {
+                session?.user?.tgNotificationsChatId && (
+                    <p className="text-muted-foreground">
+                        Вы подключили уведомления для номера{" "}
+                        <span className="text-black font-semibold">
+                            {
+                                session?.user?.tgNotificationsChatId
+                            }
+                        </span>
+                    </p>
+                )
+            }
         </div>
     )
 
