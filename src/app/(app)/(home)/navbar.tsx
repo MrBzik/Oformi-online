@@ -39,9 +39,9 @@ export const Navbar = () => {
         <>
             <nav
                 ref={navContainer}
-                className="sticky top-0 z-20 lg:relative lg:px-6 lg:pt-4 lg:pb-2 border-0 lg:border-b-[2px] lg:border-l-[2px] lg:border-r-[2px] lg:rounded-bl-4xl lg:rounded-br-4xl flex flex-col gap-y-2 paper"
+                className="sticky top-0 z-20 lg:static lg:px-6 lg:pt-4 lg:pb-2 border-0 lg:border-b-[2px] lg:border-l-[2px] lg:border-r-[2px] lg:rounded-bl-4xl lg:rounded-br-4xl flex flex-col gap-y-2"
                 // style={{ backgroundColor: activeCategoryColor}}
-                //  style={{ background: `linear-gradient(to top, ${activeCategoryColor}, ${DEFAULT_HEADER_COLOR})` }}
+                 style={{ background: `linear-gradient(to top, ${activeCategoryColor}, ${DEFAULT_HEADER_COLOR})` }}
             >
                 <div className="flex font-medium items-center gap-y-4 lg:gap-x-4">
                     <div className="hidden lg:flex shrink-0 gap-x-2">
