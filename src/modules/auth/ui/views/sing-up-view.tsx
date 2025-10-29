@@ -16,6 +16,7 @@ import {AuthNavigation} from "@/modules/auth/ui/components/auth-navigation";
 import {PasswordWithToggle} from "@/modules/auth/ui/components/password-with-toggle";
 import Link from "next/link";
 import {useEffect} from "react";
+import {YandexSingInButton} from "@/modules/auth/ui/components/yandex-sing-in-button";
 
 interface Props {
     refLink?: string
@@ -114,9 +115,10 @@ export const SingUpView = ({refLink} : Props) => {
                     className="bg-black text-white hover:bg-pink-400 hover:text-primary">
                     Создать аккаунт
                 </Button>
-                <Link prefetch href="/sign-in" className="text-base border-none underline flex lg:hidden text-input-primary mb-20">
+                <Link prefetch href="/sign-in" className="text-base border-none underline flex lg:hidden text-input-primary">
                     Войти
                 </Link>
+                <YandexSingInButton/>
             </form>
         </Form>
     )

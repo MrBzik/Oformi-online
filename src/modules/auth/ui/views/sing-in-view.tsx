@@ -14,6 +14,7 @@ import {useRouter} from "next/navigation";
 import {AuthNavigation} from "@/modules/auth/ui/components/auth-navigation";
 import Link from "next/link";
 import {PasswordWithToggle} from "@/modules/auth/ui/components/password-with-toggle";
+import {YandexSingInButton} from "@/modules/auth/ui/components/yandex-sing-in-button";
 
 export const SignInView = () => {
 
@@ -87,9 +88,10 @@ export const SignInView = () => {
                 <Link prefetch href="/sign-up" className="text-base border-none underline flex lg:hidden text-input-primary">
                     Зарегистрироваться
                 </Link>
-                <Link href="/forgot-password" className="text-input-variant mb-20">
+                <Link href="/forgot-password" className="text-input-variant">
                     Забыли пароль?
                 </Link>
+                <YandexSingInButton/>
             </form>
         </Form>
     )
