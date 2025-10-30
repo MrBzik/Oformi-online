@@ -2,7 +2,7 @@ import {Button} from "@/components/ui/button";
 import {signIn} from "next-auth/react";
 import Image from "next/image";
 
-export const YandexSingInButton = () => {
+export const ServicesSingInButton = () => {
     return (
         <Button
             variant="default"
@@ -10,7 +10,13 @@ export const YandexSingInButton = () => {
             onClick={() => signIn()}
         >
             <Image src="/Yandex_icon.svg" alt="yandex login" className="absolute left-4" width={35} height={35}/>
-            Войти через Яндекс
+            <Image src="/Google_icon.svg" alt="yandex login" className="absolute right-4" width={32} height={32}/>
+            <span className="lg:hidden">
+               Яндекс / Google
+            </span>
+            <span className="hidden lg:block">
+               Войти через Яндекс или Google
+            </span>
         </Button>
     )
 }

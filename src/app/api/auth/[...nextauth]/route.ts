@@ -5,9 +5,11 @@ import config from "@payload-config"
 import {cookies as getCookies} from "next/dist/server/request/cookies";
 import {refCookieName} from "@/modules/referral/server/procedures";
 import {generateAuthCookie} from "@/modules/auth/utils";
+import Google from "next-auth/providers/google";
 
 const handler = NextAuth({
-    providers: [Yandex({
+    providers: [
+        Yandex({
         clientId: process.env.YANDEX_CLIENT_ID!,
         clientSecret: process.env.YANDEX_CLIENT_SECRET!,
         authorization: {
@@ -22,9 +24,22 @@ const handler = NextAuth({
                 email: profile.default_email || profile.emails?.[0] || null,
             }
         }
-    })],
+    }),
+        Google({
+            clientId: process.env.GOOGLE_CLIENT_ID!,
+            clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+            profile(profile){
+                return {
+                    id: crypto.randomUUID(),
+                    name: profile.name,
+                    email: profile.email
+                }
+            }
+        })
+    ],
     callbacks: {
         async signIn({user}) {
+            console.log("SIGN IN")
             const payload = await getPayload({config});
             const existingUser = await payload.find({
                 collection: "users",

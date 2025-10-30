@@ -35,7 +35,7 @@ export const Users: CollectionConfig = {
     hidden: ({ user }) => !isSuperAdmin(user),
   },
   auth: {
-    tokenExpiration: 2419200,
+    tokenExpiration: 14515200,
     verify: {
       generateEmailHTML: ({token}) => {
         return ` <div style="font-family: Arial, sans-serif; line-height: 1.5; color: #333;">
