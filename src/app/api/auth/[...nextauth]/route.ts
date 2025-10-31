@@ -37,7 +37,6 @@ const handler = NextAuth({
             }
         })
     ],
-    secret: process.env.NEXT_AUTH_SECRET!,
     callbacks: {
         async signIn({user}) {
             console.log("SIGN IN")
