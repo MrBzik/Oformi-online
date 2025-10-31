@@ -71,13 +71,6 @@ export const ProductView = ({
         }
     ))
 
-    const handleRefLink = useMutation(trpc.referral.addReferralCookie.mutationOptions({}))
-    useEffect(() => {
-        handleRefLink.mutate({refLink: refLink})
-    }, []);
-
-    const src = imageNameToSrc(data.image?.filename) || "";
-
     let isProductOwner = false
 
     if((session?.user?.tenants?.length || 0) > 0 ){
@@ -86,6 +79,17 @@ export const ProductView = ({
             isProductOwner = true
         }
     }
+
+    const updateProductViews = useMutation(trpc.products.updateProductViews.mutationOptions())
+    const handleRefLink = useMutation(trpc.referral.addReferralCookie.mutationOptions({}))
+    useEffect(() => {
+        handleRefLink.mutate({refLink: refLink})
+        if(!isProductOwner){
+            updateProductViews.mutate({id: productId})
+        }
+    }, []);
+
+    const src = imageNameToSrc(data.image?.filename) || "";
 
     const [isReviewsTable, setIsReviewsTable] = useState(true)
 
@@ -132,9 +136,15 @@ export const ProductView = ({
                                         </div>
                                         {
                                             isProductOwner ? (
-                                                <Link
-                                                    className="text-lg underline text-input-variant"
-                                                    href={`/admin/collections/products/${data.id}`}>Редактировать услугу</Link>
+                                                <div className="flex flex-col gap-2">
+                                                    <span className="text-lg text-muted-foreground">
+                                                        Просмотры услуги: {data.views || 0}
+                                                    </span>
+                                                    <Link
+                                                        className="text-lg underline text-input-variant"
+                                                        href={`/admin/collections/products/${data.id}`}>Редактировать услугу</Link>
+                                                </div>
+
                                             ) : (
                                                 <div className="flex flex-col gap-4">
                                                     <ProductOrderBtn productId={productId} isArchived={data.isArchived ?? false}/>

@@ -301,6 +301,7 @@ export interface Product {
   threeStarsRatings: number;
   twoStarsRatings: number;
   oneStarsRatings: number;
+  views?: number | null;
   isArchived?: boolean | null;
   isVerified?: boolean | null;
   isTrusted?: boolean | null;
@@ -597,6 +598,7 @@ export interface ProductsSelect<T extends boolean = true> {
   threeStarsRatings?: T;
   twoStarsRatings?: T;
   oneStarsRatings?: T;
+  views?: T;
   isArchived?: T;
   isVerified?: T;
   isTrusted?: T;

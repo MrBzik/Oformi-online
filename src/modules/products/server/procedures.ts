@@ -1,4 +1,4 @@
-import {baseProcedure, createTRPCRouter} from "@/trpc/init";
+import {baseProcedure, createTRPCRouter, protectedProcedure} from "@/trpc/init";
 import {z} from "zod";
 import type {Sort, Where} from "payload";
 import {sortValues} from "@/modules/products/search-params";
@@ -8,7 +8,7 @@ import {DEFAULT_LIMIT_PRODUCTS} from "@/constants";
 import {ratingToPercentage} from "@/modules/utils/reviewsUtils";
 
 export const productsRouter = createTRPCRouter({
-    getOne: baseProcedure
+    getOne: protectedProcedure
         .input(z.object({
             id: z.string(),
         }))
@@ -49,6 +49,25 @@ export const productsRouter = createTRPCRouter({
                 collection: "products",
                 id: input.id,
                 depth: 3
+            })
+        }),
+
+    updateProductViews: baseProcedure
+        .input(z.object({
+            id: z.string(),
+        }))
+        .mutation(async ({ctx, input}) => {
+            const product = await ctx.payload.findByID({
+                collection: "products",
+                id: input.id
+            })
+
+            await ctx.payload.update({
+                collection: "products",
+                id: input.id,
+                data: {
+                    views: (product.views || 0) + 1
+                }
             })
         }),
 

@@ -248,6 +248,15 @@ export const Products : CollectionConfig = {
             },
         },
         {
+            name: "views",
+            type: "number",
+            defaultValue: 0,
+            label: "Количество просмотров",
+            admin: {
+                readOnly: true
+            }
+        },
+        {
             name: "isArchived",
             type: "checkbox",
             defaultValue: false,
