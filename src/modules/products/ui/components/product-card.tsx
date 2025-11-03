@@ -34,7 +34,7 @@ export const ProductCard = ({
         return null
     }
 
-    const imgSrc = imageNameToSrc(prod.image?.filename) || "/placeholder.png";
+    const imgSrc = imageNameToSrc(prod.image?.filename) || "/placeholder.jpg";
     const tenantImgSrc = imageNameToSrc(prod.tenant?.image?.filename)
 
     return (
