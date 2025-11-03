@@ -111,7 +111,11 @@ export const Tenants: CollectionConfig = {
     hooks: {
         beforeChange: [
             async ({ data, originalDoc, req }) => {
-                if (data?.isVerified && !originalDoc?.isVerified) {
+
+                const isVerified = data?.isVerified && !originalDoc?.isVerified
+                const isTrusted = data?.isTrusted && !originalDoc?.isTrusted
+
+                if (isVerified || isTrusted) {
 
                     const tenant = await req.payload.find({
                         collection: "tenants",
@@ -148,8 +152,15 @@ export const Tenants: CollectionConfig = {
                     })
                     const tgRequestLink = generateTgReqUrl(refSetting.alertsTgBotToken)
 
-                    const msg = `Ваш магазин прошел модерацию и вы можете добавлять услуги. Подробности на https://oformi.online/profile`
-                    await sendTgMessage(tgRequestLink, chatId, msg)
+                    if(isVerified){
+                        const msg = `Ваш магазин прошел модерацию и вы можете добавлять услуги. Подробности на https://oformi.online/profile`
+                        await sendTgMessage(tgRequestLink, chatId, msg)
+                    }
+
+                    if(isTrusted){
+                        const msg = `Вы получили статус проверенного исполнителя. Подробности на https://oformi.online/profile`
+                        await sendTgMessage(tgRequestLink, chatId, msg)
+                    }
                 }
 
                 if(data?.isTrusted !== originalDoc?.isTrusted){
