@@ -89,7 +89,7 @@ export const ProductView = ({
         }
     }, []);
 
-    const src = imageNameToSrc(data.image?.filename) || "";
+    const src = imageNameToSrc(data.image?.filename) || "/placeholder.jpg";
 
     const [isReviewsTable, setIsReviewsTable] = useState(true)
 
