@@ -1,15 +1,30 @@
-import {getQueryClient, trpc} from "@/trpc/server";
+import {caller, getQueryClient, trpc} from "@/trpc/server";
 import {dehydrate, HydrationBoundary} from "@tanstack/react-query";
 import {loadProductFilters} from "@/modules/products/search-params";
 import {ProductListView} from "@/modules/products/ui/views/product-list-view";
 import type {SearchParams} from "nuqs/server";
 import {DEFAULT_LIMIT_PRODUCTS} from "@/constants";
+import {Metadata} from "next";
 
 interface Props {
     params: Promise<{
         subcategory: string;
     }>,
     searchParams: Promise<SearchParams>
+}
+
+export async function generateMetadata({
+    params
+}: Props): Promise<Metadata> {
+
+    const { subcategory} = await params;
+
+    const categoryObject = await caller.categories.getOne({slug: subcategory})
+
+    return {
+        title: categoryObject?.name || "Оформи услуги онлайн",
+        description: `Маркетплейс онлайн услуг номер 1 на российском рынке`
+    }
 }
 
 const Page = async ( {params, searchParams} : Props) => {

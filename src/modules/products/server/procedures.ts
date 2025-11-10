@@ -201,7 +201,7 @@ export const productsRouter = createTRPCRouter({
             const data = await ctx.payload.find({
                     collection: "products",
                     depth: 2,
-                    limit: 5,
+                    limit: 6,
                     pagination: false,
                     where: {
                         and: [

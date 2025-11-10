@@ -24,7 +24,7 @@ export const ProductSort = () => {
             <DropdownMenuTrigger asChild>
                 <Button
                     asChild
-                    className="border-0 w-fit text-xs md:text-sm lg:text-base"
+                    className="border-0 w-fit text-xs md:text-sm lg:text-base hover:bg-transparent"
                     variant="ghost">
                     <div>
                         {position}
@@ -32,9 +32,7 @@ export const ProductSort = () => {
                     </div>
                 </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent className="w-46">
-                <DropdownMenuLabel>Сортировка</DropdownMenuLabel>
-                <DropdownMenuSeparator />
+            <DropdownMenuContent className="w-46 border-r-[3px] border-b-[3px]">
                 <DropdownMenuRadioGroup value={position} onValueChange={(e) => {
                     const selection = e as typeof sortValues[number]
                     setFilters({sort: selection})
