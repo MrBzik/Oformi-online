@@ -19,7 +19,6 @@ export const ProductChatButton = ({
 
     const trpc = useTRPC()
     const {data: session} = useSuspenseQuery(trpc.auth.session.queryOptions())
-
     const {data: tenantUser} = useSuspenseQuery(trpc.tenants.getUser.queryOptions(
         {slug: tenantSlug}
     ))
