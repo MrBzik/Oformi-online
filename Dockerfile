@@ -35,7 +35,7 @@ ENV NEXT_DISABLE_ESLINT=1
 
 RUN \
   if [ -f yarn.lock ]; then yarn run build; \
-  elif [ -f package-lock.json ]; then npm run build -- --no-lint; \
+  elif [ -f package-lock.json ]; then NODE_OPTIONS="--max-old-space-size=1024" npm run build -- --no-lint; \
   elif [ -f pnpm-lock.yaml ]; then corepack enable pnpm && pnpm run build; \
   else echo "Lockfile not found." && exit 1; \
   fi
