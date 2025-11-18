@@ -4,7 +4,7 @@ import {CategoriesSidebar} from "@/app/(app)/(home)/search-filters/categories-si
 import {useEffect, useState} from "react";
 import {CategoriesList} from "@/modules/categories/types";
 import {useTRPC} from "@/trpc/client";
-import {useQuery} from "@tanstack/react-query";
+import {useQuery, useSuspenseQuery} from "@tanstack/react-query";
 import Link from "next/link";
 import {SearchSuggestions} from "@/app/(app)/(home)/search-filters/search-suggestions";
 import {Icon} from "@iconify/react";
@@ -34,7 +34,7 @@ export const SearchInput = (
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
     const trpc = useTRPC()
-    const session = useQuery(trpc.auth.session.queryOptions())
+    const session = useSuspenseQuery(trpc.auth.session.queryOptions())
 
     const router = useRouter()
 

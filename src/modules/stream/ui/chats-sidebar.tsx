@@ -1,0 +1,192 @@
+"use client"
+
+import {MessageCircleMore} from "lucide-react";
+import {Sheet, SheetContent, SheetHeader, SheetTitle} from "@/components/ui/sheet";
+import {
+    Channel,
+    ChannelHeader,
+    ChannelList,
+    MessageInput,
+    MessageList,
+    Thread,
+    useChatContext,
+    Window
+} from "stream-chat-react";
+import {ChannelFilters, ChannelSort} from "stream-chat";
+import {useTRPC} from "@/trpc/client";
+import {useMutation, useSuspenseQuery} from "@tanstack/react-query";
+import {useSheet} from "@/lib/sheetContext";
+import "stream-chat-react/dist/css/v2/index.css"
+import {useCallback, useEffect, useState} from "react";
+import streamClient from "@/lib/stream";
+import {ChatPrompt} from "@/modules/stream/ui/chat-prompt";
+
+export const ChatsSidebar = () => {
+
+    const { isOpen, openSheet, closeSheet } = useSheet()
+
+    const trpc = useTRPC();
+    const {data: session} = useSuspenseQuery(trpc.auth.session.queryOptions())
+
+    const {channel, client} = useChatContext();
+
+
+    const [messagesUnread, setMessagesUnread] = useState(false)
+
+    const getUnreadCount = useCallback(async () => {
+
+        if(!session.user || !client.user?.online){
+            return;
+        }
+
+        try {
+            const response = await client.getUnreadCount();
+            setMessagesUnread(response.total_unread_count > 0)
+        } catch (e){
+            console.error(e);
+        }
+    }, [client, session])
+
+
+    useEffect(() => {
+        if(!isOpen){
+            try {
+                getUnreadCount()
+            } catch (e){
+                console.error(e);
+            }
+        } else {
+            if(session.user && !client.user?.online){
+
+            }
+        }
+
+    }, [isOpen, getUnreadCount]);
+
+    const sendTgNotification = useMutation(trpc.stream.sendMessageNotification.mutationOptions())
+
+
+    useEffect(() => {
+
+        if (!client) return;
+
+        let messageText = ""
+        const newMessageHandler = client.on("message.new", (event) => {
+            messageText = event.message?.text || ""
+            setMessagesUnread((event.total_unread_count || 0) > 0)
+        })
+
+        const notificationHandler = client.on("notification.mark_read", (event) => {
+            event.channel?.members?.map((member) => {
+                if(member.user?.online == false){
+                    const receiverId = member.user.id
+                    sendTgNotification.mutate({
+                        userId: receiverId,
+                        message: messageText.trim()
+                    })
+                }
+            })
+        })
+
+        const unreadMessagesHandler = client.on("notification.message_new", (event) => {
+            setMessagesUnread((event.total_unread_count || 0) > 0)
+        })
+
+        return () => {
+            newMessageHandler.unsubscribe()
+            notificationHandler.unsubscribe()
+            unreadMessagesHandler.unsubscribe()
+        };
+    }, [client]);
+
+    const filters: ChannelFilters = {
+        members: { $in: [session.user?.id || "" ] },
+        type: {$in: ["messaging"]}
+    }
+    const options = { presence: true, state: true}
+    const sort : ChannelSort = {
+        last_message_at: -1
+    }
+
+
+    return (
+        <>
+            <MessageCircleMore
+                className="hidden lg:block fixed w-15 h-15 bottom-10 right-10 text-input-variant hover:text-indigo-500 cursor-pointer"
+                onClick={() => {
+                    openSheet()
+                }}
+            />
+
+            {
+                messagesUnread && (
+                    <div className="hidden lg:block fixed bottom-10 right-12 bg-input-primary border border-input-variant w-4 h-4 rounded-full"/>
+                )
+            }
+
+
+            <Sheet
+                open={isOpen}
+                onOpenChange={(open) => {
+                if(open) {openSheet()} else closeSheet()
+            }}>
+                <SheetContent
+                    side="right"
+                    className="p-0 transition-none hidden lg:block"
+                >
+                    <SheetHeader className="p-4 border-b">
+                        <SheetTitle className="text-sm">
+                            {session.user?.username || "Гость"}
+                        </SheetTitle>
+                    </SheetHeader>
+                    <div className="flex flex-row h-full">
+                        <div className="w-70">
+                            {
+                                (session.user) ? (
+                                    <>
+                                        {
+                                            client.user?.online ? (
+                                                <ChannelList
+                                                    filters={filters}
+                                                    options={options}
+                                                    sort={sort}
+                                                    EmptyStateIndicator={() => (
+                                                        <ChatPrompt title="Пишите исполнителям в карточках услуг"
+                                                                    description="Здесь будут отображаться ваши чаты"/>
+                                                    )}
+                                                />
+                                            ) : (
+                                                <ChatPrompt title="Перезагрузите страницу"
+                                                            description="Чат был отключен из-за долгого бездействия"/>
+                                            )
+                                        }
+                                    </>
+
+                                ) : (
+                                    <ChatPrompt title="Авторизуйтесь чтобы общаться с исполнителями"
+                                                description="Здесь будут отображаться ваши чаты"/>
+                                )
+                            }
+                        </div>
+
+                        {
+                            (channel && client.user?.online) && (
+                                <div className="w-[40vw] pb-20">
+                                    <Channel>
+                                        <Window>
+                                            <ChannelHeader/>
+                                            <MessageList />
+                                            <MessageInput/>
+                                        </Window>
+                                        <Thread/>
+                                    </Channel>
+                                </div>
+                            )
+                        }
+                    </div>
+                </SheetContent>
+            </Sheet>
+        </>
+    )
+
+}

@@ -3,6 +3,8 @@ import {Navbar} from "@/app/(app)/(home)/navbar";
 import {Footer} from "@/app/(app)/(home)/footer";
 import {getQueryClient, trpc} from "@/trpc/server";
 import type {Metadata} from "next";
+import {ChatsSidebar} from "@/modules/stream/ui/chats-sidebar";
+import UserSyncWrapper from "@/components/UserSyncWrapper";
 
 
 interface Props {
@@ -25,20 +27,23 @@ export const metadata: Metadata = {
 const Layout = async ({ children }: Props) => {
 
     const queryClient = getQueryClient();
-    void queryClient.prefetchQuery(
-        trpc.categories.getMany.queryOptions(),
-    );
+    void queryClient.prefetchQuery(trpc.categories.getMany.queryOptions());
+
+    void queryClient.prefetchQuery(trpc.auth.session.queryOptions())
 
     return (
         <div className="bg-bg-primary overflow-clip">
             <div className="max-w-(--breakpoint-2xl) mx-auto flex flex-col min-h-screen">
                 <HydrationBoundary state={dehydrate(queryClient)}>
                     <Navbar/>
+                    <UserSyncWrapper>
+                    <div className="flex-1">
+                        {children}
+                    </div>
+                    <Footer/>
+                        <ChatsSidebar/>
+                    </UserSyncWrapper>
                 </HydrationBoundary>
-                <div className="flex-1">
-                    {children}
-                </div>
-                <Footer/>
             </div>
         </div>
     )

@@ -6,6 +6,7 @@ import {Toaster} from "@/components/ui/sonner";
 import {NuqsAdapter} from "nuqs/adapters/next/app";
 import BottomNav from "@/modules/shared/ui/components/bottom-nav";
 import {YandexMetricaProvider} from "next-yandex-metrica";
+import {SheetProvider} from "@/lib/sheetContext";
 
 const dmSans = DM_Sans({
     subsets: ["latin"],
@@ -32,6 +33,7 @@ export default function RootLayout({
                                    }: Readonly<{
     children: React.ReactNode;
 }>) {
+
     return (
         <html lang="ru" className="scroll-smooth">
         <body
@@ -44,7 +46,9 @@ export default function RootLayout({
                     initParameters={{ clickmap: true, trackLinks: true, accurateTrackBounce: true }}
                     router="app"
                 >
-                    {children}
+                    <SheetProvider>
+                        {children}
+                    </SheetProvider>
                 </YandexMetricaProvider>
                 <Toaster/>
                 <BottomNav/>

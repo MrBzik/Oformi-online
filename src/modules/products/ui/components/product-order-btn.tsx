@@ -19,6 +19,7 @@ import {useTRPC} from "@/trpc/client";
 import {useMutation, useSuspenseQuery} from "@tanstack/react-query";
 import {cn} from "@/lib/utils";
 import {Form, FormControl, FormField, FormItem, FormLabel, FormMessage} from "@/components/ui/form";
+import {MessageCircleMore} from "lucide-react";
 
 interface Props {
     productId: string;
@@ -76,7 +77,6 @@ export const ProductOrderBtn = ({productId, isArchived} : Props) => {
                     {isOrdered ? ("Заявка принята") : ("Оформить сейчас")}
                 </Button>
             </DialogTrigger>
-
             <DialogContent className="sm:max-w-[425px] shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
@@ -147,7 +147,6 @@ export const ProductOrderBtn = ({productId, isArchived} : Props) => {
                         </DialogFooter>
                     </form>
                 </Form>
-
             </DialogContent>
         </Dialog>
     )

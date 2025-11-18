@@ -91,5 +91,41 @@ export const tenantsRouter = createTRPCRouter({
 
             await ctx.payload.db.commitTransaction(transactionID)
 
-        })
+        }),
+
+    getUser: baseProcedure
+        .input(z.object({
+            slug: z.string(),
+        })).query(async ( { ctx, input }) => {
+
+            const tenantsData = await ctx.payload.find({
+                collection: "tenants",
+                depth : 1,
+                where: {
+                    slug: {
+                        equals: input.slug
+                    }
+                },
+                limit: 1,
+                pagination: false
+            })
+
+            const tenant = tenantsData.docs[0];
+
+            if(!tenant){
+                throw new TRPCError({message: "Could not find tenant", code: "NOT_FOUND"})
+            }
+
+            const user = await ctx.payload.find({
+                collection: "users",
+                limit: 1,
+                pagination: false,
+                where: {
+                    "tenants.tenant": {
+                        equals: tenant.id
+                    }
+                }
+            })
+            return user.docs[0]
+        }),
 })

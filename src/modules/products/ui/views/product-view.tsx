@@ -3,7 +3,7 @@
 import {useTRPC} from "@/trpc/client";
 import {useMutation, useSuspenseInfiniteQuery, useSuspenseQuery} from "@tanstack/react-query";
 import {cn, formatCurrency} from "@/lib/utils";
-import {BadgeCheck, LoaderIcon} from "lucide-react";
+import {BadgeCheck, LoaderIcon, MessageCircleMore} from "lucide-react";
 import {useEffect, useState} from "react";
 import {RichText} from "@payloadcms/richtext-lexical/react"
 import {ProductOrderBtn} from "@/modules/products/ui/components/product-order-btn";
@@ -23,6 +23,7 @@ import {ProductTags} from "@/modules/products/ui/components/product-tags";
 import {ProductRatings} from "@/modules/products/ui/components/product-ratings";
 import {QuestionForm} from "@/modules/questions/ui/components/question-form";
 import {QuestionItem} from "@/modules/questions/ui/components/question-item";
+import {ProductChatButton} from "@/modules/products/ui/components/product-chat-btn";
 
 interface Props {
     productId: string;
@@ -147,7 +148,10 @@ export const ProductView = ({
 
                                             ) : (
                                                 <div className="flex flex-col gap-4">
-                                                    <ProductOrderBtn productId={productId} isArchived={data.isArchived ?? false}/>
+                                                    <div className="flex flex-row gap-4 items-center">
+                                                        <ProductOrderBtn productId={productId} isArchived={data.isArchived ?? false}/>
+                                                        <ProductChatButton tenantSlug={tenantSlug}/>
+                                                    </div>
                                                     <ProductReferralBtn/>
                                                 </div>
                                             )

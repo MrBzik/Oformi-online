@@ -69,6 +69,10 @@ const Page = async ({
         productId: productId,
     }))
 
+    void queryClient.prefetchQuery(trpc.tenants.getUser.queryOptions({
+        slug: slug
+    }))
+
     return (
         <HydrationBoundary state={dehydrate(queryClient)}>
             <Suspense fallback={<ProductViewLoading/>}>

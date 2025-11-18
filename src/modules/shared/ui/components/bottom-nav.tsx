@@ -4,7 +4,7 @@ import useScrollingEffect from '@/modules/shared/hooks/use-scroll';
 import Link from 'next/link';
 import {Icon} from "@iconify/react";
 import {useTRPC} from "@/trpc/client";
-import {useQuery} from "@tanstack/react-query";
+import {useQuery, useSuspenseQuery} from "@tanstack/react-query";
 
 const BottomNav = () => {
 
