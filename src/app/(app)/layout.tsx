@@ -7,6 +7,7 @@ import {NuqsAdapter} from "nuqs/adapters/next/app";
 import BottomNav from "@/modules/shared/ui/components/bottom-nav";
 import {YandexMetricaProvider} from "next-yandex-metrica";
 import {SheetProvider} from "@/lib/sheetContext";
+import UserSyncWrapper from "@/components/UserSyncWrapper";
 
 const dmSans = DM_Sans({
     subsets: ["latin"],
@@ -47,7 +48,9 @@ export default function RootLayout({
                     router="app"
                 >
                     <SheetProvider>
-                        {children}
+                        <UserSyncWrapper>
+                            {children}
+                        </UserSyncWrapper>
                     </SheetProvider>
                 </YandexMetricaProvider>
                 <Toaster/>

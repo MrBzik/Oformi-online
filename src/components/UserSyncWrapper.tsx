@@ -1,7 +1,7 @@
 "use client"
 
 import {useTRPC} from "@/trpc/client";
-import { useSuspenseQuery} from "@tanstack/react-query";
+import {useQuery, useSuspenseQuery} from "@tanstack/react-query";
 import {useCallback, useEffect} from "react";
 import streamClient from "@/lib/stream";
 import {createToken} from "@/actions/createToken";
@@ -14,7 +14,7 @@ const i18nInstance = new Streami18n({
 function UserSyncWrapper({children} : {children: React.ReactNode}) {
 
     const trpc = useTRPC();
-    const {data: session} = useSuspenseQuery(trpc.auth.session.queryOptions())
+    const {data: session} = useQuery(trpc.auth.session.queryOptions())
 
     const syncUser = useCallback(async () => {
         if(!session?.user?.id){
