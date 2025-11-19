@@ -29,13 +29,13 @@ COPY . .
 # Uncomment the following line in case you want to disable telemetry during the build.
 ENV NEXT_TELEMETRY_DISABLED=1
 
-ENV NODE_OPTIONS="--max-old-space-size=1024"
+ENV NODE_OPTIONS="--max-old-space-size=2048"
 
 ENV NEXT_DISABLE_ESLINT=1
 
 RUN \
   if [ -f yarn.lock ]; then yarn run build; \
-  elif [ -f package-lock.json ]; then NODE_OPTIONS="--max-old-space-size=1024" npm run build -- --no-lint; \
+  elif [ -f package-lock.json ]; then NODE_OPTIONS="--max-old-space-size=2048" npm run build -- --no-lint; \
   elif [ -f pnpm-lock.yaml ]; then corepack enable pnpm && pnpm run build; \
   else echo "Lockfile not found." && exit 1; \
   fi
