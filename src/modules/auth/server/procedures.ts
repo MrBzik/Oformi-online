@@ -14,7 +14,8 @@ import {cookies as getCookies} from "next/dist/server/request/cookies";
 import {refCookieName} from "@/modules/referral/server/procedures";
 
 export const authRouter = createTRPCRouter({
-    session: baseProcedure.query(async ( { ctx }) => {
+    session: baseProcedure
+        .query(async ( { ctx }) => {
         const headers = await getHeaders()
 
         const session = await ctx.payload.auth({headers});

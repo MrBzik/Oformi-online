@@ -1,36 +1,34 @@
 import { usePathname } from 'next/navigation';
 import {useState, useEffect} from "react";
 
+type Tab = "home" | "profile" | "favorite" | "referral" | "chat";
+
 const useNavigation = () => {
     const pathname = usePathname();
-    const [isHomeActive, setHomeActive] = useState(false);
-    const [isFavoriteActive, setFavoriteActive] = useState(false);
-    const [isReferralActive, setReferralActive] = useState(false);
-    const [isProfileActive, setProfileActive] = useState(false);
+    const [activeTab, setActiveTab] = useState<Tab>("home");
 
     useEffect(() => {
-        setHomeActive(false);
-        setFavoriteActive(false);
-        setProfileActive(false);
-
         switch (pathname) {
             case '/':
-                setHomeActive(true);
+                setActiveTab("home")
                 break;
             case '/favourite':
-                setFavoriteActive(true);
+                setActiveTab("favorite")
+                break;
+            case '/chat':
+                setActiveTab("chat")
                 break;
             case '/referral':
-                setReferralActive(true);
+                setActiveTab("referral")
                 break;
             case '/profile':
-                setProfileActive(true);
+                setActiveTab("profile")
                 break;
             case '/sign-in':
-                setProfileActive(true);
+                setActiveTab("profile")
                 break;
             case '/sign-up':
-                setProfileActive(true);
+                setActiveTab("profile")
                 break;
             default:
                 break;
@@ -38,10 +36,7 @@ const useNavigation = () => {
     }, [pathname]);
 
     return {
-        isHomeActive,
-        isFavoriteActive,
-        isReferralActive,
-        isProfileActive,
+        activeTab
     };
 }
 

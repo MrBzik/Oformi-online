@@ -42,19 +42,19 @@ export default function RootLayout({
         >
         <NuqsAdapter>
             <TRPCReactProvider>
-                <YandexMetricaProvider
-                    tagID={104387626}
-                    initParameters={{ clickmap: true, trackLinks: true, accurateTrackBounce: true }}
-                    router="app"
-                >
-                    <SheetProvider>
+                <SheetProvider>
+                    <YandexMetricaProvider
+                        tagID={104387626}
+                        initParameters={{ clickmap: true, trackLinks: true, accurateTrackBounce: true }}
+                        router="app"
+                    >
                         <UserSyncWrapper>
                             {children}
                         </UserSyncWrapper>
-                    </SheetProvider>
-                </YandexMetricaProvider>
-                <Toaster/>
-                <BottomNav/>
+                    </YandexMetricaProvider>
+                    <Toaster/>
+                    <BottomNav/>
+                </SheetProvider>
             </TRPCReactProvider>
         </NuqsAdapter>
         </body>

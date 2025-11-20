@@ -7,7 +7,9 @@ interface Props {
 
 export const ChatPrompt= ({title, description} : Props) => {
     return (
-        <div className="flex flex-col items-center justify-center h-full py-12 px-4">
+        <div
+            onClick={(e) => e.stopPropagation()}
+            className="flex flex-col items-center justify-center h-full py-12 px-4">
             <MessageCircleMore
                 className="w-15 h-15 opacity-20 mb-4"
             />

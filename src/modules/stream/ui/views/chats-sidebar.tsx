@@ -17,13 +17,12 @@ import {useTRPC} from "@/trpc/client";
 import {useMutation, useSuspenseQuery} from "@tanstack/react-query";
 import {useSheet} from "@/lib/sheetContext";
 import "stream-chat-react/dist/css/v2/index.css"
-import {useCallback, useEffect, useState} from "react";
-import streamClient from "@/lib/stream";
-import {ChatPrompt} from "@/modules/stream/ui/chat-prompt";
+import {useCallback, useEffect} from "react";
+import {ChatPrompt} from "@/modules/stream/ui/components/chat-prompt";
 
 export const ChatsSidebar = () => {
 
-    const { isOpen, openSheet, closeSheet } = useSheet()
+    const { isOpen, openSheet, closeSheet, connected, hasMessages, setHasMessages } = useSheet()
 
     const trpc = useTRPC();
     const {data: session} = useSuspenseQuery(trpc.auth.session.queryOptions())
@@ -31,37 +30,32 @@ export const ChatsSidebar = () => {
     const {channel, client} = useChatContext();
 
 
-    const [messagesUnread, setMessagesUnread] = useState(false)
-
     const getUnreadCount = useCallback(async () => {
 
-        if(!session.user || !client.user?.online){
+        try {
+            const response = await client.getUnreadCount();
+            setHasMessages(response.total_unread_count > 0)
+        } catch (e){
+            console.error(e);
+        }
+    }, [client])
+
+
+    useEffect(() => {
+        if(!connected){
+            return;
+        }
+        if(isOpen){
             return;
         }
 
         try {
-            const response = await client.getUnreadCount();
-            setMessagesUnread(response.total_unread_count > 0)
+            getUnreadCount()
         } catch (e){
             console.error(e);
         }
-    }, [client, session])
 
-
-    useEffect(() => {
-        if(!isOpen){
-            try {
-                getUnreadCount()
-            } catch (e){
-                console.error(e);
-            }
-        } else {
-            if(session.user && !client.user?.online){
-
-            }
-        }
-
-    }, [isOpen, getUnreadCount]);
+    }, [getUnreadCount, connected, isOpen]);
 
     const sendTgNotification = useMutation(trpc.stream.sendMessageNotification.mutationOptions())
 
@@ -73,7 +67,7 @@ export const ChatsSidebar = () => {
         let messageText = ""
         const newMessageHandler = client.on("message.new", (event) => {
             messageText = event.message?.text || ""
-            setMessagesUnread((event.total_unread_count || 0) > 0)
+            setHasMessages((event.total_unread_count || 0) > 0)
         })
 
         const notificationHandler = client.on("notification.mark_read", (event) => {
@@ -89,7 +83,7 @@ export const ChatsSidebar = () => {
         })
 
         const unreadMessagesHandler = client.on("notification.message_new", (event) => {
-            setMessagesUnread((event.total_unread_count || 0) > 0)
+            setHasMessages((event.total_unread_count || 0) > 0)
         })
 
         return () => {
@@ -108,7 +102,6 @@ export const ChatsSidebar = () => {
         last_message_at: -1
     }
 
-
     return (
         <>
             <MessageCircleMore
@@ -119,7 +112,7 @@ export const ChatsSidebar = () => {
             />
 
             {
-                messagesUnread && (
+                hasMessages && (
                     <div className="hidden lg:block fixed bottom-10 right-12 bg-input-primary border border-input-variant w-4 h-4 rounded-full"/>
                 )
             }
@@ -134,6 +127,7 @@ export const ChatsSidebar = () => {
                     side="right"
                     className="p-0 transition-none hidden lg:block"
                 >
+
                     <SheetHeader className="p-4 border-b">
                         <SheetTitle className="text-sm">
                             {session.user?.username || "Гость"}

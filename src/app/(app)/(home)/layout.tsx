@@ -3,7 +3,7 @@ import {Navbar} from "@/app/(app)/(home)/navbar";
 import {Footer} from "@/app/(app)/(home)/footer";
 import {getQueryClient, trpc} from "@/trpc/server";
 import type {Metadata} from "next";
-import {ChatsSidebar} from "@/modules/stream/ui/chats-sidebar";
+import {ChatsSidebar} from "@/modules/stream/ui/views/chats-sidebar";
 import UserSyncWrapper from "@/components/UserSyncWrapper";
 
 

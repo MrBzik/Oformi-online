@@ -148,7 +148,7 @@ export const ProductView = ({
 
                                             ) : (
                                                 <div className="flex flex-col gap-4">
-                                                    <div className="flex flex-row gap-4 items-center">
+                                                    <div className="flex flex-col lg:flex-row gap-4 items-center">
                                                         <ProductOrderBtn productId={productId} isArchived={data.isArchived ?? false}/>
                                                         <ProductChatButton tenantSlug={tenantSlug}/>
                                                     </div>

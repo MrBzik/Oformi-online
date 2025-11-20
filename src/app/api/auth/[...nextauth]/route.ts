@@ -39,7 +39,6 @@ const handler = NextAuth({
     ],
     callbacks: {
         async signIn({user}) {
-            console.log("SIGN IN")
             const payload = await getPayload({config});
             const existingUser = await payload.find({
                 collection: "users",

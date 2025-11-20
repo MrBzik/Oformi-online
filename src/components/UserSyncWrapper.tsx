@@ -6,6 +6,9 @@ import {useCallback, useEffect} from "react";
 import streamClient from "@/lib/stream";
 import {createToken} from "@/actions/createToken";
 import {Chat, Streami18n} from "stream-chat-react";
+import {useSheet} from "@/lib/sheetContext";
+import {Media, Tenant} from "@/payload-types";
+import {imageNameToSrc} from "@/modules/utils/s3_url";
 
 const i18nInstance = new Streami18n({
     language: "ru",
@@ -16,6 +19,8 @@ function UserSyncWrapper({children} : {children: React.ReactNode}) {
     const trpc = useTRPC();
     const {data: session} = useQuery(trpc.auth.session.queryOptions())
 
+    const { setConnected } = useSheet()
+
     const syncUser = useCallback(async () => {
         if(!session?.user?.id){
             return
@@ -24,12 +29,30 @@ function UserSyncWrapper({children} : {children: React.ReactNode}) {
             return await createToken(session.user?.id || "");
         }
 
+        let imageUrl : string | undefined = undefined
+
+        const tenants = session.user.tenants as {
+            tenant: Tenant
+            id?: string | null
+        }[] | null | undefined
+
+        if(tenants && tenants.length > 0){
+            const tenant = tenants[0]
+            const i = tenant?.tenant.image
+            if(i){
+                const image = i as Media
+                imageUrl = imageNameToSrc(image.filename) || undefined
+            }
+        }
+
         try {
             await streamClient.connectUser({
                     id: session.user.id,
-                    name: session.user.username
+                    name: session.user.username,
+                    image: imageUrl
                 },
                 tokenProvider)
+            setConnected(true)
         } catch (err) {
             console.error(err);
         }
@@ -39,6 +62,7 @@ function UserSyncWrapper({children} : {children: React.ReactNode}) {
     const disconnectUser = useCallback(async () => {
         try {
             await streamClient.disconnectUser();
+            setConnected(false)
         } catch (e){
             console.error(e);
         }
