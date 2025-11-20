@@ -18,7 +18,8 @@ import {useMutation, useSuspenseQuery} from "@tanstack/react-query";
 import {useSheet} from "@/lib/sheetContext";
 import "stream-chat-react/dist/css/v2/index.css"
 import {useCallback, useEffect} from "react";
-import {ChatPrompt} from "@/modules/stream/ui/components/chat-prompt";
+import {ChatPrompt, ChatPromptReload, ChatPromptSignIn} from "@/modules/stream/ui/components/chat-prompt";
+import Link from "next/link";
 
 export const ChatsSidebar = () => {
 
@@ -149,17 +150,11 @@ export const ChatsSidebar = () => {
                                                                     description="Здесь будут отображаться ваши чаты"/>
                                                     )}
                                                 />
-                                            ) : (
-                                                <ChatPrompt title="Перезагрузите страницу"
-                                                            description="Чат был отключен из-за долгого бездействия"/>
-                                            )
+                                            ) : (<ChatPromptReload/>)
                                         }
                                     </>
 
-                                ) : (
-                                    <ChatPrompt title="Авторизуйтесь чтобы общаться с исполнителями"
-                                                description="Здесь будут отображаться ваши чаты"/>
-                                )
+                                ) : (<ChatPromptSignIn/>)
                             }
                         </div>
 

@@ -10,12 +10,13 @@ import {
     useChatContext,
     Window
 } from "stream-chat-react";
-import {ChatPrompt} from "@/modules/stream/ui/components/chat-prompt";
+import {ChatPrompt, ChatPromptReload, ChatPromptSignIn} from "@/modules/stream/ui/components/chat-prompt";
 import {useTRPC} from "@/trpc/client";
 import {useSuspenseQuery} from "@tanstack/react-query";
 import {ChannelFilters, ChannelSort} from "stream-chat";
 import {ArrowDown, MoveLeft} from "lucide-react";
 import "stream-chat-react/dist/css/v2/index.css"
+import Link from "next/link";
 
 export const ChatsMobile = () => {
 
@@ -98,17 +99,11 @@ export const ChatsMobile = () => {
                                                     )}
                                                 />
                                             </div>
-                                        ) : (
-                                            <ChatPrompt title="Перезагрузите страницу"
-                                                        description="Чат был отключен из-за долгого бездействия"/>
-                                        )
+                                        ) : (<ChatPromptReload/>)
                                     }
                                 </>
 
-                            ) : (
-                                <ChatPrompt title="Авторизуйтесь чтобы общаться с исполнителями"
-                                            description="Здесь будут отображаться ваши чаты"/>
-                            )
+                            ) : (<ChatPromptSignIn/>)
                         }
                     </>
                 )
