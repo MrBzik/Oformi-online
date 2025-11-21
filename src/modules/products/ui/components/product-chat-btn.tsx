@@ -32,6 +32,8 @@ export const ProductChatButton = ({
 
     const router = useRouter()
 
+    const { setMobileInChannel } = useSheet()
+
     const onStartChat = async (isMobile: boolean) => {
         let isAnError = false
 
@@ -52,6 +54,7 @@ export const ProductChatButton = ({
 
         if(!isAnError){
             if(isMobile) {
+                setMobileInChannel(true)
                 router.push("/chat")
             } else {
                 openSheet()

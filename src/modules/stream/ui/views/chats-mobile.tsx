@@ -16,7 +16,6 @@ import {useSuspenseQuery} from "@tanstack/react-query";
 import {ChannelFilters, ChannelSort} from "stream-chat";
 import {ArrowDown, MoveLeft} from "lucide-react";
 import "stream-chat-react/dist/css/v2/index.css"
-import Link from "next/link";
 
 export const ChatsMobile = () => {
 
@@ -24,19 +23,6 @@ export const ChatsMobile = () => {
     const {data: session} = useSuspenseQuery(trpc.auth.session.queryOptions())
     const { mobileInChannel, setMobileInChannel } = useSheet()
     const {channel, client} = useChatContext();
-
-    // const AutoJumpToLastMessage = () => {
-    //     const { jumpToMessage } = useChannelActionContext();
-    //
-    //     useEffect( () => {
-    //         if(channel?.lastMessage()?.id){
-    //             jumpToMessage(channel?.lastMessage()?.id || "")
-    //         }
-    //     }, []);
-    //
-    //     return null;
-    // };
-
     const ScrollDownButton = () => {
         const { jumpToMessage } = useChannelActionContext();
         return (
@@ -59,7 +45,7 @@ export const ChatsMobile = () => {
         <>
             {
                 mobileInChannel && channel && client.user?.online && (
-                    <div className="pb-24 pt-12">
+                    <div className="pb-24 pt-12 h-full">
                         <Channel>
                             <Window>
                                 <MessageList/>
@@ -79,7 +65,7 @@ export const ChatsMobile = () => {
                 )
             }
             {
-                !mobileInChannel && (
+                (!mobileInChannel || !channel) && (
                     <>
                         {
                             session.user ? (
@@ -108,7 +94,6 @@ export const ChatsMobile = () => {
                     </>
                 )
             }
-
         </>
     )
 }
