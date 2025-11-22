@@ -1,14 +1,33 @@
+"use client"
+
 import {Button} from "@/components/ui/button";
 import {cn} from "@/lib/utils";
 import {useTRPC} from "@/trpc/client";
-import {useSuspenseQuery} from "@tanstack/react-query";
+import {useMutation, useSuspenseQuery} from "@tanstack/react-query";
 import {useSheet} from "@/lib/sheetContext";
 import {useChatContext} from "stream-chat-react";
 import {useCreateNewChat} from "@/hooks/useCreateNewChat";
-import {InfoIcon, MessageCircleMore} from "lucide-react";
+import {MessageCircleMore} from "lucide-react";
 import {Tooltip, TooltipContent, TooltipTrigger} from "@/components/ui/tooltip";
-import {toast} from "sonner";
 import {useRouter} from "next/navigation";
+import {useForm} from "react-hook-form";
+import {z} from "zod";
+import {zodResolver} from "@hookform/resolvers/zod";
+import {startChatUnauthorizedSchema} from "@/modules/stream/schemas";
+import {
+    Dialog, DialogClose,
+    DialogContent,
+    DialogDescription, DialogFooter,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger
+} from "@/components/ui/dialog";
+import {Form, FormControl, FormField, FormItem, FormLabel, FormMessage} from "@/components/ui/form";
+import {Input} from "@/components/ui/input";
+import {useCallback, useEffect, useState} from "react";
+import Link from "next/link";
+import {createToken} from "@/actions/createToken";
+import streamClient from "@/lib/stream";
 
 interface Props {
     tenantSlug: string;
@@ -28,19 +47,65 @@ export const ProductChatButton = ({
 
     const { setActiveChannel } = useChatContext()
 
+    const {client} = useChatContext();
+
     const {openSheet} = useSheet()
 
     const router = useRouter()
 
-    const { setMobileInChannel } = useSheet()
+    const { setMobileInChannel, setChatUserId } = useSheet()
+
+    const [open, setOpen] = useState(false)
+
+    const { setConnected } = useSheet()
+
+    const [isFromMobile, setFromMobile] = useState(false)
+
+    const form = useForm<z.infer<typeof startChatUnauthorizedSchema>>({
+        mode: "all",
+        resolver: zodResolver(startChatUnauthorizedSchema),
+        defaultValues: {
+            username: ""
+        },
+    })
+
+    const registerChatUser = useMutation(trpc.stream.registerChatUser.mutationOptions())
+
+    const onSubmit = async (values: z.infer<typeof startChatUnauthorizedSchema>) => {
+        setOpen(false)
+        const id = crypto.randomUUID()
+
+        registerChatUser.mutate({
+            username: values.username,
+            userId: id
+        })
+
+        const tokenProvider = async () => {
+            return await createToken(id);
+        }
+
+        try {
+            await streamClient.connectUser({
+                    id: id,
+                    name: values.username,
+                },
+                tokenProvider)
+            setChatUserId(id)
+            setConnected(true)
+            await onStartChat(isFromMobile)
+        } catch (err) {
+            console.error(err);
+        }
+    }
+
 
     const onStartChat = async (isMobile: boolean) => {
-        let isAnError = false
 
-        if(session.user && tenantUser){
+        if((session.user || client.user?.online) && tenantUser){
+            let isAnError = false
             const channel = await createNewChat({
-                members: [session.user.id, tenantUser.id],
-                createdBy: session.user.id,
+                members: [session.user?.id || client.user?.id || "", tenantUser.id],
+                createdBy: session.user?.id || client.user?.id || "",
             })
 
             if(channel){
@@ -50,15 +115,17 @@ export const ProductChatButton = ({
             else {
                 isAnError = true
             }
-        }
-
-        if(!isAnError){
-            if(isMobile) {
-                setMobileInChannel(true)
-                router.push("/chat")
-            } else {
-                openSheet()
+            if(!isAnError){
+                if(isMobile) {
+                    setMobileInChannel(true)
+                    router.push("/chat")
+                } else {
+                    openSheet()
+                }
             }
+        } else {
+            setFromMobile(isMobile)
+            setOpen(true)
         }
     }
 
@@ -81,6 +148,47 @@ export const ProductChatButton = ({
             >
                 Чат с продавцом
             </Button>
+            <Dialog open={open} onOpenChange={setOpen}>
+                <DialogTrigger asChild>
+                </DialogTrigger>
+                <DialogContent className="sm:max-w-[425px] shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+                    <Form {...form}>
+                        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+                            <DialogHeader>
+                                <DialogTitle>Чат с исполнителем</DialogTitle>
+                                <DialogDescription>
+                                    Укажите ваше имя
+                                </DialogDescription>
+                            </DialogHeader>
+
+                            {/* Name */}
+                            <FormField name="username" render={({field}) => (
+                                <FormItem>
+                                    <FormLabel>
+                                        Имя*
+                                    </FormLabel>
+                                    <FormControl>
+                                        <Input {...field}/>
+                                    </FormControl>
+                                    <FormMessage/>
+                                </FormItem>
+                            ) }/>
+
+                            <p className="text-sm">
+                                <Link href={"/sign-in"} className="text-input-variant underline cursor-pointer">Авторизуйтесь</Link>{" "}
+                                чтобы общаться с разных устройств
+                            </p>
+
+                            <DialogFooter>
+                                <DialogClose asChild>
+                                    <Button variant="elevated" onClick={() => {setOpen(false)}}>Назад</Button>
+                                </DialogClose>
+                                <Button type="submit">Готово</Button>
+                            </DialogFooter>
+                        </form>
+                    </Form>
+                </DialogContent>
+            </Dialog>
         </>
     )
 

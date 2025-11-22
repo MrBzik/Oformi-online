@@ -19,17 +19,17 @@ import {useSheet} from "@/lib/sheetContext";
 import "stream-chat-react/dist/css/v2/index.css"
 import {useCallback, useEffect} from "react";
 import {ChatPrompt, ChatPromptReload, ChatPromptSignIn} from "@/modules/stream/ui/components/chat-prompt";
-import Link from "next/link";
 
 export const ChatsSidebar = () => {
 
-    const { isOpen, openSheet, closeSheet, connected, hasMessages, setHasMessages } = useSheet()
+    const { isOpen, openSheet, closeSheet, connected, hasMessages, setHasMessages, chatUserId } = useSheet()
 
     const trpc = useTRPC();
     const {data: session} = useSuspenseQuery(trpc.auth.session.queryOptions())
 
     const {channel, client} = useChatContext();
 
+    const {data: chatUser} = useSuspenseQuery(trpc.stream.getChatUser.queryOptions())
 
     const getUnreadCount = useCallback(async () => {
 
@@ -95,7 +95,7 @@ export const ChatsSidebar = () => {
     }, [client]);
 
     const filters: ChannelFilters = {
-        members: { $in: [session.user?.id || "" ] },
+        members: { $in: [session.user?.id || chatUser?.userId || chatUserId || "" ] },
         type: {$in: ["messaging"]}
     }
     const options = { presence: true, state: true}
@@ -106,7 +106,7 @@ export const ChatsSidebar = () => {
     return (
         <>
             <MessageCircleMore
-                className="hidden lg:block fixed w-15 h-15 bottom-10 right-10 text-input-variant hover:text-indigo-500 cursor-pointer"
+                className="fixed w-15 h-15 bottom-10 right-10 text-input-variant hover:text-indigo-500 cursor-pointer"
                 onClick={() => {
                     openSheet()
                 }}
@@ -126,18 +126,18 @@ export const ChatsSidebar = () => {
             }}>
                 <SheetContent
                     side="right"
-                    className="p-0 transition-none hidden lg:block"
+                    className="p-0 transition-none"
                 >
 
                     <SheetHeader className="p-4 border-b">
                         <SheetTitle className="text-sm">
-                            {session.user?.username || "Гость"}
+                            {client.user?.name}
                         </SheetTitle>
                     </SheetHeader>
                     <div className="flex flex-row h-full">
                         <div className="w-70">
                             {
-                                (session.user) ? (
+                                (session.user || chatUser.userName || chatUserId) ? (
                                     <>
                                         {
                                             client.user?.online ? (

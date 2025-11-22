@@ -5,6 +5,8 @@ import {getQueryClient, trpc} from "@/trpc/server";
 import type {Metadata} from "next";
 import {ChatsSidebar} from "@/modules/stream/ui/views/chats-sidebar";
 import UserSyncWrapper from "@/components/UserSyncWrapper";
+import {ErrorBoundary} from "react-error-boundary";
+import {ErrorHandler} from "@/modules/stream/ui/components/error-handler";
 
 
 interface Props {
@@ -39,7 +41,10 @@ const Layout = async ({ children }: Props) => {
                     {children}
                 </div>
                 <Footer/>
-                <ChatsSidebar/>
+                <ErrorBoundary fallback={<ErrorHandler/>}>
+                    <ChatsSidebar/>
+                </ErrorBoundary>
+
             </div>
         </div>
     )

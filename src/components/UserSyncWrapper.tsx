@@ -19,19 +19,21 @@ function UserSyncWrapper({children} : {children: React.ReactNode}) {
     const trpc = useTRPC();
     const {data: session} = useQuery(trpc.auth.session.queryOptions())
 
+    const {data: chatUser} = useQuery(trpc.stream.getChatUser.queryOptions())
+
     const { setConnected } = useSheet()
 
     const syncUser = useCallback(async () => {
-        if(!session?.user?.id){
+        if(!session?.user?.id && !chatUser?.userId){
             return
         }
         const tokenProvider = async () => {
-            return await createToken(session.user?.id || "");
+            return await createToken(session?.user?.id || chatUser?.userId || "");
         }
 
         let imageUrl : string | undefined = undefined
 
-        const tenants = session.user.tenants as {
+        const tenants = session?.user?.tenants as {
             tenant: Tenant
             id?: string | null
         }[] | null | undefined
@@ -47,8 +49,8 @@ function UserSyncWrapper({children} : {children: React.ReactNode}) {
 
         try {
             await streamClient.connectUser({
-                    id: session.user.id,
-                    name: session.user.username,
+                    id: session?.user?.id || chatUser?.userId || "",
+                    name: session?.user?.username || chatUser?.userName,
                     image: imageUrl
                 },
                 tokenProvider)
@@ -70,7 +72,7 @@ function UserSyncWrapper({children} : {children: React.ReactNode}) {
 
     useEffect(() => {
         try {
-            if(session?.user){
+            if(session?.user || chatUser?.userName){
                 syncUser()
             } else {
                 disconnectUser()
@@ -79,7 +81,7 @@ function UserSyncWrapper({children} : {children: React.ReactNode}) {
             console.log(e)
         }
         return () => {
-            if(session?.user){
+            if(session?.user || chatUser?.userName){
                 disconnectUser()
             }
         }
