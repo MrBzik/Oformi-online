@@ -23,7 +23,11 @@ export const streamRouter = createTRPCRouter({
             })
             const tgRequestLink = generateTgReqUrl(refSetting.alertsTgBotToken)
 
-            const message = `Сообщение от ${ctx.session.user?.username}: ${input.message}`
+            const cookies = await getCookies();
+
+            const userName = cookies.get("chat-user-name")?.value
+
+            const message = `Сообщение от ${ctx.session.user?.username || userName}: ${input.message}`
 
             await sendTgMessage(tgRequestLink, user.tgNotificationsChatId, message)
         }),
