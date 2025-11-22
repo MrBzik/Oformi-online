@@ -106,7 +106,7 @@ export const ChatsSidebar = () => {
     return (
         <>
             <MessageCircleMore
-                className="fixed w-15 h-15 bottom-10 right-10 text-input-variant hover:text-indigo-500 cursor-pointer"
+                className="hidden lg:block fixed w-15 h-15 bottom-10 right-10 text-input-variant hover:text-indigo-500 cursor-pointer"
                 onClick={() => {
                     openSheet()
                 }}
@@ -126,7 +126,7 @@ export const ChatsSidebar = () => {
             }}>
                 <SheetContent
                     side="right"
-                    className="p-0 transition-none"
+                    className="p-0 transition-none hidden lg:block"
                 >
 
                     <SheetHeader className="p-4 border-b">
