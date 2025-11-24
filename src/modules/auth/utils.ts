@@ -17,3 +17,13 @@ export const generateAuthCookie = async ({
         path: "/",
     })
 }
+
+export const generateTestCookie = async () => {
+    const cookies = await getCookies();
+    cookies.set({
+        name: `test-cookie`,
+        value: "this is a test cookie",
+        httpOnly: true,
+        path: "/",
+    })
+}
