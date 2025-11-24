@@ -41,6 +41,7 @@ export const streamRouter = createTRPCRouter({
                 value: input.username,
                 httpOnly: true,
                 sameSite: "strict",
+                secure: true,
                 path: '/',
             })
             cookies.set({
@@ -48,6 +49,7 @@ export const streamRouter = createTRPCRouter({
                 value: input.userId,
                 httpOnly: true,
                 sameSite: "strict",
+                secure: true,
                 path: '/',
             })
         }),
