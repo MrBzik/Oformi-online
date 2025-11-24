@@ -12,10 +12,11 @@ import {
 } from "stream-chat-react";
 import {ChatPrompt, ChatPromptReload, ChatPromptSignIn} from "@/modules/stream/ui/components/chat-prompt";
 import {useTRPC} from "@/trpc/client";
-import {useSuspenseQuery} from "@tanstack/react-query";
+import {useMutation, useSuspenseQuery} from "@tanstack/react-query";
 import {ChannelFilters, ChannelSort} from "stream-chat";
 import {MoveLeft} from "lucide-react";
 import "stream-chat-react/dist/css/v2/index.css"
+import {useEffect} from "react";
 
 export const ChatsMobile = () => {
 
@@ -33,6 +34,35 @@ export const ChatsMobile = () => {
     const sort : ChannelSort = {
         last_message_at: -1
     }
+
+    const sendTgNotification = useMutation(trpc.stream.sendMessageNotification.mutationOptions())
+
+    useEffect(() => {
+
+        if (!client) return;
+
+        let messageText = ""
+        const newMessageHandler = client.on("message.new", (event) => {
+            messageText = event.message?.text || ""
+        })
+
+        const notificationHandler = client.on("notification.mark_read", (event) => {
+            event.channel?.members?.map((member) => {
+                if(member.user?.online == false){
+                    const receiverId = member.user.id
+                    sendTgNotification.mutate({
+                        userId: receiverId,
+                        message: messageText.trim()
+                    })
+                }
+            })
+        })
+
+        return () => {
+            newMessageHandler.unsubscribe()
+            notificationHandler.unsubscribe()
+        };
+    }, [client]);
 
     return (
         <>

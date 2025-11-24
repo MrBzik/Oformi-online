@@ -17,7 +17,7 @@ const Page = async ({searchParams} : Props) => {
     const session = await caller.auth.session();
 
     if(session.user){
-        redirect("/")
+        redirect("/profile")
     }
 
 

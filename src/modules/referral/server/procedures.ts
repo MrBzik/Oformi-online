@@ -1,6 +1,7 @@
 import {baseProcedure, createTRPCRouter, protectedProcedure} from "@/trpc/init";
 import {z} from "zod";
 import {cookies as getCookies} from "next/dist/server/request/cookies";
+import {generateCookie} from "@/modules/auth/utils";
 
 export const refCookieName = "ref";
 export const refSellerCookieName = "refSeller";
@@ -22,11 +23,10 @@ export const refRouter  = createTRPCRouter({
                 return;
             }
 
-            cookies.set({
+            await generateCookie({
                 name: refCookieName,
                 value: input.refLink,
-                httpOnly: true,
-                path: '/',
+                expireDays: 360
             })
         }),
 
@@ -46,11 +46,10 @@ export const refRouter  = createTRPCRouter({
                 return;
             }
 
-            cookies.set({
+            await generateCookie({
                 name: refSellerCookieName,
                 value: input.refLink,
-                httpOnly: true,
-                path: '/',
+                expireDays: 360
             })
         }),
 

@@ -5,6 +5,7 @@ import {cookies as getCookies} from "next/dist/server/request/cookies";
 import {refCookieName} from "@/modules/referral/server/procedures";
 import {Product, Tenant} from "@/payload-types";
 import {generateTgReqUrl, sendTgMessage} from "@/modules/utils/generateTgReqUrl";
+import {generateCookie} from "@/modules/auth/utils";
 
 export const ordersRouter  = createTRPCRouter({
     getOne: protectedProcedure
@@ -216,14 +217,10 @@ export const ordersRouter  = createTRPCRouter({
                 })
             }
 
-            cookies.set({
+            await generateCookie({
                 name: `order-${input.productId}`,
                 value: new Date().toISOString(),
-                httpOnly: true,
-                path: '/',
-                secure: true,
-                sameSite: "none",
-                domain: process.env.NEXT_PUBLIC_ROOT_DOMAIN
+                expireDays: 2
             })
 
             await ctx.payload.update({

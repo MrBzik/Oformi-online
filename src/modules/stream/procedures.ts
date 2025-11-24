@@ -2,6 +2,7 @@ import {baseProcedure, createTRPCRouter, protectedProcedure} from "@/trpc/init";
 import {registerChatUserSchema, streamTgNotificationSchema} from "@/modules/stream/schemas";
 import {generateTgReqUrl, sendTgMessage} from "@/modules/utils/generateTgReqUrl";
 import {cookies as getCookies} from "next/dist/server/request/cookies";
+import {generateCookie} from "@/modules/auth/utils";
 
 export const streamRouter = createTRPCRouter({
 
@@ -35,24 +36,17 @@ export const streamRouter = createTRPCRouter({
     registerChatUser: baseProcedure
         .input(registerChatUserSchema)
         .mutation(async ({ input }) => {
-            const cookies = await getCookies();
-            cookies.set({
+
+            await generateCookie({
                 name: "chat-user-name",
                 value: input.username,
-                httpOnly: true,
-                path: '/',
-                secure: true,
-                sameSite: "none",
-                domain: process.env.NEXT_PUBLIC_ROOT_DOMAIN
+                expireDays: 360
             })
-            cookies.set({
+
+            await generateCookie({
                 name: "chat-user-id",
                 value: input.userId,
-                httpOnly: true,
-                path: '/',
-                secure: true,
-                sameSite: "none",
-                domain: process.env.NEXT_PUBLIC_ROOT_DOMAIN
+                expireDays: 360
             })
         }),
 
