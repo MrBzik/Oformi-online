@@ -8,7 +8,7 @@ import {
     resetPasswordSchema,
     tgNotificationsConnectSchema
 } from "@/modules/auth/schemas";
-import {generateAuthCookie, generateTestCookie} from "@/modules/auth/utils";
+import {generateAuthCookie} from "@/modules/auth/utils";
 import {z} from "zod";
 import {cookies as getCookies} from "next/dist/server/request/cookies";
 import {refCookieName} from "@/modules/referral/server/procedures";
@@ -66,9 +66,6 @@ export const authRouter = createTRPCRouter({
     login: baseProcedure
         .input(loginSchema)
         .mutation(async ({ input, ctx }) => {
-
-            await generateTestCookie()
-
             const data = await ctx.payload.login({
                 collection: "users",
                 data: {

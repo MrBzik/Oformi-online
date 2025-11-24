@@ -14,16 +14,10 @@ export const generateAuthCookie = async ({
         name: `${prefix}-token`,
         value: value,
         httpOnly: true,
-        path: "/",
-    })
-}
-
-export const generateTestCookie = async () => {
-    const cookies = await getCookies();
-    cookies.set({
-        name: `test-cookie`,
-        value: "this is a test cookie",
-        httpOnly: true,
-        path: "/",
+        path: '/',
+        secure: true,
+        sameSite: "strict",
+        domain: process.env.NEXT_PUBLIC_ROOT_DOMAIN,
+        expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 180)
     })
 }
