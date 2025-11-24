@@ -3,7 +3,7 @@
 import {Button} from "@/components/ui/button";
 import {cn} from "@/lib/utils";
 import {useTRPC} from "@/trpc/client";
-import {useMutation, useSuspenseQuery} from "@tanstack/react-query";
+import {useMutation, useQuery, useSuspenseQuery} from "@tanstack/react-query";
 import {useSheet} from "@/lib/sheetContext";
 import {useChatContext} from "stream-chat-react";
 import {useCreateNewChat} from "@/hooks/useCreateNewChat";
@@ -24,7 +24,7 @@ import {
 } from "@/components/ui/dialog";
 import {Form, FormControl, FormField, FormItem, FormLabel, FormMessage} from "@/components/ui/form";
 import {Input} from "@/components/ui/input";
-import {useCallback, useEffect, useState} from "react";
+import {useState} from "react";
 import Link from "next/link";
 import {createToken} from "@/actions/createToken";
 import streamClient from "@/lib/stream";
@@ -43,6 +43,8 @@ export const ProductChatButton = ({
         {slug: tenantSlug}
     ))
 
+    const {data: chatUser} = useQuery(trpc.stream.getChatUser.queryOptions())
+
     const createNewChat = useCreateNewChat()
 
     const { setActiveChannel } = useChatContext()
@@ -55,7 +57,7 @@ export const ProductChatButton = ({
 
     const { setMobileInChannel, setChatUserId } = useSheet()
 
-    const [open, setOpen] = useState(false)
+    const [openDialog, setOpenDialog] = useState(false)
 
     const { setConnected } = useSheet()
 
@@ -71,8 +73,8 @@ export const ProductChatButton = ({
 
     const registerChatUser = useMutation(trpc.stream.registerChatUser.mutationOptions())
 
-    const onSubmit = async (values: z.infer<typeof startChatUnauthorizedSchema>) => {
-        setOpen(false)
+    const onCreateChatUser = async (values: z.infer<typeof startChatUnauthorizedSchema>) => {
+        setOpenDialog(false)
         const id = crypto.randomUUID()
 
         registerChatUser.mutate({
@@ -125,7 +127,7 @@ export const ProductChatButton = ({
             }
         } else {
             setFromMobile(isMobile)
-            setOpen(true)
+            setOpenDialog(true)
         }
     }
 
@@ -143,17 +145,17 @@ export const ProductChatButton = ({
                 </TooltipContent>
             </Tooltip>
             <Button
-                className={cn("block lg:hidden w-full rounded-lg border-input-variant border-4")}
+                className={cn("block lg:hidden w-full rounded-lg border-input-variant border-4", chatUser?.userName && "border-input-primary")}
                 onClick={() => onStartChat(true)}
             >
                 Чат с продавцом
             </Button>
-            <Dialog open={open} onOpenChange={setOpen}>
+            <Dialog open={openDialog} onOpenChange={setOpenDialog}>
                 <DialogTrigger asChild>
                 </DialogTrigger>
                 <DialogContent className="sm:max-w-[425px] shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
                     <Form {...form}>
-                        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+                        <form onSubmit={form.handleSubmit(onCreateChatUser)} className="space-y-4">
                             <DialogHeader>
                                 <DialogTitle>Чат с исполнителем</DialogTitle>
                                 <DialogDescription>
@@ -181,7 +183,7 @@ export const ProductChatButton = ({
 
                             <DialogFooter>
                                 <DialogClose asChild>
-                                    <Button variant="elevated" onClick={() => {setOpen(false)}}>Назад</Button>
+                                    <Button variant="elevated" onClick={() => {setOpenDialog(false)}}>Назад</Button>
                                 </DialogClose>
                                 <Button type="submit">Готово</Button>
                             </DialogFooter>
