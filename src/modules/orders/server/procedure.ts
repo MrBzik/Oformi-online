@@ -222,8 +222,8 @@ export const ordersRouter  = createTRPCRouter({
                 httpOnly: true,
                 path: '/',
                 secure: true,
-                sameSite: "lax",
-                domain: process.env.NEXT_PUBLIC_APP_URL
+                sameSite: "none",
+                domain: process.env.NEXT_PUBLIC_ROOT_DOMAIN
             })
 
             await ctx.payload.update({
