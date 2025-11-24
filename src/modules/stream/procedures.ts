@@ -40,12 +40,14 @@ export const streamRouter = createTRPCRouter({
                 name: "chat-user-name",
                 value: input.username,
                 httpOnly: true,
+                sameSite: "strict",
                 path: '/',
             })
             cookies.set({
                 name: "chat-user-id",
                 value: input.userId,
                 httpOnly: true,
+                sameSite: "strict",
                 path: '/',
             })
         }),

@@ -43,8 +43,6 @@ export const ProductChatButton = ({
         {slug: tenantSlug}
     ))
 
-    const {data: chatUser} = useQuery(trpc.stream.getChatUser.queryOptions())
-
     const createNewChat = useCreateNewChat()
 
     const { setActiveChannel } = useChatContext()
@@ -145,7 +143,7 @@ export const ProductChatButton = ({
                 </TooltipContent>
             </Tooltip>
             <Button
-                className={cn("block lg:hidden w-full rounded-lg border-input-variant border-4", chatUser?.userName && "border-input-primary")}
+                className={cn("block lg:hidden w-full rounded-lg border-input-variant border-4")}
                 onClick={() => onStartChat(true)}
             >
                 Чат с продавцом
