@@ -56,7 +56,7 @@ export default buildConfig({
   globals: [RefSetting],
   upload: {
     limits: {
-      fileSize: 1000000
+      fileSize: 1500000
     }
   },
   editor: lexicalEditor({
