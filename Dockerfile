@@ -33,9 +33,7 @@ ENV NODE_OPTIONS="--max-old-space-size=2048"
 
 ENV NEXT_DISABLE_ESLINT=1
 
-ARG payload=${PAYLOAD_SECRET}
-
-ENV PAYLOAD_SECRET=$payload
+ARG PAYLOAD_SECRET=${PAYLOAD_SECRET}
 
 RUN \
   if [ -f yarn.lock ]; then yarn run build; \
