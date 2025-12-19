@@ -33,6 +33,10 @@ ENV NODE_OPTIONS="--max-old-space-size=2048"
 
 ENV NEXT_DISABLE_ESLINT=1
 
+ARG 6f1eb8b303df44908234e829
+
+ENV PAYLOAD_SECRET=6f1eb8b303df44908234e829
+
 RUN \
   if [ -f yarn.lock ]; then yarn run build; \
   elif [ -f package-lock.json ]; then NODE_OPTIONS="--max-old-space-size=2048" npm run build -- --no-lint; \
