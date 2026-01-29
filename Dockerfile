@@ -37,6 +37,8 @@ ARG PAYLOAD_SECRET=${PAYLOAD_SECRET}
 
 ARG DATABASE_URI=${DATABASE_URI}
 
+ARG NEXT_PUBLIC_APP_URL=${NEXT_PUBLIC_APP_URL}
+
 RUN \
   if [ -f yarn.lock ]; then yarn run build; \
   elif [ -f package-lock.json ]; then NODE_OPTIONS="--max-old-space-size=2048" npm run build -- --no-lint; \
